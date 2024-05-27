@@ -1,16 +1,16 @@
 # Name of executable
-PROGRAM_NAME = Forst_Frenzy
-PROGRAM_NAME_TEST = Forst_Frenzy_Test
+PROGRAM_NAME = OpenGL_Odyssey
+PROGRAM_NAME_TEST = OpenGL_Odyssey_Test
 
 # Compiler
-CC = gcc
+CC = g++
 
 # Libraries
 GLEW_LIBS = -lGLEW -lEGL -lGL -lGLU -lOpenGL 
 GLFW_LIBS = -lglfw
 GTEST = $(shell pkg-config --libs gtest)
-# SMATH = -lsmath -L./libs/SMath/bin/
-# IMGUI = -limgui -L./libs/ImGui/
+SMATH = -lsmath -L./libs/SMath/bin/
+IMGUI = -limgui -L./libs/ImGui/
 
 # Directories
 SRC = src
@@ -23,11 +23,11 @@ TARGET = $(BIN)/$(PROGRAM_NAME)
 TARGET_TEST = $(BIN)/$(PROGRAM_NAME_TEST)
 
 # Find all src file in directories
-SRCS = $(shell find $(SRC) -name '*.c')
-SRCS_TEST = $(shell find $(TEST) -name '*.c')
+SRCS = $(shell find $(SRC) -name '*.cpp')
+SRCS_TEST = $(shell find $(TEST) -name '*.cpp')
 
-OBJS = $(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
-OBJS_TEST = $(patsubst $(TEST)/%.c, $(OBJ)/%.o, $(SRCS_TEST))
+OBJS = $(patsubst $(SRC)/%.cpp, $(OBJ)/%.o, $(SRCS))
+OBJS_TEST = $(patsubst $(TEST)/%.cpp, $(OBJ)/%.o, $(SRCS_TEST))
 
 # Build main program
 all: $(TARGET)
@@ -38,19 +38,19 @@ test: $(TARGET_TEST)
 
 # Link main program
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $^ $(GLEW_LIBS) $(GLFW_LIBS) $(GTEST)
+	$(CC) -o $@ $^ $(GLEW_LIBS) $(GLFW_LIBS) $(GTEST) $(SMATH) $(IMGUI)
 
 # Link test program
 $(TARGET_TEST): $(OBJS_TEST) $(filter-out $(OBJ)/main.o, $(OBJS))
-	$(CC) -o $@ $^ $(GLEW_LIBS) $(GLFW_LIBS) $(GTEST)
+	$(CC) -o $@ $^ $(GLEW_LIBS) $(GLFW_LIBS) $(GTEST) $(SMATH) $(IMGUI)
 
 # comile main program src files
-$(OBJ)/%.o: $(SRC)/%.c
+$(OBJ)/%.o: $(SRC)/%.cpp
 	@mkdir -p $(@D)
 	$(CC) -c $< -o $@
 
 # comile src files for tests
-$(OBJ)/%.o: $(TEST)/%.c
+$(OBJ)/%.o: $(TEST)/%.cpp
 	@mkdir -p $(@D)
 	$(CC) -c $< -o $@
 
