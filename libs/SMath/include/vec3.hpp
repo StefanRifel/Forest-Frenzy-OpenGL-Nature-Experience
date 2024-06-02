@@ -1,35 +1,42 @@
 #ifndef VEC3_HH
 #define VEC3_HH
 
-const int VEC_N = 3;
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include <iostream>
-#include <array>
+#include <iomanip>
 #include <cmath>
 
-class vec3
-{
+const GLuint VEC3_SIZE = 3;
+
+class vec3 {
+    
 private:
-    std::array<float, VEC_N> vector;
+    GLfloat* vector;
+
 public:
     vec3();
-    vec3(float x, float y, float z);
+    vec3(GLfloat x, GLfloat y, GLfloat z);
     vec3(const vec3& v);
+
     ~vec3();
 
-    float& x();
-    float& y();
-    float& z();
-    const float r() const;
-    const float g() const;
-    const float b() const;
+    GLfloat& x();
+    GLfloat& y();
+    GLfloat& z();
+    GLfloat& r();
+    GLfloat& g();
+    GLfloat& b();
 
-    float length() const;
+    GLfloat length() const;
 
     friend std::ostream& operator<< (std::ostream& out, const vec3& v);
 
     vec3& operator= (const vec3& v);
-    float& operator[] (int index);
+    float& operator[] (GLuint index);
+    friend bool operator== (const vec3& v1, const vec3& v2);
+    friend bool operator!= (const vec3& v1, const vec3& v2);
 
     vec3 operator+ (const vec3& v) const;
     vec3 operator+= (const vec3& v);
@@ -37,7 +44,7 @@ public:
     vec3 operator- (const vec3& v) const;
     vec3 operator-= (const vec3& v);
 
-    vec3 operator* (const float a) const;
+    vec3 operator* (const GLfloat a) const;
 };
 
 #endif

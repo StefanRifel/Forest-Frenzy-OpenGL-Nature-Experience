@@ -31,6 +31,6 @@ Präsentation: 24. - 27. Juni 2024 vergabe über Moodle
 - https://www.glfw.org/
 - https://github.com/nothings/stb/blob/master/stb_image.h
 - https://github.com/g-truc/glm
-
+  sudo apt-get install libgtest-dev
 ###
 remove deleted branches: git fetch --prune 

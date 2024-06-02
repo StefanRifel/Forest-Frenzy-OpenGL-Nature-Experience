@@ -1,6 +1,6 @@
 # Name of executable
-PROGRAM_NAME = OpenGL_Odyssey
-PROGRAM_NAME_TEST = OpenGL_Odyssey_Test
+PROGRAM_NAME = Forest_Frenzy
+PROGRAM_NAME_TEST = Forest_Frenzy_Test
 
 # Compiler
 CC = g++

@@ -1,14 +1,23 @@
 #include "../include/vec4.hpp"
 
-vec4::vec4() : vector {0, 0, 0} {
-
+vec4::vec4() {
+    vector = (GLfloat*)malloc(VEC4_SIZE * sizeof(GLfloat));
+    vector[0] = 0.0f;
+    vector[1] = 0.0f;
+    vector[2] = 0.0f;
+    vector[3] = 0.0f;
 }
 
-vec4::vec4(float x, float y, float z, float w) : vector {x, y, z, w} {
-
+vec4::vec4(GLfloat x, GLfloat y, GLfloat z, GLfloat w) {
+    vector = (GLfloat*)malloc(VEC4_SIZE * sizeof(GLfloat));
+    vector[0] = x;
+    vector[1] = y;
+    vector[2] = z;
+    vector[3] = w;
 }
 
 vec4::vec4(const vec4& v) {
+    vector = nullptr;
     *this = v;
 }
 
@@ -16,41 +25,42 @@ vec4::~vec4() {
 
 }
 
-float vec4::x() {
+GLfloat& vec4::x() {
     return vector[0];
 }
 
-float vec4::y() {
+GLfloat& vec4::y() {
     return vector[1];
 }
 
-float vec4::z() {
+GLfloat& vec4::z() {
     return vector[2];
 }
 
-float vec4::w() {
+GLfloat& vec4::w() {
     return vector[3];
 }
 
-float vec4::r() {
+GLfloat& vec4::r() {
     return vector[0];
 }
 
-float vec4::g() {
+GLfloat& vec4::g() {
     return vector[1];
 }
 
-float vec4::b() {
+GLfloat& vec4::b() {
     return vector[2];
 }
 
-float vec4::a() {
+GLfloat& vec4::a() {
     return vector[3];
 }
 
 std::ostream& operator << (std::ostream& out, const vec4& v) {
-    out << "(" << v.vector[0]; 
-    for (int i = 1; i < N; i++) {
+    out << std::fixed << std::setprecision(2);
+    out << "vec4(" << v.vector[0]; 
+    for (int i = 1; i < VEC4_SIZE; i++) {
         out << ", " << v.vector[i]; 
     }
     out << ")";
@@ -58,13 +68,36 @@ std::ostream& operator << (std::ostream& out, const vec4& v) {
 }
 
 vec4& vec4::operator= (const vec4& v) {
-    if(this == &v) return *this;
+    if(this == &v) {
+        return *this;
+    }
 
-    for(int i = 0; i < N; i++) {
+    free(vector);
+    vector = (GLfloat*)malloc(VEC4_SIZE * sizeof(GLfloat));
+
+    for(int i = 0; i < VEC4_SIZE; i++) {
         vector[i] = v.vector[i]; 
     }
     
     return *this;
+}
+
+bool operator== (const vec4& v1, const vec4& v2) {
+    for(int i = 0; i < VEC4_SIZE; i++) {
+        if(v1.vector[i] != v2.vector[i]){
+            return false;
+        }
+    }
+    return true;
+}
+
+bool operator!= (const vec4& v1, const vec4& v2) {
+    for(int i = 0; i < VEC4_SIZE; i++) {
+        if(v1.vector[i] != v2.vector[i]){
+            return true;
+        }
+    }
+    return false;
 }
 
 vec4 vec4::operator+ (const vec4& v) const {
@@ -74,7 +107,7 @@ vec4 vec4::operator+ (const vec4& v) const {
 }
 
 vec4 vec4::operator+= (const vec4& v) {
-    for(int i = 0; i < N; i++) {
+    for(int i = 0; i < VEC4_SIZE; i++) {
         vector[i] += v.vector[i]; 
     }
     return *this;
@@ -87,22 +120,22 @@ vec4 vec4::operator- (const vec4& v) const {
 }
 
 vec4 vec4::operator-= (const vec4& v) {
-    for(int i = 0; i < N; i++) {
+    for(int i = 0; i < VEC4_SIZE; i++) {
         vector[i] -= v.vector[i]; 
     }
     return *this;
 }
 
-vec4 vec4::operator* (const float a) const {
+vec4 vec4::operator* (const GLfloat a) const {
     vec4 result {};
-    for(int i = 0; i < N; i++) {
+    for(int i = 0; i < VEC4_SIZE; i++) {
         result.vector[i] = this->vector[i] * a;
     }
     return result;
 }
 
-float& vec4::operator [] (int index) {
-    if (index < 0 || index >= N) {
+float& vec4::operator [] (GLuint index) {
+    if (index < 0 || index >= VEC4_SIZE) {
         throw std::__throw_invalid_argument;
     }
     return vector[index];
