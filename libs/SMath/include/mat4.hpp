@@ -64,6 +64,8 @@ public:
     mat4 operator* (const float a) const;
     //Matrizenmultiplikation
     mat4 operator* (const mat4& mat) const;
+
+    GLfloat* valuePtr();
 };
 
 #endif

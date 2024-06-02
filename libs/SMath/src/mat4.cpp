@@ -87,3 +87,7 @@ mat4 mat4::operator* (const mat4& mat) const {
     }
     return result;
 }
+
+GLfloat* mat4::valuePtr() {
+    return matrix;
+}

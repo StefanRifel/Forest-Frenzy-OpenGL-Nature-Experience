@@ -25,17 +25,15 @@ TEST_F(ModelLoaderTest, LoadModel) {
     char* invalidModelPath = "path/to/invalid/model.obj";
 
     // Test loading a valid model file
-    std::vector<vec3> vertices;
-    std::vector<GLuint> faces;
-    std::vector<vec3> normals;
-    bool success = loader.load(validModelPath, vertices, faces, normals);
+    std::vector<Vertex> vertices; 
+    std::vector<GLuint> indices;
+    bool success = loader.load(validModelPath, vertices, indices);
     ASSERT_TRUE(success); // Assert that loading was successful
     ASSERT_FALSE(vertices.empty()); // Assert that vertices were loaded
-    ASSERT_FALSE(faces.empty()); // Assert that faces were loaded
-    ASSERT_FALSE(normals.empty()); // Assert that faces were loaded
+    ASSERT_FALSE(indices.empty()); // Assert that faces were loaded
 
     // Test loading an invalid model file
-    success = loader.load(invalidModelPath, vertices, faces, normals);
+    success = loader.load(invalidModelPath, vertices, indices);
     ASSERT_FALSE(success); // Assert that loading failed
 }
 
