@@ -6,7 +6,7 @@ ModelLoader::ModelLoader() {
 ModelLoader::~ModelLoader() {
 }
 
-bool ModelLoader::load(const char* path, std::vector<Vertex>& outVertices, std::vector<GLuint>& outIndices) {
+bool ModelLoader::load(const char* path, vector<Vertex>& outVertices, vector<GLuint>& outIndices) {
     std::ifstream modelFile {path};
     if(!modelFile.is_open()) {
         std::cerr << "ERROR::MODELLOADER::FAILED_TO_OPEN_FILE" << std::endl;
@@ -25,7 +25,7 @@ bool ModelLoader::load(const char* path, std::vector<Vertex>& outVertices, std::
             iss >> vertex.position.x() >> vertex.position.y() >> vertex.position.z();
             outVertices.push_back(vertex);
         } else if (token == "vn") {
-            iss >> outVertices[index].normals.x() >> outVertices[index].normals.y() >> outVertices[index].normals.z();
+            iss >> outVertices.at(index).normals.x() >> outVertices.at(index).normals.y() >> outVertices.at(index).normals.z();
             index++;
         } else if (token == "f") {
             std::string indices;

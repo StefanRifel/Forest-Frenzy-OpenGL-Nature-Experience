@@ -2,7 +2,6 @@
 #define MODELLODER_HH
 
 #include <string>
-#include <vector>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -12,6 +11,7 @@
 #include <sstream>
 
 #include "../libs/SMath/include/vec3.hpp"
+#include "../libs/SMath/include/vector.hpp"
 
 #include "Vertex.hpp"
 
@@ -28,7 +28,7 @@ private:
 
 public:
     ModelLoader();
-    static bool load(const char* path, std::vector<Vertex>& outVertices, std::vector<GLuint>& outIndices);
+    static bool load(const char* path, vector<Vertex>& outVertices, vector<GLuint>& outIndices);
     
     ~ModelLoader();
 };

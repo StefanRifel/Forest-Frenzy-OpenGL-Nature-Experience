@@ -23,8 +23,8 @@ bool RenderSystem::init(WindowManager* windowManager, Shader& shader) {
 
 void RenderSystem::createObject(const char* path, vec3 color, vec3 position) {
     GLuint VAO, VBO, EBO;
-    std::vector<Vertex> vertices;
-    std::vector<GLuint> indices;
+    vector<Vertex> vertices;
+    vector<GLuint> indices;
 
     ModelLoader loader {};
     loader.load(path, vertices, indices);
@@ -36,7 +36,7 @@ void RenderSystem::createObject(const char* path, vec3 color, vec3 position) {
     // VBO for Position
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices[0]), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices.at(0)), GL_STATIC_DRAW);
 
     glVertexAttribPointer(
         0,                      // location attribute number in vertex shader  

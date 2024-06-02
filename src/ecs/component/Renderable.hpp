@@ -9,8 +9,8 @@ namespace ecs {
     struct Renderable {
         GLuint VAO, VBO, EBO;
         vec3 color;
-        std::vector<Vertex> vertices;
-        std::vector<GLuint> indices;
+        vector<Vertex> vertices;
+        vector<GLuint> indices;
     };
 }
 
