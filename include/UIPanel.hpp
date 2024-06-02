@@ -5,21 +5,18 @@
 #include "../libs/ImGui/imgui_impl_glfw.h"
 #include "../libs/ImGui/imgui_impl_opengl3.h"
 
-#include "RenderSystem.hpp"
-#include "../src/ecs/core/Coordinator.hpp"
+#include "Scene.hpp"
 
 class UIPanel {
 private:
     
 public:
-
     bool my_tool_active;
     float color[4] = {0.0f};
-    UIPanel();
+    UIPanel(/* args */);
     ~UIPanel();
 
-    void render(ecs::Coordinator& coordinator);
-    void init();
+    void render(Scene* scene);
 };
 
 #endif

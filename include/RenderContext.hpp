@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-class WindowManager;
+class Window;
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -11,12 +11,12 @@ class WindowManager;
 
 class RenderContext {
 public:
-    WindowManager* windowManager;
+    Window* window;
     
-    RenderContext() : windowManager {nullptr} {};
+    RenderContext() : window {nullptr} {};
 
-    virtual bool init(WindowManager* windowManager) {
-        this->windowManager = windowManager;
+    virtual bool init(Window* window) {
+        this->window = window;
         return true;
     };
 

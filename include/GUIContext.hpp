@@ -3,7 +3,7 @@
 
 #include "RenderContext.hpp"
 #include <iostream>
-#include "WindowManager.hpp"
+#include "Window.hpp"
 
 #include "../libs/ImGui/imgui.h"
 #include "../libs/ImGui/imgui_impl_glfw.h"
@@ -15,7 +15,7 @@ public:
     GUIContext();
     ~GUIContext();
 
-    virtual bool init(WindowManager* windowManager) override;
+    virtual bool init(Window* window) override;
     virtual void preRender() override;
     virtual void postRender() override;
 };

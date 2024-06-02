@@ -1,6 +1,7 @@
 #ifndef TRANSFORMATION_HH
 #define TRANSFORMATION_HH
 
+#include <GL/glew.h>
 #include <string>
 #include "../libs/SMath/include/mat4.hpp"
 #include "../libs/SMath/include/vec3.hpp"

@@ -2,14 +2,14 @@
 #define OPENGLCONTEXT_HH
 
 #include "RenderContext.hpp"
-#include "WindowManager.hpp"
+#include "Window.hpp"
 
 class OpenGLContext : public RenderContext {
 public:
     OpenGLContext();
     ~OpenGLContext();
 
-    virtual bool init(WindowManager* windowManager) override;
+    virtual bool init(Window* window) override;
     virtual void preRender() override;
     virtual void postRender() override;
 };

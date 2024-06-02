@@ -3,9 +3,9 @@
 
 #include "../libs/SMath/include/vec3.hpp"
 
-struct Vertex {
+typedef struct {
     vec3 position;
-    vec3 normals;
-};
+    vec3 color;
+} Vertex;
 
 #endif
