@@ -3,8 +3,8 @@
 #include <cmath>
 
 void Transformation::identity(mat4& out) {
-    for (int x = 0; x < MAT4_SIZE; x++) {
-        for (int y = 0; y < MAT4_SIZE; y++) {
+    for (int x = 0; x < MAT_N; x++) {
+        for (int y = 0; y < MAT_N; y++) {
             x == y ? out[x][y] = 1.0f : out[x][y] = 0.0f;
         }
     }

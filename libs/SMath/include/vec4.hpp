@@ -1,42 +1,35 @@
 #ifndef VEC4_HH
 #define VEC4_HH
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+const int N = 4;
 
 #include <iostream>
-#include <iomanip>
-#include <cmath>
-
-const unsigned int VEC4_SIZE = 4;
+#include <array>
 
 class vec4
 {
 private:
-    GLfloat* vector;
+    std::array<float, 4> vector;
 public:
     vec4();
-    vec4(GLfloat x, GLfloat y, GLfloat z, GLfloat w);
+    vec4(float x, float y, float z, float w);
     vec4(const vec4& v);
-
     ~vec4();
 
-    GLfloat& x();
-    GLfloat& y();
-    GLfloat& z();
-    GLfloat& w();
+    float x();
+    float y();
+    float z();
+    float w();
 
-    GLfloat& r();
-    GLfloat& g();
-    GLfloat& b();
-    GLfloat& a();
+    float r();
+    float g();
+    float b();
+    float a();
 
     friend std::ostream& operator<< (std::ostream& out, const vec4& v);
 
     vec4& operator= (const vec4& v);
-    float& operator[] (GLuint index);
-    friend bool operator== (const vec4& v1, const vec4& v2);
-    friend bool operator!= (const vec4& v1, const vec4& v2);
+    float& operator[] (int index);
 
     vec4 operator+ (const vec4& v) const;
     vec4 operator+= (const vec4& v);
@@ -44,7 +37,7 @@ public:
     vec4 operator- (const vec4& v) const;
     vec4 operator-= (const vec4& v);
 
-    vec4 operator* (const GLfloat a) const;
+    vec4 operator* (const float a) const;
 };
 
 #endif
