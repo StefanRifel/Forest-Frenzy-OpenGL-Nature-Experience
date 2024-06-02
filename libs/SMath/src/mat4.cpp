@@ -66,13 +66,6 @@ mat4& mat4::operator= (const mat4& mat) {
     return *this;
 }
 
-GLfloat& mat4::operator[] (int index) {
-    if (index < 0 || index >= MAT4_SIZE) {
-        throw std::__throw_invalid_argument;
-    }
-    return matrix[index];
-}
-
 mat4 mat4::operator* (const float a) const {
     mat4 result {};
     for (size_t i = 0; i < MAT4_SIZE; i++) {
@@ -83,11 +76,13 @@ mat4 mat4::operator* (const float a) const {
 
 mat4 mat4::operator* (const mat4& mat) const {
     mat4 result;
-    for (int col = 0; col < MAT4_COLUMN_SIZE; ++col) {
-        for (int row = 0; row < MAT4_ROW_SIZE; ++row) {
-            for (int index = 0; index < 4; ++index) {
-                result[row * 4 + col] += matrix[index * 4 + col] * mat.matrix[row * 4 + index];
+    for (GLuint i = 0; i < MAT4_ROW_SIZE; ++i) {
+        for (GLuint j = 0; j < MAT4_COLUMN_SIZE; ++j) {
+            GLfloat sum = 0.0f;
+            for (GLuint k = 0; k < MAT4_ROW_SIZE; ++k) {
+                sum += matrix[k * MAT4_ROW_SIZE + i] * mat.matrix[j * MAT4_ROW_SIZE + k];
             }
+            result.matrix[j * MAT4_ROW_SIZE + i] = sum;
         }
     }
     return result;

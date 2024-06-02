@@ -7,17 +7,26 @@
 
 // Test default constructor
 TEST(Mat4Test, Mat4TestDefaultConstructor) {
-    mat4 m;
-    for (int i = 0; i < MAT4_SIZE; ++i) {
-        EXPECT_FLOAT_EQ(m[i], 0.0f);
+    mat4 result;
+    for (int col = 0; col < MAT4_COLUMN_SIZE; col++) {
+        for (int row = 0; row < MAT4_ROW_SIZE; row++) {
+            EXPECT_FLOAT_EQ(result[col][row], 0.0f);
+        }
     }
 }
 
 // Test identity matrix constructor
 TEST(Mat4Test, Mat4TestIdentityConstructor) {
-    mat4 m(1.0f);
-    for (int i = 0; i < 4; ++i) {
-        EXPECT_FLOAT_EQ(m[i * 4 + i], 1.0f);
+    mat4 result(1.0f);
+    for (int col = 0; col < MAT4_COLUMN_SIZE; col++) {
+        for (int row = 0; row < MAT4_ROW_SIZE; row++) {
+            if (col == row){
+                EXPECT_FLOAT_EQ(result[col][row], 1.0f);
+            } else {
+                EXPECT_FLOAT_EQ(result[col][row], 0.0f);
+            }
+            
+        }
     }
 }
 
@@ -25,10 +34,13 @@ TEST(Mat4Test, Mat4TestIdentityConstructor) {
 TEST(Mat4Test, Mat4TestCopyConstructor) {
     float m[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f,
                    9.0f, 10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f};
-    mat4 m1 {m};
-    mat4 m2 {m1};
-    for (int i = 0; i < MAT4_SIZE; ++i) {
-        EXPECT_FLOAT_EQ(m2[i], m1[i]);
+
+    mat4 expected {m};
+    mat4 result {expected};
+    for (int col = 0; col < MAT4_COLUMN_SIZE; col++) {
+        for (int row = 0; row < MAT4_ROW_SIZE; row++) {
+            EXPECT_FLOAT_EQ(result[col][row], expected[col][row]);
+        }
     }
 }
 
@@ -36,21 +48,26 @@ TEST(Mat4Test, Mat4TestCopyConstructor) {
 TEST(Mat4Test, Mat4TestAssignmentOperator) {
     float m[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f,
                    9.0f, 10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f};
-    mat4 m1 {m};
-    mat4 m2;
-    m2 = m1;
-    for (int i = 0; i < MAT4_SIZE; ++i) {
-        EXPECT_FLOAT_EQ(m2[i], m1[i]);
+    mat4 expected {m};
+    mat4 result;
+    result = expected;
+    for (int col = 0; col < MAT4_COLUMN_SIZE; col++) {
+        for (int row = 0; row < MAT4_ROW_SIZE; row++) {
+            EXPECT_FLOAT_EQ(result[col][row], expected[col][row]);
+        }
     }
 }
 
 // Test element access operator
 TEST(Mat4Test, Mat4TestElementAccessOperator) {
-    float m[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f,
+    float expected[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f,
                    9.0f, 10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f};
-    mat4 m1 {m};
-    for (int i = 0; i < MAT4_SIZE; ++i) {
-        EXPECT_FLOAT_EQ(m1[i], m[i]);
+
+    mat4 result {expected};
+    for (int col = 0; col < MAT4_COLUMN_SIZE; col++) {
+        for (int row = 0; row < MAT4_ROW_SIZE; row++) {
+            EXPECT_FLOAT_EQ(result[col][row], expected[row * 4 + col]);
+        }
     }
 }
 
@@ -61,10 +78,14 @@ TEST(Mat4Test, Mat4TestScalarMultiplication) {
     
     float m[] = {1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f,
                    9.0f, 10.0f, 11.0f, 12.0f, 13.0f, 14.0f, 15.0f, 16.0f};
+    float skalar = 2.0f;
+
     mat4 m1 {m};
-    mat4 result = m1 * 2.0f;
-    for (int i = 0; i < 4; ++i) {
-        EXPECT_FLOAT_EQ(result[i], expected[i]);
+    mat4 result = m1 * skalar;
+    for (int col = 0; col < MAT4_COLUMN_SIZE; col++) {
+        for (int row = 0; row < MAT4_ROW_SIZE; row++) {
+            EXPECT_FLOAT_EQ(result[col][row], expected[row * 4 + col]);
+        }
     }
 }
 
@@ -80,8 +101,10 @@ TEST(Mat4Test, Mat4TestMatrixMultiplication) {
     mat4 m1 {mt1};
     mat4 m2 {mt2};
     mat4 result = m1 * m2;
-    for (int i = 0; i < 4; ++i) {
-        EXPECT_FLOAT_EQ(result[i], expected[i]);
+    for (int col = 0; col < MAT4_COLUMN_SIZE; col++) {
+        for (int row = 0; row < MAT4_ROW_SIZE; row++) {
+            EXPECT_FLOAT_EQ(result[col][row], expected[row * 4 + col]);
+        }
     }
 }
 

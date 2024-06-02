@@ -13,6 +13,23 @@ const GLuint MAT4_ROW_SIZE = 4;
 
 class mat4 {
 
+    // For access with [][] operator
+    class ColumnAccessor {
+    public:
+        ColumnAccessor(mat4& parent, int col) : parent(parent), col(col) {}
+
+        GLfloat& operator[](int row) {
+            if (row < 0 || row >= 4) {
+                throw std::out_of_range("Row index out of range");
+            }
+            return parent.matrix[row * 4 + col];
+        }
+
+    private:
+        mat4& parent;
+        int col;
+    };
+
 private:
 /*
     column-major order:
@@ -25,6 +42,7 @@ private:
     GLfloat* matrix;
     
 public:
+
     mat4();
     //Einheitsmatrix
     mat4(GLfloat identity);
@@ -35,7 +53,12 @@ public:
     friend std::ostream& operator<< (std::ostream& out, const mat4& mat);
 
     mat4& operator= (const mat4& mat);
-    GLfloat& operator[] (int index);
+    ColumnAccessor operator[](int col) {
+        if (col < 0 || col >= 4) {
+            throw std::out_of_range("Column index out of range");
+        }
+        return ColumnAccessor(*this, col);
+    }
 
     //Skalarmultiplikation
     mat4 operator* (const float a) const;
