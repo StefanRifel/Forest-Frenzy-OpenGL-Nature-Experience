@@ -35,15 +35,15 @@ GLfloat& vec3::z() {
     return vector[2];
 }
 
-GLfloat& vec3::r() {
+GLfloat& vec3::r() const {
     return vector[0];
 }
 
-GLfloat& vec3::g() {
+GLfloat& vec3::g() const {
     return vector[1];
 }
 
-GLfloat& vec3::b() {
+GLfloat& vec3::b() const {
     return vector[2];
 }
 
