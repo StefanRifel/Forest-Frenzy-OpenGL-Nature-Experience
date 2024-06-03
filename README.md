@@ -12,10 +12,10 @@ Präsentation: 24. - 27. Juni 2024 vergabe über Moodle
 ## Todo
 
 - Wie man Shader in verschieden Objekten umsetzen (S)
-- Texturen für Objekte hinzfügen (A)
+- Texturen für Objekte hinzfügen (Al)
 - Szenegraph erstellen und laden 
 - Geometire .obj finden im Internet (All)
-- Camerasteuerung (A)
+- Camerasteuerung (An)
 - Beleuchtung fixen (S)
 
 ## Fragen zu klären
