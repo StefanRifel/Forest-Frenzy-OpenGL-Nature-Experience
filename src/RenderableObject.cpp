@@ -69,12 +69,13 @@ void RenderableObject::init() {
 
     float vertexFragColor = glGetUniformLocation(shader.ID, "fragColor");
     glUniform3f(vertexFragColor, color.r(), color.g(), color.b());
+    std::cout << "r: " << color.r() << " g: " << color.g() << " b: " << color.b() << std::endl;
 }
 
 void RenderableObject::setColor(vec3 color) {
-    this->color.x() = color.x();
-    this->color.y() = color.y();
-    this->color.z() = color.z();
+    this->color.x() = ((100.0f / 255) * color.x()) / 100;
+    this->color.y() = ((100.0f / 255) * color.y()) / 100;
+    this->color.z() = ((100.0f / 255) * color.z()) / 100;
 }
 
 const std::size_t RenderableObject::getIndicesSize() const {
