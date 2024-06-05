@@ -69,7 +69,6 @@ void RenderableObject::init() {
 
     float vertexFragColor = glGetUniformLocation(shader.ID, "fragColor");
     glUniform3f(vertexFragColor, color.r(), color.g(), color.b());
-    std::cout << "r: " << color.r() << " g: " << color.g() << " b: " << color.b() << std::endl;
 }
 
 void RenderableObject::setColor(vec3 color) {
