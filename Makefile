@@ -1,26 +1,42 @@
-PROGRAMM_NAME = OpenGL_Odyssey
+# Name of executable
+PROGRAM_NAME = Forest_Frenzy
+PROGRAM_NAME_TEST = Forest_Frenzy_Test
 
+# Compiler
+CC = g++
+
+# Libraries
 GLEW_LIBS = -lGLEW -lEGL -lGL -lGLU -lOpenGL 
 GLFW_LIBS = -lglfw
+# GTEST = $(shell pkg-config --libs gtest)
 SMATH = -lsmath -L./libs/SMath/bin/
-IMGUI = -limgui -L./libs/ImGui/
 
-CC = g++
+# Directories
 SRC = src
 BIN = bin
-OBJ = obj
+OBJ = bin/obj
+TEST = test
 
-TARGET = $(BIN)/$(PROGRAMM_NAME)
-SRCS = $(wildcard $(SRC)/*.cpp)
-OBJS = $(patsubst $(SRC)/%.cpp, $(BIN)/$(OBJ)/%.o, $(SRCS))
+# Target names
+TARGET = $(BIN)/$(PROGRAM_NAME)
+TARGET_TEST = $(BIN)/$(PROGRAM_NAME_TEST)
+
+# Find all src file in directories
+SRCS = $(shell find $(SRC) -name '*.cpp')
+OBJS = $(patsubst $(SRC)/%.cpp, $(OBJ)/%.o, $(SRCS))
 
 all:$(TARGET)
 
+# Link main program
 $(TARGET): $(OBJS)
-	$(CC) -o $@ $(OBJS) $(GLEW_LIBS) $(GLFW_LIBS) $(SMATH) $(IMGUI)
+	$(CC) -o $@ $^ $(GLEW_LIBS) $(GLFW_LIBS) $(SMATH)
 
-bin/obj/%.o: $(SRC)/%.cpp
-	g++ -c $< -o $@
+# comile main program src files
+$(OBJ)/%.o: $(SRC)/%.cpp
+	@mkdir -p $(@D)
+	$(CC) -c $< -o $@
 
+# Clean up object and executeble files
 clean:
-	rm $(BIN)/* $(BIN)/$(OBJ)/*
+	@echo "Cleaning up..."
+	@rm -rf $(BIN)/*
