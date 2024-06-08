@@ -10,7 +10,7 @@ Scene::~Scene() {
 
 bool Scene::init(Window* window) {
     this->window = window;
-    if(!shader.createShader("../shaders/shader.vs", "../shaders/shader.fs")) {
+    if(!shader.createShader("../shaders/shader_vert.glsl", "../shaders/shader_frag.glsl")) {
         std::cerr << "ERROR::SCENE::FAILED_TO_CREATE_SHADER" << std::endl;
         return false;
     }

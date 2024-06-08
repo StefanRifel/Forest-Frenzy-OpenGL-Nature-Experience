@@ -1,3 +1,6 @@
 bin/*
 libs/SMath/bin/*
 libs/SMath/bin/libsmath.a
+/.idea/misc.xml
+/.idea/vcs.xml
+/libs/SMath/.vscode/settings.json
