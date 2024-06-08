@@ -1,12 +1,13 @@
 #ifndef MODEL_LOADER_HH
 #define MODEL_LOADER_HH
 
-#include <string>
-
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+
 #include "Vertex.h"
 #include "../libs/SMath/include/vector.hpp"
+
+#include <string>
 
 #include <fstream>
 #include <iostream>
