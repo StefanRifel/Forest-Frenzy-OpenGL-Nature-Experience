@@ -10,7 +10,7 @@
 #include "Camera.hpp"
 #include "Shader.hpp"
 #include "RenderableObject.hpp"
-#include "ModelLoader.hpp"
+#include "OBJModelLoader.hpp"
 #include "Mesh.hpp"
 
 class Scene {

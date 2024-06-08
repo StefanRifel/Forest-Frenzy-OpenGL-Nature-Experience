@@ -16,11 +16,10 @@ bool Scene::init(Window* window) {
     }
 
     // create example object
-    ModelLoader loader {};
     const char* path = "../assets/models/sphere.obj";
     vector<Vertex> inVertices;
     vector<GLuint> inFaces;
-    loader.load(path, inVertices, inFaces);
+    OBJModelLoader::load(path, inVertices, inFaces);
 
     Mesh* teapot  = new Mesh {inVertices, inFaces};
     vec3 color {255, 112, 112};
