@@ -4,11 +4,11 @@ Mesh::Mesh() {
 
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices) : RenderableObject {vertices} {
+Mesh::Mesh(vector<Vertex> vertices) : RenderableObject {vertices} {
 
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices) : RenderableObject {vertices, indices} {
+Mesh::Mesh(vector<Vertex> vertices, vector<GLuint> indices) : RenderableObject {vertices, indices} {
 
 }
 

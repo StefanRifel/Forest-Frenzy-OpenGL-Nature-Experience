@@ -17,7 +17,7 @@ class Scene {
 public:
     Window* window;
 
-    std::vector<RenderableObject*> renderableObjects;
+    vector<RenderableObject*> renderableObjects;
     Camera camera;
     Shader shader;
 

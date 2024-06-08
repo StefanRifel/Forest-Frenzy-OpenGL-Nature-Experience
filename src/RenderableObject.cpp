@@ -4,20 +4,20 @@ RenderableObject::RenderableObject() : color {0.04f, 0.38f, 0.69f} {
     init();
 }
 
-RenderableObject::RenderableObject(std::vector<Vertex> vertices) : color {0.04f, 0.38f, 0.69f}, vertices {vertices} {
+RenderableObject::RenderableObject(vector<Vertex> vertices) : color {0.04f, 0.38f, 0.69f}, vertices {vertices} {
     init();
 }
 
-RenderableObject::RenderableObject(std::vector<Vertex> vertices, vec3 color) : color {0.04f, 0.38f, 0.69f}, vertices {vertices} {
+RenderableObject::RenderableObject(vector<Vertex> vertices, vec3 color) : color {0.04f, 0.38f, 0.69f}, vertices {vertices} {
     setColor(color);
     init();
 }
 
-RenderableObject::RenderableObject(std::vector<Vertex> vertices, std::vector<GLuint> indices) : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, indices {indices} {
+RenderableObject::RenderableObject(vector<Vertex> vertices, vector<GLuint> indices) : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, indices {indices} {
     init();
 }
 
-RenderableObject::RenderableObject(std::vector<Vertex> vertices, std::vector<GLuint> indices, vec3 color) : color {color}, vertices {vertices}, indices {indices} {
+RenderableObject::RenderableObject(vector<Vertex> vertices, vector<GLuint> indices, vec3 color) : color {color}, vertices {vertices}, indices {indices} {
     init();
 }
 
@@ -33,15 +33,15 @@ void RenderableObject::init() {
     // VBO for Position
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices[0]), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices.at(0)), GL_STATIC_DRAW);
 
     glVertexAttribPointer(
-        0,                      // location attribute number in vertex shader  
+        0,                      // location attribute number in vertex shader
         3,                      // size of the vertex attribute
         GL_FLOAT,               // type of the data
-        GL_FALSE,               // if we want the data to be normalized
-        sizeof(Vertex),         // stride and tells us the space between consecutive vertex attributes
-        (void*)0                // offset of where the position data begins in the buffer
+        GL_FALSE,          // if we want the data to be normalized
+        sizeof(Vertex),        // stride and tells us the space between consecutive vertex attributes
+        (void*)0              // offset of where the position data begins in the buffer
     );
     glEnableVertexAttribArray(0);
 
@@ -49,9 +49,9 @@ void RenderableObject::init() {
         1,                      
         3,                    
         GL_FLOAT,              
-        GL_FALSE,            
-        sizeof(Vertex),        
-        (void*)(sizeof(vec3))  
+        GL_FALSE,
+        sizeof(Vertex),
+        (void*)(sizeof(vec3))
     );
     glEnableVertexAttribArray(1);
 
@@ -81,7 +81,7 @@ const std::size_t RenderableObject::getIndicesSize() const {
     return indices.size();
 }
 
-void RenderableObject::setVertices(std::vector<Vertex> vertices) {
+void RenderableObject::setVertices(vector<Vertex> vertices) {
     this->vertices = vertices;
 }
 
@@ -93,10 +93,10 @@ void RenderableObject::setVertex(Vertex vertex) {
     this->vertices.push_back(vertex);
 }
 
-const std::vector<Vertex>& RenderableObject::getVertices() const {
+const vector<Vertex>& RenderableObject::getVertices() const {
     return vertices;
 }
 
-const std::vector<GLuint>& RenderableObject::getIndices() const {
+const vector<GLuint>& RenderableObject::getIndices() const {
     return indices;
 }

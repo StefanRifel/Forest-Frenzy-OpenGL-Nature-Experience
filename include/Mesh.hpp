@@ -9,8 +9,8 @@ private:
     
 public:
     Mesh();
-    Mesh(std::vector<Vertex> vertices);
-    Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices);
+    explicit Mesh(vector<Vertex> vertices);
+    Mesh(vector<Vertex> vertices, vector<GLuint> indices);
     virtual ~Mesh() override;
     virtual void draw(Shader shader) const override;
 };

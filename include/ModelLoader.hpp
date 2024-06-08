@@ -2,11 +2,11 @@
 #define MODELLODER_HH
 
 #include <string>
-#include <vector>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "./Vertex.h"
+#include "Vertex.h"
+#include "../libs/SMath/include/vector.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -22,11 +22,11 @@
 class ModelLoader {
 
 private:
-    std::vector<GLuint> tempIndices;
+    vector<GLuint> tempIndices;
 
 public:
     ModelLoader();
-    static bool load(const char* path, std::vector<Vertex>& outVertices, std::vector<GLuint>& outFaces);
+    static bool load(const char* path, vector<Vertex>& outVertices, vector<GLuint>& outFaces);
     
     ~ModelLoader();
 };
