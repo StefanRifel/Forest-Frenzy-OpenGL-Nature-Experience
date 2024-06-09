@@ -1,17 +1,20 @@
-#ifndef OPENGLCONTEXT_HH
-#define OPENGLCONTEXT_HH
+#ifndef OPENGL_CONTEXT_HH
+#define OPENGL_CONTEXT_HH
 
 #include "RenderContext.hpp"
 #include "Window.hpp"
 
+/**
+ * @brief The OpenGLContext class manages the OpenGL rendering context.
+ */
 class OpenGLContext : public RenderContext {
 public:
-    OpenGLContext();
+    OpenGLContext() = default;
     ~OpenGLContext();
 
-    virtual bool init(Window* window) override;
-    virtual void preRender() override;
-    virtual void postRender() override;
+    bool init(Window* window) override;
+    void preRender() override;
+    void postRender() override;
 };
 
 #endif

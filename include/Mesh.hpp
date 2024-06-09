@@ -23,12 +23,13 @@
 class Mesh {
 
 private:
-    void init();
+    bool init();
 
 protected:
     GLuint VAO {0}, VBO {0}, EBO {0};
     vector<Vertex> vertices;
     vector<GLuint> indices;
+    Shader shader;
     vec3 color;
 
 public:
@@ -36,7 +37,9 @@ public:
     Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vec3& color);
     virtual ~Mesh() = default;
 
-    virtual void draw(Shader shader) const;
+    Shader& getShader();
+
+    virtual void draw() const;
     void setColor(vec3 color);
 }; 
 

@@ -3,17 +3,13 @@
 Scene::Scene() : window {nullptr} {}
 
 Scene::~Scene() {
-    for (Mesh* obj : renderableObjects) {
+    for (Mesh* obj : renderable) {
         delete(obj);
     }
 }
 
-bool Scene::init(Window* window) {
-    this->window = window;
-    if(!shader.createShader("../shaders/shader_vert.glsl", "../shaders/shader_frag.glsl")) {
-        std::cerr << "ERROR::SCENE::FAILED_TO_CREATE_SHADER" << std::endl;
-        return false;
-    }
+bool Scene::init(Window* pWindow) {
+    this->window = pWindow;
 
     // create example object
     const char* path = "../assets/models/sphere.obj";
@@ -36,15 +32,13 @@ bool Scene::init(Window* window) {
 }
 
 void Scene::addRenderableObject(Mesh* object) {
-    renderableObjects.push_back(object);
+    renderable.push_back(object);
 }
 
 void Scene::render() {
-    camera.look(shader);
-    for (Mesh* obj : renderableObjects) {
-        mat4 model {1.0f};
-        shader.setModel(model);
-        obj->draw(shader);
+    for (Mesh* obj : renderable) {
+        camera.look(obj->getShader());
+        obj->draw();
     }
 }
 
@@ -60,14 +54,7 @@ void Scene::depthTest(bool b) {
     b ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 }
 
-void Scene::onChangeColor(float color[4]) {
-    for (auto obj : renderableObjects) {
-        obj->setColor(vec3 {color[0], color[1], color[2]});
-    }
-    
-}
-
-void Scene::processInput() {
+void Scene::processInput() const {
     if(glfwGetKey(window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         window->onClose();
     }
@@ -76,37 +63,37 @@ void Scene::processInput() {
     const float cameraSpeed = 0.05f; // adjust accordingly
 
     // Zoom camera out = "." and in = ","
-    if (glfwGetKey(window, GLFW_KEY_COMMA) == GLFW_PRESS) {
+    if (glfwGetKey(pWindow, GLFW_KEY_COMMA) == GLFW_PRESS) {
         camera->cameraPos.z() -= cameraSpeed;
         camera->radiusXZ = camera->cameraPos.z();
         std::cout << "zoom in: " << camera->cameraPos << std::endl;
-    } else if (glfwGetKey(window, GLFW_KEY_PERIOD) == GLFW_PRESS) {
+    } else if (glfwGetKey(pWindow, GLFW_KEY_PERIOD) == GLFW_PRESS) {
         camera->cameraPos.z() += cameraSpeed;
         camera->radiusXZ = camera->cameraPos.z();
         std::cout << "zoom out: " << camera->cameraPos << std::endl;
     }
 
     // change position and point of view of the camera
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+    if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_PRESS) {
         camera->cameraPos.y() += cameraSpeed;
         camera->cameraFront.y() += cameraSpeed;
         std::cout << "move camera up: " << camera->cameraPos << std::endl;
-    } else if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+    } else if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_PRESS) {
         camera->cameraPos.y() -= cameraSpeed;
         camera->cameraFront.y() -= cameraSpeed;
         std::cout << "move camera down: " << camera->cameraPos << std::endl;
-    } else if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+    } else if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS) {
         camera->cameraPos.x() -= cameraSpeed;
         camera->cameraFront.x() -= cameraSpeed;
         std::cout << "move camera left: " << camera->cameraPos << std::endl;
-    } else if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+    } else if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS) {
         camera->cameraPos.x() += cameraSpeed;
         camera->cameraFront.x() += cameraSpeed;
         std::cout << "move camera right: " << camera->cameraPos << std::endl;
     }
 
     // rotate model around in x and y axis
-    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+    if (glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS) {
         camera->anlgeXZ--;
         vec3 newPos = Transformation::calcPointOnCircle(camera->anlgeXZ, camera->radiusXZ);
         camera->cameraPos.x() = newPos.x();
@@ -115,7 +102,7 @@ void Scene::processInput() {
     }
     
 
-    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+    if (glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS) {
         camera->anlgeXZ++;
         vec3 newPos = Transformation::calcPointOnCircle(camera->anlgeXZ, camera->radiusXZ);
         camera->cameraPos.x() = newPos.x();

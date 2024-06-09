@@ -10,7 +10,12 @@ Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const 
     init();
 }
 
-void Mesh::init() {
+bool Mesh::init() {
+    if(!shader.createShader("../shaders/shader_vert.glsl", "../shaders/shader_frag.glsl")) {
+        std::cerr << "ERROR::SCENE::FAILED_TO_CREATE_SHADER" << std::endl;
+        return false;
+    }
+
     // VAO
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -46,9 +51,10 @@ void Mesh::init() {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices.at(0)), GL_STATIC_DRAW);
     }
+    return true;
 }
 
-    void Mesh::draw(Shader shader) const {
+    void Mesh::draw() const {
     shader.use();
     glBindVertexArray(VAO);
 
@@ -60,4 +66,8 @@ void Mesh::setColor(vec3 color) {
     this->color.x() = ((100.0f / 255) * color.x()) / 100;
     this->color.y() = ((100.0f / 255) * color.y()) / 100;
     this->color.z() = ((100.0f / 255) * color.z()) / 100;
+}
+
+Shader &Mesh::getShader() {
+    return shader;
 }

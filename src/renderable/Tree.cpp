@@ -8,11 +8,11 @@ Tree::~Tree() {
 
 }
 
-void Tree::draw(Shader shader) const {
-    Mesh::draw(shader);
+void Tree::draw() const {
+    Mesh::draw();
 
+    // add Transformation here
     mat4 model {1.0f};
-    
     shader.setModel(model);
 
     //glEnable(GL_PRIMITIVE_RESTART);

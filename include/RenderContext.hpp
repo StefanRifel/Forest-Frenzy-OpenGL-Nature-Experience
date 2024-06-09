@@ -1,22 +1,24 @@
-#ifndef RENDERCONTEXT_HH
-#define RENDERCONTEXT_HH
+#ifndef RENDER_CONTEXT_HH
+#define RENDER_CONTEXT_HH
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include <iostream>
 
 class Window;
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
-
+/**
+ * @brief The RenderContext class provides an abstract base for managing rendering context operations.
+ */
 class RenderContext {
 public:
-    Window* window;
+    Window* pWindow;
     
-    RenderContext() : window {nullptr} {};
+    RenderContext() : pWindow {nullptr} {};
 
     virtual bool init(Window* window) {
-        this->window = window;
+        this->pWindow = window;
         return true;
     };
 

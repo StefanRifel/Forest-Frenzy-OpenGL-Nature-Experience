@@ -12,28 +12,59 @@ class OpenGLContext;
 class Scene;
 #include "Scene.hpp"
 
+/**
+ * @brief The Window class represents a pWindow for rendering OpenGL content.
+ *
+ * This class is responsible for creating and managing a GLFW pWindow, initializing the OpenGL context,
+ * and rendering the scene.
+ */
 class Window {
 public:
-    // GLFWwindow is inizialized in OpenGLContext
-    GLFWwindow* window;
+    GLFWwindow* window; ///< Pointer to the GLFW pWindow object.
     
-    std::string programmName;
-    GLuint width;
-    GLuint height;
+    std::string programName; ///< The name of the program.
+    int width; ///< The width of the pWindow.
+    int height; ///< The height of the pWindow.
 
-    bool isRunning;
+    bool isRunning; ///< Flag indicating whether the pWindow is running.
     
-    OpenGLContext* openglContext;
-    Scene* scene;
+    OpenGLContext* openglContext; ///< Pointer to the OpenGL context.
+    Scene* scene; ///< Pointer to the scene to be rendered.
 
 public:
-    Window(GLuint width, GLuint height, std::string programmName);
+    /**
+     * @brief Constructs a Window object with the specified width, height, and program name.
+     *
+     * @param width The width of the pWindow.
+     * @param height The height of the pWindow.
+     * @param programName The name of the program.
+     */
+    Window(int width, int height, std::string programName);
+    /**
+     * @brief Destructor for the Window class.
+     */
     ~Window();
+    /**
+     * @brief Initializes the pWindow and the OpenGL context.
+     *
+     * @return True if initialization was successful, false otherwise.
+     */
+    bool init();
+    /**
+     * @brief Renders the scene in the pWindow.
+     */
+    void render() const;
 
-    void init();
-    void render();
-
-    void onResize(GLuint width, GLuint height);
+    /**
+     * @brief Handles pWindow resize events.
+     *
+     * @param width The new width of the pWindow.
+     * @param height The new height of the pWindow.
+     */
+    void onResize(int width, int height);
+    /**
+     * @brief Handles pWindow close events.
+     */
     void onClose();
 };
 

@@ -10,7 +10,7 @@ class Tree : public Mesh {
 public:
     Tree(vector<Vertex> vertices, vector<GLuint> indices);
     ~Tree() override;
-    void draw(Shader shader) const override;
+    void draw() const override;
 };
 
 #endif

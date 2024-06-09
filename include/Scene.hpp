@@ -17,27 +17,24 @@ class Scene {
 public:
     Window* window;
 
-    vector<Mesh*> renderableObjects;
+    vector<Mesh*> renderable;
     Camera camera;
-    Shader shader;
 
 public:
     Scene();
     ~Scene();
 
-    bool init(Window* window);
+    bool init(Window* pWindow);
 
     void addRenderableObject(Mesh* object);
 
-    // different window settings
-    void cullFace(bool b);
-    void polygonModeRasterized(bool b);
-    void depthTest(bool b);
-
-    void onChangeColor(float color[4]);
+    // different pWindow settings
+    static void cullFace(bool b);
+    static void polygonModeRasterized(bool b);
+    static void depthTest(bool b);
 
     void render();
-    void processInput();
+    void processInput() const;
 };
 
 #endif
