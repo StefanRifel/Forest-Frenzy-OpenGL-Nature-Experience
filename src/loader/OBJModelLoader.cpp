@@ -1,5 +1,5 @@
 #include <cstring>
-#include "../../include/OBJModelLoader.hpp"
+#include "../../include/loader/OBJModelLoader.hpp"
 
 /**
  * @brief Loads a 3D model from a file in the OBJ format.

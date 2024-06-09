@@ -8,7 +8,7 @@
 #include <GLFW/glfw3.h>
 
 class OpenGLContext;
-#include "OpenGLContext.hpp"
+#include "context/OpenGLContext.hpp"
 class Scene;
 #include "Scene.hpp"
 

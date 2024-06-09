@@ -1,5 +1,5 @@
 #include "../include/Scene.hpp"
-#include "../include/Sun.hpp"
+#include "../include/renderable/Sun.hpp"
 
 Scene::Scene() : window {nullptr} {}
 

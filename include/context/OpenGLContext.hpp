@@ -2,7 +2,7 @@
 #define OPENGL_CONTEXT_HH
 
 #include "RenderContext.hpp"
-#include "Window.hpp"
+#include "../Window.hpp"
 
 /**
  * @brief The OpenGLContext class manages the OpenGL rendering context.

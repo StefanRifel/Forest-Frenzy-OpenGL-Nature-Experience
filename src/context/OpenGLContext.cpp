@@ -1,4 +1,4 @@
-#include "../../include/OpenGLContext.hpp"
+#include "../../include/context/OpenGLContext.hpp"
 
 // Callback functions
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height) {

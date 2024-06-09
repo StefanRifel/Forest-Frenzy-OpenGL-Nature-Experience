@@ -4,8 +4,8 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include "Vertex.h"
-#include "../libs/SMath/include/vector.hpp"
+#include "../renderable/Vertex.h"
+#include "../../libs/SMath/include/vector.hpp"
 
 #include <string>
 

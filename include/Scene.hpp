@@ -9,9 +9,9 @@
 #include "Window.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"
-#include "Mesh.hpp"
-#include "OBJModelLoader.hpp"
-#include "Tree.hpp"
+#include "renderable/Mesh.hpp"
+#include "loader/OBJModelLoader.hpp"
+#include "renderable/Tree.hpp"
 
 class Scene {
 public:

@@ -1,4 +1,4 @@
-#include "../../include/Mesh.hpp"
+#include "../../include/renderable/Mesh.hpp"
 
 Mesh::Mesh(const vector<Vertex>& vertices)
     : color {0.04f, 0.38f, 0.69f}, vertices {vertices} {

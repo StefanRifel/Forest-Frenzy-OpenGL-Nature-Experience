@@ -2,13 +2,13 @@
 #define RENDERABLE_OBJECT_HH
 
 #include "Vertex.h"
-#include "Shader.hpp"
+#include "../Shader.hpp"
 
-#include "Transformation.hpp"
+#include "../Transformation.hpp"
 
-#include "../libs/SMath/include/vec3.hpp"
-#include "../libs/SMath/include/mat4.hpp"
-#include "../libs/SMath/include/vector.hpp"
+#include "../../libs/SMath/include/vec3.hpp"
+#include "../../libs/SMath/include/mat4.hpp"
+#include "../../libs/SMath/include/vector.hpp"
 
 /**
  * @brief The Mesh class represents a 3D object that can be rendered in a graphics context.

@@ -1,4 +1,4 @@
-#include "../../include/Sun.hpp"
+#include "../../include/renderable/Sun.hpp"
 
 Sun::Sun(const vector<Vertex> &vertices)
     : Mesh(vertices) {

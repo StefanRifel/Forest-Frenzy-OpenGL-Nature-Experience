@@ -1,4 +1,4 @@
-#include "../../include/Tree.hpp"
+#include "../../include/renderable/Tree.hpp"
 
 Tree::Tree(const vector<Vertex>& vertices)
     : Mesh {vertices} {
