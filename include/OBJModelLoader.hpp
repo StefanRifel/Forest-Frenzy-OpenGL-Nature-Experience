@@ -20,13 +20,13 @@
  * The .obj file format is widely used for representing 3D models and contains different types of data:
  * - 'v': Represents a vertex with its position in 3D space.
  * - 'vt': Represents the texture coordinate of a vertex (not implemented yet).
- * - 'vn': Represents the normal vector of a vertex (not implemented yet).
+ * - 'vn': Represents the normal vector of a vertex.
  * - 'f': Represents a face, which is a set of 3 indices that define a triangle in the model.
  */
 class OBJModelLoader {
 
 public:
-    static bool load(const char* path, vector<Vertex>& outVertices, vector<GLuint>& outIndices);
+    static bool load(const char* path, vector<Vertex>& outVertices, vector<GLuint>& outIndices, vector<vec3>& outNormals);
 };
 
 #endif

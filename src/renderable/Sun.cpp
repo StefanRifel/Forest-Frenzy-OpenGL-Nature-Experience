@@ -1,6 +1,7 @@
 #include "../../include/Sun.hpp"
 
-Sun::Sun(const vector<Vertex> &vertices, const vector<GLuint> &indices) : Mesh(vertices, indices) {
+Sun::Sun(const vector<Vertex> &vertices, const vector<GLuint> &indices, const vector<vec3>& normals)
+    : Mesh(vertices, indices, normals) {
     if(!shader.createShader("../shaders/mesh_vert.glsl", "../shaders/sun_frag.glsl")) {
         std::cerr << "ERROR::SUN::FAILED_TO_CREATE_SHADER" << std::endl;
     }

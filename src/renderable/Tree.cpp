@@ -1,6 +1,7 @@
 #include "../../include/Tree.hpp"
 
-Tree::Tree(const vector<Vertex>& vertices, const vector<GLuint>& indices) : Mesh {vertices, indices} {
+Tree::Tree(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals)
+    : Mesh {vertices, indices, normals} {
     if(!shader.createShader("../shaders/mesh_vert.glsl", "../shaders/lighting_frag.glsl")) {
         std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
     }

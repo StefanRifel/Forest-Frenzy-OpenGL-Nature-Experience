@@ -30,12 +30,13 @@ protected:
     GLuint VAO {0}, VBO {0}, EBO {0};
     vector<Vertex> vertices;
     vector<GLuint> indices;
+    vector<vec3> normals;
     Shader shader;
     vec3 color;
 
 public:
-    Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices);
-    Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vec3& color);
+    Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals);
+    Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals, const vec3& color);
     virtual ~Mesh() = default;
 
     Shader& getShader();

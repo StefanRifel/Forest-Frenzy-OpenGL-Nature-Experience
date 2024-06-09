@@ -1,12 +1,12 @@
 #include "../../include/Mesh.hpp"
 
-Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices)
-    : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, indices {indices} {
+Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals)
+    : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, indices {indices}, normals {normals} {
     init();
 }
 
-Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vec3& color)
-    : color {color}, vertices {vertices}, indices {indices} {
+Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals, const vec3& color)
+    : color {color}, vertices {vertices}, indices {indices}, normals {normals} {
     init();
 }
 
