@@ -1,3 +1,4 @@
+#include <cstring>
 #include "../../include/OBJModelLoader.hpp"
 
 /**
@@ -12,7 +13,10 @@
  * @param outNormals A reference to a vector that will store the loaded normals for a vertex.
  * @return true if the model was successfully loaded, false otherwise.
  */
-bool OBJModelLoader::load(const char* path, vector<Vertex>& outVertices, vector<GLuint>& outIndices, vector<vec3>& outNormals) {
+bool OBJModelLoader::load(const char* path, vector<Vertex>& outVertices) {
+    vector<GLuint> vertexIndices, normalIndices;
+    vector<vec3> tempVertices, tempNormals;
+
     std::ifstream modelFile {path};
     if(!modelFile.is_open()) {
         std::cerr << "ERROR::MODEL_LOADER::FAILED_TO_OPEN_FILE" << std::endl;
@@ -26,24 +30,39 @@ bool OBJModelLoader::load(const char* path, vector<Vertex>& outVertices, vector<
         iss >> token;
 
         if (token == "v") {
-            Vertex vertex;
-            iss >> vertex.position.x() >> vertex.position.y() >> vertex.position.z();
-            outVertices.push_back(vertex);
+            vec3 vertex;
+            iss >> vertex.x() >> vertex.y() >> vertex.z();
+            tempVertices.push_back(vertex);
         } else if (token == "vn") {
-            vec3 normal {};
+            vec3 normal;
             iss >> normal.x() >> normal.y() >> normal.z();
-            outNormals.push_back(normal);
+            tempNormals.push_back(normal);
         } else if (token == "f") {
             std::string indices;
             while (iss >> indices) {
                 std::istringstream viss(indices);
                 std::string indexStr;
+                // vertex
                 getline(viss, indexStr, '/');
-                int index = std::stoi(indexStr) - 1; // -1 because indices in obj files starts at 1
-                outIndices.push_back(index);
+                vertexIndices.push_back(std::stoi(indexStr) - 1); // -1 because indices in obj files starts at 1
+
+                // texture
+                getline(viss, indexStr, '/');
+
+                // normals
+                getline(viss, indexStr, '/');
+                normalIndices.push_back(std::stoi(indexStr) - 1);
             }
         }
     }
     modelFile.close();
+
+    for(size_t i = 0; i < vertexIndices.size(); i++){
+        Vertex v;
+        v.position = tempVertices.at(vertexIndices.at(i));
+        v.normal = tempNormals.at(normalIndices.at(i));
+        outVertices.push_back(v);
+    }
+
     return true;
 }

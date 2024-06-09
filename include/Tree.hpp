@@ -6,7 +6,7 @@
 class Tree : public Mesh {
 
 public:
-    Tree(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals);
+    explicit Tree(const vector<Vertex>& vertices);
     ~Tree() override = default;
 
     void draw() const override;

@@ -15,14 +15,9 @@ bool Scene::init(Window* pWindow) {
     // create example object cube
     const char* CubePath = "../assets/models/cube.obj";
     vector<Vertex> cubeVertices;
-    vector<GLuint> cubeIndices;
-    vector<vec3> cubeNormals;
+    OBJModelLoader::load(CubePath, cubeVertices);
 
-    OBJModelLoader::load(CubePath, cubeVertices, cubeIndices, cubeNormals);
-    for (const auto& a : cubeNormals) {
-        std::cout << a << std::endl;
-    }
-    Tree* teapot  = new Tree {cubeVertices, cubeIndices, cubeNormals};
+    Tree* teapot  = new Tree {cubeVertices};
 
     vec3 cubeColor {255, 112, 112};
     teapot->setColor(cubeColor);
@@ -32,10 +27,9 @@ bool Scene::init(Window* pWindow) {
     // create example object sphere
     const char* sunPath = "../assets/models/sphere.obj";
     vector<Vertex> sunVertices;
-    vector<GLuint> sunIndices;
-    vector<vec3> sunNormals;
-    OBJModelLoader::load(sunPath, sunVertices, sunIndices, sunNormals);
-    Sun* sun = new Sun {sunVertices, sunIndices, sunNormals};
+
+    OBJModelLoader::load(sunPath, sunVertices);
+    Sun* sun = new Sun {sunVertices};
 
     vec3 sunColor {255, 255, 255};
     sun->setColor(sunColor);

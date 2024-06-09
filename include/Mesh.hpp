@@ -35,8 +35,8 @@ protected:
     vec3 color;
 
 public:
-    Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals);
-    Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals, const vec3& color);
+    explicit Mesh(const vector<Vertex>& vertices);
+    Mesh(const vector<Vertex>& vertices, const vec3& color);
     virtual ~Mesh() = default;
 
     Shader& getShader();

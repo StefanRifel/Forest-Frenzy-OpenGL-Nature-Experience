@@ -1,12 +1,12 @@
 #include "../../include/Mesh.hpp"
 
-Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals)
-    : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, indices {indices}, normals {normals} {
+Mesh::Mesh(const vector<Vertex>& vertices)
+    : color {0.04f, 0.38f, 0.69f}, vertices {vertices} {
     init();
 }
 
-Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const vector<vec3>& normals, const vec3& color)
-    : color {color}, vertices {vertices}, indices {indices}, normals {normals} {
+Mesh::Mesh(const vector<Vertex>& vertices, const vec3& color)
+    : color {color}, vertices {vertices} {
     init();
 }
 
@@ -30,12 +30,23 @@ bool Mesh::init() {
     );
     glEnableVertexAttribArray(0);
 
+    glVertexAttribPointer(
+        1,                      // location attribute number in vertex shader
+        3,                       // size of the vertex attribute
+        GL_FLOAT,               // type of the data
+        GL_FALSE,          // if we want the data to be normalized
+        sizeof(Vertex),        // stride and tells us the space between consecutive vertex attributes
+        (void*)(sizeof(vec3))       // offset of where the position data begins in the buffer
+    );
+    glEnableVertexAttribArray(1);
+    /* todo when convert back to indices rendering
     if(indices.size() != 0) {
         //EBO
         glGenBuffers(1, &EBO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices.at(0)), GL_STATIC_DRAW);
     }
+     */
     return true;
 }
 

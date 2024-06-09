@@ -13,6 +13,7 @@
 #include <iostream>
 #include <sstream>
 
+#include <vector>
 /**
  * @brief The OBJModelLoader class is responsible for loading .obj files and converting their content into usable data structures.
  *
@@ -26,7 +27,7 @@
 class OBJModelLoader {
 
 public:
-    static bool load(const char* path, vector<Vertex>& outVertices, vector<GLuint>& outIndices, vector<vec3>& outNormals);
+    static bool load(const char* path, vector<Vertex>& outVertices);
 };
 
 #endif
