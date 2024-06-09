@@ -47,8 +47,6 @@ public:
     void setModel(mat4 model) const;
     void setView(mat4 view) const;
     void setProjection(mat4 projection) const;
-
-
 };
 
 #endif
