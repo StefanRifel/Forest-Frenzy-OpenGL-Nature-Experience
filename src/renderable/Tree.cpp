@@ -1,11 +1,17 @@
 #include "../../include/Tree.hpp"
 
 Tree::Tree(const vector<Vertex>& vertices, const vector<GLuint>& indices) : Mesh {vertices, indices} {
-
+    if(!shader.createShader("../shaders/mesh_vert.glsl", "../shaders/lighting_frag.glsl")) {
+        std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
+    }
 }
 
 void Tree::draw() const {
     Mesh::draw();
+    shader.setVec3("objColor", color);
+
+    vec3 lightColor {1.0f, 0.5f, 0.31f};
+    shader.setVec3("lightColor", lightColor);
 
     // add Transformation here
     mat4 model {1.0f};

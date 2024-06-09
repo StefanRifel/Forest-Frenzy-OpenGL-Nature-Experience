@@ -11,11 +11,6 @@ Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices, const 
 }
 
 bool Mesh::init() {
-    if(!shader.createShader("../shaders/shader_vert.glsl", "../shaders/shader_frag.glsl")) {
-        std::cerr << "ERROR::SCENE::FAILED_TO_CREATE_SHADER" << std::endl;
-        return false;
-    }
-
     // VAO
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -35,16 +30,6 @@ bool Mesh::init() {
     );
     glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(
-        1,                      
-        3,                    
-        GL_FLOAT,              
-        GL_FALSE,
-        sizeof(Vertex),
-        (void*)(sizeof(vec3))
-    );
-    glEnableVertexAttribArray(1);
-
     if(indices.size() != 0) {
         //EBO
         glGenBuffers(1, &EBO);
@@ -54,12 +39,9 @@ bool Mesh::init() {
     return true;
 }
 
-    void Mesh::draw() const {
+void Mesh::draw() const {
     shader.use();
     glBindVertexArray(VAO);
-
-    float vertexFragColor = glGetUniformLocation(shader.ID, "fragColor");
-    glUniform3f(vertexFragColor, color.r(), color.g(), color.b());
 }
 
 void Mesh::setColor(vec3 color) {

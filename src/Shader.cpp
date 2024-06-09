@@ -1,4 +1,5 @@
 #include "../include/Shader.hpp"
+#include "../libs/SMath/include/vec3.hpp"
 
 void Shader::use() const {
     glUseProgram(ID);
@@ -89,6 +90,11 @@ void Shader::setInt(const std::string &name, int value) const {
 
 void Shader::setFloat(const std::string &name, float value) const {
     glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+}
+
+void Shader::setVec3(const std::string &name, const vec3& value) const {
+    int vec3Loc = glGetUniformLocation(ID, name.c_str());
+    glUniform3f(vec3Loc, value.r(), value.g(), value.b());
 }
 
 void Shader::setModel(mat4 model) const {

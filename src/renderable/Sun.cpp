@@ -1,11 +1,14 @@
 #include "../../include/Sun.hpp"
 
 Sun::Sun(const vector<Vertex> &vertices, const vector<GLuint> &indices) : Mesh(vertices, indices) {
-
+    if(!shader.createShader("../shaders/mesh_vert.glsl", "../shaders/sun_frag.glsl")) {
+        std::cerr << "ERROR::SUN::FAILED_TO_CREATE_SHADER" << std::endl;
+    }
 }
 
 void Sun::draw() const {
     Mesh::draw();
+    shader.setVec3("objColor", color);
 
     // add Transformation here
     mat4 model {1.0f};
