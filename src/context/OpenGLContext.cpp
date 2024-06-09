@@ -1,4 +1,4 @@
-#include "../include/OpenGLContext.hpp"
+#include "../../include/OpenGLContext.hpp"
 
 // callback functions
 

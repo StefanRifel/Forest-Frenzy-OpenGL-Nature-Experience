@@ -3,7 +3,7 @@
 Scene::Scene() : window {nullptr} {}
 
 Scene::~Scene() {
-    for (RenderableObject* obj : renderableObjects) {
+    for (Mesh* obj : renderableObjects) {
         delete(obj);
     }
 }
@@ -21,7 +21,7 @@ bool Scene::init(Window* window) {
     vector<GLuint> inFaces;
     OBJModelLoader::load(path, inVertices, inFaces);
 
-    Mesh* teapot  = new Mesh {inVertices, inFaces};
+    Tree* teapot  = new Tree {inVertices, inFaces};
     vec3 color {255, 112, 112};
     teapot->setColor(color);
 
@@ -35,13 +35,13 @@ bool Scene::init(Window* window) {
     return true;
 }
 
-void Scene::addRenderableObject(RenderableObject* object) {
+void Scene::addRenderableObject(Mesh* object) {
     renderableObjects.push_back(object);
 }
 
 void Scene::render() {
     camera.look(shader);
-    for (RenderableObject* obj : renderableObjects) {
+    for (Mesh* obj : renderableObjects) {
         mat4 model {1.0f};
         shader.setModel(model);
         obj->draw(shader);

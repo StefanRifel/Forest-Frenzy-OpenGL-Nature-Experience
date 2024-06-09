@@ -9,15 +9,15 @@
 #include "Window.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"
-#include "RenderableObject.hpp"
-#include "OBJModelLoader.hpp"
 #include "Mesh.hpp"
+#include "OBJModelLoader.hpp"
+#include "Tree.hpp"
 
 class Scene {
 public:
     Window* window;
 
-    vector<RenderableObject*> renderableObjects;
+    vector<Mesh*> renderableObjects;
     Camera camera;
     Shader shader;
 
@@ -27,7 +27,7 @@ public:
 
     bool init(Window* window);
 
-    void addRenderableObject(RenderableObject* object);
+    void addRenderableObject(Mesh* object);
 
     // different window settings
     void cullFace(bool b);
