@@ -1,4 +1,5 @@
 #include "../include/Scene.hpp"
+#include "../include/Sun.hpp"
 
 Scene::Scene() : window {nullptr} {}
 
@@ -11,17 +12,30 @@ Scene::~Scene() {
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
-    // create example object
-    const char* path = "../assets/models/sphere.obj";
-    vector<Vertex> inVertices;
-    vector<GLuint> inFaces;
-    OBJModelLoader::load(path, inVertices, inFaces);
+    // create example object cube
+    const char* CubePath = "../assets/models/cube.obj";
+    vector<Vertex> cubeVertices;
+    vector<GLuint> cubeIndices;
+    OBJModelLoader::load(CubePath, cubeVertices, cubeIndices);
 
-    Tree* teapot  = new Tree {inVertices, inFaces};
-    vec3 color {255, 112, 112};
-    teapot->setColor(color);
+    Tree* teapot  = new Tree {cubeVertices, cubeIndices};
+
+    vec3 cubeColor {255, 112, 112};
+    teapot->setColor(cubeColor);
 
     addRenderableObject(teapot);
+
+    // create example object sphere
+    const char* sunPath = "../assets/models/sphere.obj";
+    vector<Vertex> sunVertices;
+    vector<GLuint> sunIndices;
+    OBJModelLoader::load(sunPath, sunVertices, sunIndices);
+    Sun* sun = new Sun {sunVertices, sunIndices};
+
+    vec3 sunColor {255, 255, 255};
+    sun->setColor(sunColor);
+
+    addRenderableObject(sun);
 
     // scene settings
     cullFace(true);

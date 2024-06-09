@@ -17,7 +17,7 @@ public:
     vec3 cameraUp;
 
     Camera();
-    void look(Shader& shader);
+    void look(Shader& shader) const;
 };
 
 #endif

@@ -1,12 +1,12 @@
 #include "../include/Camera.hpp"
 
 Camera::Camera() {
-    this->cameraPos = {0.0f, 0.0f, 3.0f};
+    this->cameraPos = {1.0f, 1.0f, 3.0f};
     this->cameraFront = {0.0f, 0.0f, 0.0f};
     this->cameraUp = {0.0f, 1.0f, 0.0f};
 }
 
-void Camera::look(Shader& shader) {
+void Camera::look(Shader& shader) const {
 
     // set view matrix in shader
     shader.setView(Transformation::lookAt(cameraPos, cameraFront, cameraUp));

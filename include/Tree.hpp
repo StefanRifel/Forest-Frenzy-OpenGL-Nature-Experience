@@ -3,8 +3,6 @@
 
 #include "Mesh.hpp"
 
-#include "../libs/SMath/include/vec3.hpp"
-
 class Tree : public Mesh {
 
 public:
