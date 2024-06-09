@@ -1,10 +1,6 @@
 #include "../../include/Tree.hpp"
 
-Tree::Tree(vector<Vertex> vertices, vector<GLuint> indices) : Mesh {vertices, indices} {
-
-}
-
-Tree::~Tree() {
+Tree::Tree(const vector<Vertex>& vertices, const vector<GLuint>& indices) : Mesh {vertices, indices} {
 
 }
 
@@ -13,6 +9,8 @@ void Tree::draw() const {
 
     // add Transformation here
     mat4 model {1.0f};
+    vec3 scale {0.5, 0.5, 0.5};
+    model = Transformation::scale(model, scale);
     shader.setModel(model);
 
     //glEnable(GL_PRIMITIVE_RESTART);

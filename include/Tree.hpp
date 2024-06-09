@@ -8,8 +8,9 @@
 class Tree : public Mesh {
 
 public:
-    Tree(vector<Vertex> vertices, vector<GLuint> indices);
-    ~Tree() override;
+    Tree(const vector<Vertex>& vertices, const vector<GLuint>& indices);
+    ~Tree() override = default;
+
     void draw() const override;
 };
 

@@ -15,8 +15,8 @@ public:
     void push_back(const T& element);
     void pop_back();
     T& at(int index);
-    size_t size() const { return length; }
-    size_t capacity() const { return storage; }
+    [[nodiscard]] int size() const { return length; }
+    [[nodiscard]] size_t capacity() const { return storage; }
     
     // Iterator class
     class iterator {
@@ -27,7 +27,7 @@ public:
         using pointer = T*;
         using reference = T&;
         
-        iterator(pointer ptr) : m_ptr(ptr) {}
+        explicit iterator(pointer ptr) : m_ptr(ptr) {}
         
         reference operator*() const { return *m_ptr; }
         pointer operator->() { return m_ptr; }
@@ -50,15 +50,14 @@ public:
 private:
     T* data;
     size_t storage;
-    size_t length;
+    int length;
 };
 
 template <typename T>
 vector<T>::vector() : data{nullptr}, storage{0}, length{0} {}
 
 template <typename T>
-vector<T>::~vector() {
-}
+vector<T>::~vector() = default;
 
 template <typename T>
 void vector<T>::resize() {
@@ -96,4 +95,4 @@ T& vector<T>::at(int index) {
     return data[index];
 }
 
-#endif // VECTOR_HPP
+#endif
