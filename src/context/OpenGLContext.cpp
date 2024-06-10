@@ -57,6 +57,8 @@ bool OpenGLContext::init(Window* window) {
     glfwSetScrollCallback(window->window, scroll_callback);
     glfwMakeContextCurrent(window->window);
 
+    //glfwSetInputMode(window->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
     // Initialize GLEW
     if (glewInit() != GLEW_OK) {
         std::cerr << "ERROR::OPENGL_CONTEXT::FAILED_TO_INIT_GLEW" << std::endl;
