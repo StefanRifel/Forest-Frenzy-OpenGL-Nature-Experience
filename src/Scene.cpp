@@ -67,71 +67,43 @@ void Scene::depthTest(bool b) {
     b ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 }
 
-void Scene::processKeyboardInput() const {
+void Scene::processKeyboardInput() {
+    float currentFrame = static_cast<float>(glfwGetTime());
+    camera.deltaTime = currentFrame - camera.lastFrame;
+    camera.lastFrame = currentFrame;
     if(glfwGetKey(window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         window->onClose();
     }
     if(glfwGetKey(window->window, GLFW_KEY_W)) {
-        std::cout << "onKeyboardInput" << std::endl;
+        std::cout << "Camera Movement: FORWARD" << std::endl;
+        camera.processKeyboard(FORWARD, camera.deltaTime);
+    }
+    if(glfwGetKey(window->window, GLFW_KEY_A)) {
+        std::cout << "Camera Movement: LEFT" << std::endl;
+        camera.processKeyboard(LEFT, camera.deltaTime);
+    }
+    if(glfwGetKey(window->window, GLFW_KEY_S)) {
+        std::cout << "Camera Movement: BACKWARD" << std::endl;
+        camera.processKeyboard(BACKWARD, camera.deltaTime);
+    }
+    if(glfwGetKey(window->window, GLFW_KEY_D)) {
+        std::cout << "Camera Movement: RIGHT" << std::endl;
+        camera.processKeyboard(RIGHT, camera.deltaTime);
+    }
+    if(glfwGetKey(window->window, GLFW_KEY_UP)) {
+        std::cout << "Camera Movement: UP" << std::endl;
+        camera.processKeyboard(UP, camera.deltaTime);
+    }
+    if(glfwGetKey(window->window, GLFW_KEY_DOWN)) {
+        std::cout << "Camera Movement: DOWN" << std::endl;
+        camera.processKeyboard(DOWN, camera.deltaTime);
     }
 }
 
 void Scene::processMouseInput(double xPos, double yPos) {
-    std::cout << "mouseInput: (" << xPos << ", " << yPos <<")" << std::endl;
+    camera.processMouseMovement(xPos, yPos, true);
 }
 
 void Scene::processMouseScrollInput(double xOffset, double yOffset) {
-    std::cout << "onMouseScroll: (" << xOffset << ", " << yOffset <<")" << std::endl;
+    camera.zoomWithMouseScroll(yOffset);
 }
-
-/*
-    const float cameraSpeed = 0.05f; // adjust accordingly
-
-    // Zoom camera out = "." and in = ","
-    if (glfwGetKey(pWindow, GLFW_KEY_COMMA) == GLFW_PRESS) {
-        camera->cameraPos.z() -= cameraSpeed;
-        camera->radiusXZ = camera->cameraPos.z();
-        std::cout << "zoom in: " << camera->cameraPos << std::endl;
-    } else if (glfwGetKey(pWindow, GLFW_KEY_PERIOD) == GLFW_PRESS) {
-        camera->cameraPos.z() += cameraSpeed;
-        camera->radiusXZ = camera->cameraPos.z();
-        std::cout << "zoom out: " << camera->cameraPos << std::endl;
-    }
-
-    // change position and point of view of the camera
-    if (glfwGetKey(pWindow, GLFW_KEY_UP) == GLFW_PRESS) {
-        camera->cameraPos.y() += cameraSpeed;
-        camera->cameraFront.y() += cameraSpeed;
-        std::cout << "move camera up: " << camera->cameraPos << std::endl;
-    } else if (glfwGetKey(pWindow, GLFW_KEY_DOWN) == GLFW_PRESS) {
-        camera->cameraPos.y() -= cameraSpeed;
-        camera->cameraFront.y() -= cameraSpeed;
-        std::cout << "move camera down: " << camera->cameraPos << std::endl;
-    } else if (glfwGetKey(pWindow, GLFW_KEY_LEFT) == GLFW_PRESS) {
-        camera->cameraPos.x() -= cameraSpeed;
-        camera->cameraFront.x() -= cameraSpeed;
-        std::cout << "move camera left: " << camera->cameraPos << std::endl;
-    } else if (glfwGetKey(pWindow, GLFW_KEY_RIGHT) == GLFW_PRESS) {
-        camera->cameraPos.x() += cameraSpeed;
-        camera->cameraFront.x() += cameraSpeed;
-        std::cout << "move camera right: " << camera->cameraPos << std::endl;
-    }
-
-    // rotate model around in x and y axis
-    if (glfwGetKey(pWindow, GLFW_KEY_A) == GLFW_PRESS) {
-        camera->anlgeXZ--;
-        vec3 newPos = Transformation::calcPointOnCircle(camera->anlgeXZ, camera->radiusXZ);
-        camera->cameraPos.x() = newPos.x();
-        camera->cameraPos.z() = newPos.y();
-        std::cout << "turn camera around left: " << camera->cameraPos << std::endl;
-    }
-
-
-    if (glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS) {
-        camera->anlgeXZ++;
-        vec3 newPos = Transformation::calcPointOnCircle(camera->anlgeXZ, camera->radiusXZ);
-        camera->cameraPos.x() = newPos.x();
-        camera->cameraPos.z() = newPos.y();
-        std::cout << "turn camera around right: " << camera->cameraPos << std::endl;
-    }
-    */
