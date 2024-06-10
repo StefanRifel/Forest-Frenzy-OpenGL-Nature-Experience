@@ -8,14 +8,13 @@
  * vertex normals, and face indices. The parsed data is stored in the provided output vectors for vertices and indices.
  *
  * @param path The file path to the model file to be loaded.
- * @param outVertices A reference to a vector that will store the loaded vertex data.
- * @param outIndices A reference to a vector that will store the loaded face indices.
- * @param outNormals A reference to a vector that will store the loaded normals for a vertex.
+ * @param outVertices A reference to a vector that will store the loaded vertex data (vertices, normals, textures).
  * @return true if the model was successfully loaded, false otherwise.
  */
 bool OBJModelLoader::load(const char* path, vector<Vertex>& outVertices) {
-    vector<GLuint> vertexIndices, normalIndices;
+    vector<GLuint> vertexIndices, normalIndices, textureIndices;
     vector<vec3> tempVertices, tempNormals;
+    vector<vec2> tempTextures;
 
     std::ifstream modelFile {path};
     if(!modelFile.is_open()) {
@@ -37,6 +36,10 @@ bool OBJModelLoader::load(const char* path, vector<Vertex>& outVertices) {
             vec3 normal;
             iss >> normal.x() >> normal.y() >> normal.z();
             tempNormals.push_back(normal);
+        } else if (token == "vt") {
+            vec2 texture;
+            iss >> texture.x() >> texture.y();
+            tempTextures.push_back(texture);
         } else if (token == "f") {
             std::string indices;
             while (iss >> indices) {
@@ -48,6 +51,7 @@ bool OBJModelLoader::load(const char* path, vector<Vertex>& outVertices) {
 
                 // texture
                 getline(viss, indexStr, '/');
+                textureIndices.push_back(std::stoi(indexStr) - 1);
 
                 // normals
                 getline(viss, indexStr, '/');
@@ -61,6 +65,7 @@ bool OBJModelLoader::load(const char* path, vector<Vertex>& outVertices) {
         Vertex v;
         v.position = tempVertices.at(vertexIndices.at(i));
         v.normal = tempNormals.at(normalIndices.at(i));
+        v.texture = tempTextures.at(textureIndices.at(i));
         outVertices.push_back(v);
     }
 

@@ -20,7 +20,7 @@
  * This class provides functionality to read and parse .obj files, extracting information about the model's geometry.
  * The .obj file format is widely used for representing 3D models and contains different types of data:
  * - 'v': Represents a vertex with its position in 3D space.
- * - 'vt': Represents the texture coordinate of a vertex (not implemented yet).
+ * - 'vt': Represents the texture coordinate of a vertex.
  * - 'vn': Represents the normal vector of a vertex.
  * - 'f': Represents a face, which is a set of 3 indices that define a triangle in the model.
  */

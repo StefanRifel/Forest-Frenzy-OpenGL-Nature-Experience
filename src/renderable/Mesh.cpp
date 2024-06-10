@@ -20,6 +20,7 @@ bool Mesh::init() {
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices.at(0)), GL_STATIC_DRAW);
 
+    // Position
     glVertexAttribPointer(
         0,                      // location attribute number in vertex shader
         3,                       // size of the vertex attribute
@@ -30,15 +31,28 @@ bool Mesh::init() {
     );
     glEnableVertexAttribArray(0);
 
+    // Normal
     glVertexAttribPointer(
-        1,                      // location attribute number in vertex shader
-        3,                       // size of the vertex attribute
-        GL_FLOAT,               // type of the data
-        GL_FALSE,          // if we want the data to be normalized
-        sizeof(Vertex),        // stride and tells us the space between consecutive vertex attributes
-        (void*)(sizeof(vec3))       // offset of where the position data begins in the buffer
+        1,
+        3,
+        GL_FLOAT,
+        GL_FALSE,
+        sizeof(Vertex),
+        (void*)(sizeof(vec3))
     );
     glEnableVertexAttribArray(1);
+
+    // Texture
+    glVertexAttribPointer(
+            2,
+            2,
+            GL_FLOAT,
+            GL_FALSE,
+            sizeof(Vertex),
+            (void*)(2 * sizeof(vec3))
+    );
+    glEnableVertexAttribArray(2);
+
     /* todo when convert back to indices rendering
     if(indices.size() != 0) {
         //EBO
