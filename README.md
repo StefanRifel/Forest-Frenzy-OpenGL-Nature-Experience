@@ -11,15 +11,15 @@ Präsentation: 24. - 27. Juni 2024 vergabe über Moodle
 
 ## Todo
 
-- Wie man Shader in verschieden Objekten umsetzen (S)
-- Texturen für Objekte hinzfügen (Al)
-- Szenegraph erstellen und laden 
-- Geometire .obj finden im Internet (All)
-- Camerasteuerung (An)
+- Laden von Texturen und umsetzung in Shader (Al)
+- Szenegraph erstellen 
+- Geometire .obj und Texturen im Internet finden (All)
+- Camerasteuerung verbessern (gehen und springen) (An)
 - Beleuchtung fixen (S)
 - FPS zähler in eigene Datei auslagern
 - Controlls auslagern in eigene Klasse
-- fix mouse camera Movement
+- Taschenlampe für das mouse movement hinzufügen und beschleuchtung dafür
+- tag nacht zyklus 
 
 ## Fragen zu klären
 
