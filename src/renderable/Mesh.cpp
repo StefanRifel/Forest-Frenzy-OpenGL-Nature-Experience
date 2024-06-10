@@ -15,7 +15,7 @@ bool Mesh::init() {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    // VBO for Position
+    // VBO for position
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices.at(0)), GL_STATIC_DRAW);
