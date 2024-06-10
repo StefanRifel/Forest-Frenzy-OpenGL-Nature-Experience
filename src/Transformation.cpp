@@ -1,23 +1,34 @@
 #include "../include/Transformation.hpp"
-#include <iostream>
-#include <cmath>
 
+/**
+ * @brief Sets the given matrix to the identity matrix.
+ *
+ * @param out The matrix to be set to identity.
+ */
 void Transformation::identity(mat4& out) {
-    for (int x = 0; x < 4; x++) {
-        for (int y = 0; y < 4; y++) {
+    for (int x = 0; x < MAT4_ROW_SIZE; x++) {
+        for (int y = 0; y < MAT4_COLUMN_SIZE; y++) {
             x == y ? out[x][y] = 1.0f : out[x][y] = 0.0f;
         }
     }
 }
 
+/**
+ * @brief Translates the given matrix by the vector v.
+ *
+ * @param in The input matrix.
+ * @param v The translation vector.
+ * @return The translated matrix.
+ *
+ * \verbatim
+ * Translation Matrix:
+ * | 1  0  0  Tx |
+ * | 0  1  0  Ty |
+ * | 0  0  1  Tz |
+ * | 0  0  0  1  |
+ * \endverbatim
+ */
 mat4 Transformation::translate(mat4& in, vec3& v) {
-    /*
-        create translation Matrix:
-        | 1  0  0 Tx |
-        | 0  1  0 Ty |
-        | 0  0  1 Tz |
-        | 0  0  0  1 |
-    */
     mat4 translationMatrix {1.0f};
     translationMatrix[0][3] = v.x();  
     translationMatrix[1][3] = v.y();
@@ -26,14 +37,22 @@ mat4 Transformation::translate(mat4& in, vec3& v) {
     return in * translationMatrix;
 }
 
+/**
+ * @brief Scales the given matrix by the vector v.
+ *
+ * @param in The input matrix.
+ * @param v The scaling vector.
+ * @return The scaled matrix.
+ *
+ * \verbatim
+ * Scaling Matrix:
+ * | Sx  0   0   0 |
+ * |  0  Sy  0   0 |
+ * |  0   0  Sz  0 |
+ * |  0   0   0  1 |
+ * \endverbatim
+ */
 mat4 Transformation::scale(mat4& in, vec3& v) {
-    /*
-        create scale Matrix:
-        | S1   0   0   0 |
-        |  0  S2   0   0 |
-        |  0   0  S3   0 |
-        |  0   0   0   1 |
-    */
     mat4 scaleMatrix {1.0f};
     scaleMatrix[0][0] = v.x();  
     scaleMatrix[1][1] = v.y();
@@ -42,64 +61,101 @@ mat4 Transformation::scale(mat4& in, vec3& v) {
     return in * scaleMatrix;
 }
 
-mat4 Transformation::rotateZ(mat4& in, GLuint angle) {
-    /*
-        create rotate Z Matrix:
-        | cos -sin    0    0   |
-        | sin  cos    0    0   |
-        |   0    0    0    0   |
-        |   0    0    0    1   |
-    */
+/**
+ * @brief Rotates the given matrix around the Z axis.
+ *
+ * @param in The input matrix.
+ * @param angle The rotation angle in degrees.
+ * @return The rotated matrix.
+ *
+ * \verbatim
+ * Rotation Z Matrix:
+ * | cos -sin  0  0 |
+ * | sin  cos  0  0 |
+ * |  0    0   1  0 |
+ * |  0    0   0  1 |
+ * \endverbatim
+ */
+mat4 Transformation::rotateZ(mat4& in, GLfloat angle) {
     mat4 rotateZMatrix {1.0f};
-    float radiant = Transformation::radiant(angle);
-    rotateZMatrix[0][0] = cos(radiant);  
-    rotateZMatrix[0][1] = -sin(radiant);
-    rotateZMatrix[1][0] = sin(radiant);
-    rotateZMatrix[1][1] = cos(radiant);
+    GLfloat radiant = Transformation::radiant(angle);
+    rotateZMatrix[0][0] = (GLfloat)cos(radiant);
+    rotateZMatrix[0][1] = (GLfloat)-sin(radiant);
+    rotateZMatrix[1][0] = (GLfloat)sin(radiant);
+    rotateZMatrix[1][1] = (GLfloat)cos(radiant);
 
     return in * rotateZMatrix;
 }
 
-mat4 Transformation::rotateX(mat4& in, GLuint angle) {
-    /*
-        create rotate X Matrix:
-        |   0    0    0    0   |
-        |   0  cos -sin    0   |
-        |   0  sin  cos    0   |
-        |   0    0    0    1   |
-    */
+/**
+ * @brief Rotates the given matrix around the X axis.
+ *
+ * @param in The input matrix.
+ * @param angle The rotation angle in degrees.
+ * @return The rotated matrix.
+ *
+ * \verbatim
+ * Rotation X Matrix:
+ * |  1   0    0   0 |
+ * |  0  cos -sin  0 |
+ * |  0  sin  cos  0 |
+ * |  0   0    0   1 |
+ * \endverbatim
+ */
+mat4 Transformation::rotateX(mat4& in, GLfloat angle) {
     mat4 rotateXMatrix {1.0f};
-    float radiant = Transformation::radiant(angle);
-    rotateXMatrix[1][1] = cos(radiant);  
-    rotateXMatrix[1][2] = -sin(radiant);
-    rotateXMatrix[2][1] = sin(radiant);
-    rotateXMatrix[2][2] = cos(radiant);
+    GLfloat radiant = Transformation::radiant(angle);
+    rotateXMatrix[1][1] = (GLfloat)cos(radiant);
+    rotateXMatrix[1][2] = (GLfloat)-sin(radiant);
+    rotateXMatrix[2][1] = (GLfloat)sin(radiant);
+    rotateXMatrix[2][2] = (GLfloat)cos(radiant);
 
     return in * rotateXMatrix;
 }
 
-mat4 Transformation::rotateY(mat4& in, GLuint angle) {
-    /*
-        create rotate Z Matrix:
-        | cos    0 -sin    0   |
-        |   0    0    0    0   |
-        |-sin    0  cos    0   |
-        |   0    0    0    1   |
-    */
+/**
+ * @brief Rotates the given matrix around the Y axis.
+ *
+ * @param in The input matrix.
+ * @param angle The rotation angle in degrees.
+ * @return The rotated matrix.
+ *
+ * \verbatim
+ * Rotation Y Matrix:
+ * | cos   0  sin  0 |
+ * |  0    1   0   0 |
+ * |-sin   0  cos  0 |
+ * |  0    0   0   1 |
+ * \endverbatim
+ */
+mat4 Transformation::rotateY(mat4& in, GLfloat angle) {
     mat4 rotateYMatrix {1.0f};
-    float radiant = Transformation::radiant(angle);
-    rotateYMatrix[0][0] = cos(radiant);  
-    rotateYMatrix[0][2] = sin(radiant);
-    rotateYMatrix[2][0] = -sin(radiant);
-    rotateYMatrix[2][2] = cos(radiant);
+    GLfloat radiant = Transformation::radiant(angle);
+    rotateYMatrix[0][0] = (GLfloat)cos(radiant);
+    rotateYMatrix[0][2] = (GLfloat)sin(radiant);
+    rotateYMatrix[2][0] = (GLfloat)-sin(radiant);
+    rotateYMatrix[2][2] = (GLfloat)cos(radiant);
 
     return in * rotateYMatrix;
 }
 
+/**
+ * @brief Normalizes the given vector.
+ *
+ * @param v The vector to normalize.
+ * @return The normalized vector.
+ */
 vec3 Transformation::normalize(const vec3& v) {
     return v * (1.0f / v.length());
 }
 
+/**
+ * @brief Computes the cross product of two vectors.
+ *
+ * @param a The first vector.
+ * @param b The second vector.
+ * @return The cross product vector.
+ */
 vec3 Transformation::cross(vec3& a, vec3& b) {
     vec3 result {};
     result[0] = (a[1] * b[2]) - (a[2] * b[1]);
@@ -108,24 +164,39 @@ vec3 Transformation::cross(vec3& a, vec3& b) {
     return result;
 }
 
+/**
+ * @brief Computes the dot product of two vectors.
+ *
+ * @param a The first vector.
+ * @param b The second vector.
+ * @return The dot product.
+ */
 float Transformation::dot(vec3& a, vec3& b) {
     return a.x() * b.x() + a.y() * b.y() + a.z() * b.z();
 }
 
-mat4 Transformation::lookAt(vec3 eye, vec3 center, vec3 up) {
-    /*
-        create view Matrix:
-        |  u'x  u'y  u'z  tx  |
-        |  v'x  v'y  v'z  ty  |
-        |  n'x  n'y  n'z  tz  |
-        |    0    0    0   1  |
-    */
-
-    // n z
+/**
+ * @brief Creates a look-at view matrix.
+ *
+ * @param eye The position of the camera.
+ * @param center The point the camera is looking at.
+ * @param up The up direction vector.
+ * @return The view matrix.
+ *
+ * \verbatim
+ * View Matrix:
+ * |  u'x  u'y  u'z  tx  |
+ * |  v'x  v'y  v'z  ty  |
+ * |  n'x  n'y  n'z  tz  |
+ * |    0    0    0   1  |
+ * \endverbatim
+ */
+mat4 Transformation::lookAt(vec3& eye, vec3& center, vec3& up) {
+    // n
     vec3 cameraDirection {Transformation::normalize(eye - center)};
-    // u x
+    // u
     vec3 cameraRight {Transformation::normalize(Transformation::cross(up, cameraDirection))};
-    // v y
+    // v
     vec3 cameraUp {Transformation::cross(cameraDirection, cameraRight)};
 
     mat4 view {1.0f};
@@ -133,7 +204,7 @@ mat4 Transformation::lookAt(vec3 eye, vec3 center, vec3 up) {
     view[0][0] = cameraRight[0];
     view[0][1] = cameraRight[1];
     view[0][2] = cameraRight[2];
-    
+
     // set up vector
     view[1][0] = cameraUp[0];
     view[1][1] = cameraUp[1];
@@ -152,6 +223,15 @@ mat4 Transformation::lookAt(vec3 eye, vec3 center, vec3 up) {
     return view;
 }
 
+/**
+ * @brief Creates a perspective projection matrix.
+ *
+ * @param fov The field of view in degrees.
+ * @param aspect The aspect ratio.
+ * @param near The near clipping plane.
+ * @param far The far clipping plane.
+ * @return The projection matrix.
+ */
 mat4 Transformation::perspective(float fov, float aspect, float near, float far) {
     mat4 projection {1.0f};
 
@@ -165,13 +245,6 @@ mat4 Transformation::perspective(float fov, float aspect, float near, float far)
     return projection;
 }
 
-float Transformation::radiant(float angle) {
-    return angle * M_PI /180;
-}
-
-vec3 Transformation::calcPointOnCircle(int angle, float radius) {
-    vec3 point {};
-    point.x() = (float)(radius * cos(angle * M_PI /180));
-    point.y() = (float)(radius * sin(angle * M_PI /180));
-    return point;
+GLfloat Transformation::radiant(GLfloat angle) {
+    return (GLfloat)(angle * M_PI /180);
 }
