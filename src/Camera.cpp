@@ -1,16 +1,83 @@
 #include "../include/Camera.hpp"
 
-Camera::Camera() {
-    this->cameraPos = {1.0f, 1.0f, 3.0f};
-    this->cameraFront = {0.0f, 0.0f, 0.0f};
-    this->cameraUp = {0.0f, 1.0f, 0.0f};
+Camera::Camera()
+    : movementSpeed {DEFAULT_SPEED}, mouseSensitivity {DEFAULT_SENSITIVITY}, fieldOfView {FOV}, yaw {DEFAULT_YAW}, pitch {DEFAULT_PITCH} {
+    this->position = {0.0f, 0.0f, 3.0f};
+    this->front = {0.0f, 0.0f, 0.0f};
+    this->up = {0.0f, 1.0f, 0.0f};
+
+    updateCameraVectors();
 }
 
-void Camera::look(Shader& shader) const {
-
+void Camera::look(Shader& shader) {
     // set view matrix in shader
-    shader.setView(Transformation::lookAt(cameraPos, cameraFront, cameraUp));
+    shader.setView(Transformation::lookAt(position, front, up, right, worldUp));
 
     // set projection matrix in shader
-    shader.setProjection(Transformation::perspective(45.0f, 800.0f / 600.0f, 0.1f, 100.0f));
+    shader.setProjection(Transformation::perspective(fieldOfView, ASPECT_RATIO, NEAR_PLANE, FAR_PLANE));
+}
+
+void Camera::processKeyboard(Camera_Movement direction, float cDeltaTime) {
+
+    float velocity = movementSpeed * cDeltaTime;
+    if (direction == FORWARD)
+        if(position.z() >= 1) {
+            position += front * velocity;
+        }
+    if (direction == BACKWARD)
+        position -= front * velocity;
+
+    if (direction == LEFT)
+        position -= right * velocity;
+    if (direction == RIGHT)
+        position += right * velocity;
+    /*
+    if (direction == UP)
+        position += worldUp * velocity;
+    if (direction == DOWN)
+        position -= worldUp * velocity;
+    */
+    std::cout << "Position: " << position << std::endl;
+    std::cout << "Front: " << front << std::endl;
+}
+
+/**
+     * @brief Processes input received from a mouse input system.
+     *
+     * @param xPos The new X position of the mouse.
+     * @param yPos The new Y position of the mouse.
+     * @param constrainPitch Whether to constrain the pitch angle to avoid flipping the camera.
+ */
+void Camera::processMouseMovement(float xPos, float yPos, GLboolean constrainPitch = true) {
+
+    float xOffset = xPos - lastX;
+    float yOffset = lastY - yPos;
+    lastX = xPos;
+    lastY = yPos;
+
+    xOffset *= mouseSensitivity;
+    yOffset *= mouseSensitivity;
+
+    yaw += xOffset;
+    pitch += yOffset;
+
+
+    if (constrainPitch) {
+        if (pitch > 89.0f)
+            pitch = 89.0f;
+        if (pitch < -89.0f)
+            pitch = -89.0f;
+    }
+
+    updateCameraVectors();
+}
+
+void Camera::zoomWithMouseScroll(float yOffset) {
+    fieldOfView -= (float)yOffset;
+    if (fieldOfView < 45.0f) {
+        fieldOfView = 45.0f;
+    }
+    if (fieldOfView > 120.0f) {
+        fieldOfView = 120.0f;
+    }
 }

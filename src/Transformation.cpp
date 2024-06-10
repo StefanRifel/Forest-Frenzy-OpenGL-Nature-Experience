@@ -191,13 +191,15 @@ float Transformation::dot(vec3& a, vec3& b) {
  * |    0    0    0   1  |
  * \endverbatim
  */
-mat4 Transformation::lookAt(vec3& eye, vec3& center, vec3& up) {
+mat4 Transformation::lookAt(vec3& eye, vec3& center, vec3& up, vec3& right, vec3& worldUp) {
     // n
     vec3 cameraDirection {Transformation::normalize(eye - center)};
     // u
     vec3 cameraRight {Transformation::normalize(Transformation::cross(up, cameraDirection))};
+    right = cameraRight;
     // v
     vec3 cameraUp {Transformation::cross(cameraDirection, cameraRight)};
+    worldUp = cameraUp;
 
     mat4 view {1.0f};
     // set right vector
