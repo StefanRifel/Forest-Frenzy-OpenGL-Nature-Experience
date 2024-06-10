@@ -17,6 +17,9 @@ Präsentation: 24. - 27. Juni 2024 vergabe über Moodle
 - Geometire .obj finden im Internet (All)
 - Camerasteuerung (An)
 - Beleuchtung fixen (S)
+- FPS zähler in eigene Datei auslagern
+- Controlls auslagern in eigene Klasse
+- fix mouse camera Movement
 
 ## Fragen zu klären
 
