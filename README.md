@@ -11,16 +11,19 @@ Präsentation: 24. - 27. Juni 2024 vergabe über Moodle
 
 ## Todo
 
-- Laden von Texturen und umsetzung in Shader (Al)
+- Laden von Texturen und umsetzung im Shader (Al)
 - Szenegraph erstellen 
 - Geometire .obj und Texturen im Internet finden (All)
-- Camerasteuerung verbessern (gehen und springen) (An)
 - Beleuchtung fixen (S)
-- FPS zähler in eigene Datei auslagern
-- Controlls auslagern in eigene Klasse
 - Taschenlampe für das mouse movement hinzufügen und beschleuchtung dafür
 - tag nacht zyklus 
+- skybox hinzufügen
+- Material Eigenschaften hinzufügen
 
+nicht wichtig:
+- FPS zähler in eigene Datei auslagern
+- Controlls auslagern in eigene Klasse
+- Camerasteuerung verbessern (gehen und springen) (An)
 ## Fragen zu klären
 
 - Imgui verwenden für die Gui
