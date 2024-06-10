@@ -11,6 +11,16 @@ static void on_window_close_callback(GLFWwindow* window) {
     pWindow->onClose();
 }
 
+void mouse_callback(GLFWwindow* window, double xPos, double yPos) {
+    auto pWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    pWindow->onMouseMovement(xPos, yPos);
+}
+
+void scroll_callback(GLFWwindow* window, double xOffset, double yOffset) {
+    auto pWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));
+    pWindow->onMouseScroll(xOffset, yOffset);
+}
+
 // Class functions
 OpenGLContext::~OpenGLContext() {
     glfwTerminate();
@@ -43,6 +53,8 @@ bool OpenGLContext::init(Window* window) {
     glfwSetWindowUserPointer(window->window, window);
     glfwSetFramebufferSizeCallback(window->window, framebuffer_size_callback);
     glfwSetWindowCloseCallback(window->window, on_window_close_callback);
+    glfwSetCursorPosCallback(window->window, mouse_callback);
+    glfwSetScrollCallback(window->window, scroll_callback);
     glfwMakeContextCurrent(window->window);
 
     // Initialize GLEW

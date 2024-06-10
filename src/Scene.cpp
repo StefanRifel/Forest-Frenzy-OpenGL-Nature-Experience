@@ -67,11 +67,23 @@ void Scene::depthTest(bool b) {
     b ? glEnable(GL_DEPTH_TEST) : glDisable(GL_DEPTH_TEST);
 }
 
-void Scene::processInput() const {
+void Scene::processKeyboardInput() const {
     if(glfwGetKey(window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
         window->onClose();
     }
-    
+    if(glfwGetKey(window->window, GLFW_KEY_W)) {
+        std::cout << "onKeyboardInput" << std::endl;
+    }
+}
+
+void Scene::processMouseInput(double xPos, double yPos) {
+    std::cout << "mouseInput: (" << xPos << ", " << yPos <<")" << std::endl;
+}
+
+void Scene::processMouseScrollInput(double xOffset, double yOffset) {
+    std::cout << "onMouseScroll: (" << xOffset << ", " << yOffset <<")" << std::endl;
+}
+
 /*
     const float cameraSpeed = 0.05f; // adjust accordingly
 
@@ -113,7 +125,7 @@ void Scene::processInput() const {
         camera->cameraPos.z() = newPos.y();
         std::cout << "turn camera around left: " << camera->cameraPos << std::endl;
     }
-    
+
 
     if (glfwGetKey(pWindow, GLFW_KEY_D) == GLFW_PRESS) {
         camera->anlgeXZ++;
@@ -123,4 +135,3 @@ void Scene::processInput() const {
         std::cout << "turn camera around right: " << camera->cameraPos << std::endl;
     }
     */
-}

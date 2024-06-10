@@ -30,8 +30,8 @@ bool Window::init() {
 
 void Window::render() const {
     while (isRunning) {
-        scene->processInput();
-        
+        scene->processKeyboardInput();
+
         openglContext->preRender();
         
         scene->render();
@@ -47,4 +47,12 @@ void Window::onResize(int newWidth, int wenHeight) {
 
 void Window::onClose() {
     isRunning = false;
+}
+
+void Window::onMouseMovement(double xPos, double yPos) const {
+    scene->processMouseInput(xPos, yPos);
+}
+
+void Window::onMouseScroll(double xOffset, double yOffset) const {
+    scene->processMouseScrollInput(xOffset, yOffset);
 }

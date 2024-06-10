@@ -34,7 +34,9 @@ public:
     static void depthTest(bool b);
 
     void render();
-    void processInput() const;
+    void processKeyboardInput() const;
+    void processMouseInput(double xPos, double yPos);
+    void processMouseScrollInput(double xOffset, double yOffset);
 };
 
 #endif

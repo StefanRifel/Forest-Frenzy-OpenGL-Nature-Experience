@@ -66,6 +66,8 @@ public:
      * @brief Handles pWindow close events.
      */
     void onClose();
+    void onMouseMovement(double xPos, double yPos) const;
+    void onMouseScroll(double xOffset, double yOffset) const;
 };
 
 #endif
