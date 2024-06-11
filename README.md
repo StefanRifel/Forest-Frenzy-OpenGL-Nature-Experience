@@ -12,6 +12,7 @@ Präsentation: 24. - 27. Juni 2024 vergabe über Moodle
 ## Todo
 
 - Laden von Texturen und umsetzung in Shader (Al)
+-- 11.06 : Klasse textureLoader implementiert
 - Szenegraph erstellen 
 - Geometire .obj und Texturen im Internet finden (All)
 - Camerasteuerung verbessern (gehen und springen) (An)
