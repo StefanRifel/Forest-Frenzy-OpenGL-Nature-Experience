@@ -2,6 +2,7 @@
 #define RENDERABLE_OBJECT_HH
 
 #include "Vertex.h"
+#include "Material.h"
 #include "../Shader.hpp"
 
 #include "../Transformation.hpp"
@@ -32,6 +33,7 @@ protected:
     vector<GLuint> indices;
     vector<vec3> normals;
     Shader shader;
+    Material material;
     vec3 color;
 
 public:
@@ -43,6 +45,7 @@ public:
 
     virtual void draw() const;
     void setColor(vec3 color);
+    void setMaterial(MaterialType type);
 }; 
 
 #endif
