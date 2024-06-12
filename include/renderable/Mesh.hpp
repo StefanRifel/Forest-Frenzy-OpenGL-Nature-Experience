@@ -28,7 +28,7 @@ private:
     bool init();
 
 protected:
-    GLuint VAO {0}, VBO {0}, EBO {0};
+    GLuint VAO {0}, VBO {0}, EBO {0}, textureID {0};
     vector<Vertex> vertices;
     vector<GLuint> indices;
     vector<vec3> normals;
@@ -46,6 +46,7 @@ public:
     virtual void draw() const;
     void setColor(vec3 color);
     void setMaterial(MaterialType type);
+    GLuint& getTextureID();
 }; 
 
 #endif

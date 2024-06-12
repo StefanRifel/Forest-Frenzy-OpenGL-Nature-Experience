@@ -1,8 +1,4 @@
 #include "../include/Scene.hpp"
-#include "../include/renderable/Sun.hpp"
-
-#define STB_IMAGE_IMPLEMENTATION
-#include "../libs/LoadImg/stb_image.h"
 
 Scene::Scene() : window {nullptr} {}
 
@@ -15,12 +11,15 @@ Scene::~Scene() {
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
-    // create example object cube
-    const char* CubePath = "../assets/models/sphere.obj";
+    const char* AppleImg = "../assets/models/apple/Apple_Sphere.png";
+    const char* jpg = "../assets/textures/wall.jpg";
+    const char* CubePath = "../assets/models/teapot.obj";
     vector<Vertex> cubeVertices;
     OBJModelLoader::load(CubePath, cubeVertices);
 
     Tree* teapot  = new Tree {cubeVertices};
+
+    TextureLoader::loadTexture(jpg, teapot->getTextureID());
 
     vec3 cubeColor {0, 168, 107};
     teapot->setColor(cubeColor);

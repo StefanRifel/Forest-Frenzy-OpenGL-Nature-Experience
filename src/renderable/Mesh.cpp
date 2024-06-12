@@ -82,3 +82,7 @@ Shader &Mesh::getShader() {
 void Mesh::setMaterial(MaterialType type) {
     this->material = materials[type];
 }
+
+GLuint& Mesh::getTextureID() {
+    return textureID;
+}

@@ -11,7 +11,9 @@
 #include "Shader.hpp"
 #include "renderable/Mesh.hpp"
 #include "loader/OBJModelLoader.hpp"
+#include "loader/TextureLoader.hpp"
 #include "renderable/Tree.hpp"
+#include "../include/renderable/Sun.hpp"
 
 class Scene {
 public:

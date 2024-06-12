@@ -11,12 +11,15 @@ out vec4 FragColor;
 
 in vec3 FragPos;    // Position of the fragment in world space
 in vec3 Normal;     // Normal vector at the fragment in world space
+in vec2 TexCoord;
 
 uniform Material material;      // Material properties
 uniform vec3 objColor;          // Base color of the object
 uniform vec3 lightColor;        // Color of the light
 uniform vec3 lightPos;          // Position of the light
 uniform vec3 viewPos;           // Position of the camera
+
+uniform sampler2D texture1;
 
 void main() {
     // Calculate ambient light
@@ -53,5 +56,7 @@ void main() {
 
     // Set the fragment color
     // Output the final color of the fragment with full opacity.
-    FragColor = vec4(lightingResult, 1.0);
+    //FragColor = vec4(lightingResult, 1.0);
+    // Output the final color of the fragment with full opacity and Texture.
+    FragColor = texture(texture1, TexCoord) * vec4(lightingResult, 1.0);
 }
