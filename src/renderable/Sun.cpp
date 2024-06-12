@@ -14,7 +14,7 @@ void Sun::draw() const {
     // add Transformation here
     mat4 model {1.0f};
     //vec3 scale {0.5, 0.5, 0.5};
-    vec3 position {0.0, 2, 4.0};
+    vec3 position {0.0, 0.0, 3.0};
     //model = Transformation::scale(model, scale);
     model = Transformation::translate(model, position);
     shader.setModel(model);

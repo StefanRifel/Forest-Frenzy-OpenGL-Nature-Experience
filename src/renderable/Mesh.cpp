@@ -1,7 +1,7 @@
 #include "../../include/renderable/Mesh.hpp"
 
 Mesh::Mesh(const vector<Vertex>& vertices)
-    : color {0.04f, 0.38f, 0.69f}, vertices {vertices} {
+    : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, material {materials[MATERIAL_BLACK_PLASTIC]} {
     init();
 }
 
@@ -77,4 +77,8 @@ void Mesh::setColor(vec3 color) {
 
 Shader &Mesh::getShader() {
     return shader;
+}
+
+void Mesh::setMaterial(MaterialType type) {
+    this->material = materials[type];
 }

@@ -1,6 +1,9 @@
 #include "../include/Scene.hpp"
 #include "../include/renderable/Sun.hpp"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "../libs/LoadImg/stb_image.h"
+
 Scene::Scene() : window {nullptr} {}
 
 Scene::~Scene() {
@@ -13,14 +16,15 @@ bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
     // create example object cube
-    const char* CubePath = "../assets/models/cube.obj";
+    const char* CubePath = "../assets/models/sphere.obj";
     vector<Vertex> cubeVertices;
     OBJModelLoader::load(CubePath, cubeVertices);
 
     Tree* teapot  = new Tree {cubeVertices};
 
-    vec3 cubeColor {255, 112, 112};
+    vec3 cubeColor {0, 168, 107};
     teapot->setColor(cubeColor);
+    teapot->setMaterial(MATERIAL_JADE);
 
     addRenderableObject(teapot);
 
@@ -31,8 +35,9 @@ bool Scene::init(Window* pWindow) {
     OBJModelLoader::load(sunPath, sunVertices);
     Sun* sun = new Sun {sunVertices};
 
-    vec3 sunColor {255, 255, 255};
+    vec3 sunColor {253, 251, 211};
     sun->setColor(sunColor);
+    sun->setMaterial(MATERIAL_GOLD);
 
     addRenderableObject(sun);
 
@@ -68,7 +73,7 @@ void Scene::depthTest(bool b) {
 }
 
 void Scene::processKeyboardInput() {
-    float currentFrame = static_cast<float>(glfwGetTime());
+    auto currentFrame = static_cast<float>(glfwGetTime());
     camera.deltaTime = currentFrame - camera.lastFrame;
     camera.lastFrame = currentFrame;
     if(glfwGetKey(window->window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
