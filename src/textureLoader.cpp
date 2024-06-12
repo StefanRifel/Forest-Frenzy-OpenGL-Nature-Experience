@@ -1,4 +1,5 @@
 #include <GL/glew.h>
+#define STB_IMAGE_IMPLEMENTATION
 #include "../libs/LoadImg/stb_image.h"
 #include <iostream>
 
