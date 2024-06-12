@@ -11,13 +11,13 @@ void Tree::draw() const {
     Mesh::draw();
     shader.setVec3("objColor", color);
 
-    vec3 lightColor {0.8f, 1.0f, 0.4f};
+    vec3 lightColor {1.0f, 1.0f, 1.0f};
     shader.setVec3("lightColor", lightColor);
 
-    vec3 lightPos {0.0, 2, 4.0};
+    vec3 lightPos {0.0, 5.0, 0.0};
     shader.setVec3("lightPos", lightPos);
 
-    vec3 cameraPos {0.0f, 1.0f, 0.0f};
+    vec3 cameraPos {0.0f, 5.0f, 0.0f};
     shader.setVec3("viewPos", cameraPos);
 
     // add Transformation here

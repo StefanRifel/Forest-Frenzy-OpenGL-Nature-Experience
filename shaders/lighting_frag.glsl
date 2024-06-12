@@ -2,35 +2,37 @@
 
 out vec4 FragColor;
 
-in vec3 FragPos;
-in vec3 Normal;
+in vec3 FragPos; // vertex in worldspace
+in vec3 Normal; // normal in worldspace
 
 uniform vec3 objColor;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
 uniform vec3 viewPos;
 
+vec4 specularMat = vec4(0.73, 0.63, 0.63, 0.5);
+
 void main() {
     // ambient
-    float ambientStrength = 0.1;
+    float ambientStrength = 0.8;
     vec3 ambient = ambientStrength * lightColor;
 
     // diffuse
-    vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
-
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor;
+    vec3 lightDirection = normalize(lightPos - FragPos);
+    vec3 diffuse = max(dot(Normal, lightDirection), 0.0) * lightColor;
 
     // specular
-    float specularStrength = 0.5;
+    float matrialShininess = 76.8; // s
 
-    vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);
+    //vec3 reflectDirection = reflect(-lightDirection, Normal);  //r
 
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 256);
-    vec3 specular = specularStrength * spec * lightColor;
 
+    vec3 viewDirection = normalize(viewPos - FragPos); //a
+
+    vec3 halfWayVector = normalize(lightDirection + viewDirection); //h
+
+    //vec3 spekularReflect = pow(max(dot(reflectDirection , viewDirection), 0.0f), matrialShininess) * lightColor;
+    vec3 specular = pow(max(dot(halfWayVector , Normal), 0.0), matrialShininess) * lightColor;
     // result
     vec3 result = (ambient + diffuse + specular) * objColor;
     FragColor = vec4(result, 1.0);

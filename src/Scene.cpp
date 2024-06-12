@@ -1,6 +1,9 @@
 #include "../include/Scene.hpp"
 #include "../include/renderable/Sun.hpp"
 
+#define STB_IMAGE_IMPLEMENTATION
+#include "../libs/LoadImg/stb_image.h"
+
 Scene::Scene() : window {nullptr} {}
 
 Scene::~Scene() {
@@ -13,7 +16,7 @@ bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
     // create example object cube
-    const char* CubePath = "../assets/models/cube.obj";
+    const char* CubePath = "../assets/models/teapot.obj";
     vector<Vertex> cubeVertices;
     OBJModelLoader::load(CubePath, cubeVertices);
 
@@ -31,7 +34,7 @@ bool Scene::init(Window* pWindow) {
     OBJModelLoader::load(sunPath, sunVertices);
     Sun* sun = new Sun {sunVertices};
 
-    vec3 sunColor {255, 255, 255};
+    vec3 sunColor {253, 251, 211};
     sun->setColor(sunColor);
 
     addRenderableObject(sun);

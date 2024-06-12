@@ -71,7 +71,7 @@ bool OpenGLContext::init(Window* window) {
 void OpenGLContext::preRender() {
     glViewport(0, 0, pWindow->width, pWindow->height);
     // Set default background color
-    glClearColor(0.94f, 0.93f, 0.81f, 1.0f);
+    glClearColor(0.38f, 0.42f, 0.48f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
