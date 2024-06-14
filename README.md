@@ -20,6 +20,7 @@ Präsentation: 24. - 27. Juni 2024 vergabe über Moodle
 - tag nacht zyklus 
 - skybox hinzufügen
 - Material Eigenschaften hinzufügen
+- texture manager
 
 nicht wichtig:
 - FPS zähler in eigene Datei auslagern

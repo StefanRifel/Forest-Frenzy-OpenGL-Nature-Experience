@@ -13,6 +13,8 @@
 #include "loader/OBJModelLoader.hpp"
 #include "loader/TextureLoader.hpp"
 #include "renderable/Tree.hpp"
+#include "renderable/Terrain.hpp"
+#include "renderable/Skybox.hpp"
 #include "../include/renderable/Sun.hpp"
 
 class Scene {

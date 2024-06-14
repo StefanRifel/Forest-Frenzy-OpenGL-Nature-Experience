@@ -10,22 +10,35 @@ Scene::~Scene() {
 
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
+/*
+    // skybox
+    vector<const char*> skyboxFaces;
+    skyboxFaces.push_back("right.jpg");
+    skyboxFaces.push_back("left.jpg");
+    skyboxFaces.push_back("top.jpg");
+    skyboxFaces.push_back("bottom.jpg");
+    skyboxFaces.push_back("front.jpg");
+    skyboxFaces.push_back("back.jpg");
 
-    const char* AppleImg = "../assets/models/apple/Apple_Sphere.png";
-    const char* jpg = "../assets/textures/wall.jpg";
-    const char* CubePath = "../assets/models/teapot.obj";
-    vector<Vertex> cubeVertices;
-    OBJModelLoader::load(CubePath, cubeVertices);
-
-    Tree* teapot  = new Tree {cubeVertices};
-
-    TextureLoader::loadTexture(jpg, teapot->getTextureID());
-
-    vec3 cubeColor {0, 168, 107};
-    teapot->setColor(cubeColor);
-    teapot->setMaterial(MATERIAL_JADE);
-
-    addRenderableObject(teapot);
+    const char* skyboxPath = "../assets/models/skybox.obj";
+    vector<Vertex> skyboxVertices;
+    OBJModelLoader::load(skyboxPath, skyboxVertices);
+    Skybox* skybox = new Skybox {skyboxVertices};
+    TextureLoader::loadCubemap(skyboxFaces, skybox->getTextureID());
+    addRenderableObject(skybox);
+*/
+    // Terrain.cpp
+    const char* terrainTexture = "../assets/textures/terrain/coast_sand_rocks_02_diff_4k.jpg";
+    vector<Vertex> terrainVertices;
+    vector<GLuint> terrainIndices;
+    int numStrips;
+    int numTrisPerStrip;
+    //TextureLoader::loadTerrain("../assets/textures/height_map_africa.png", terrainVertices, terrainIndices, numStrips, numTrisPerStrip);
+    TextureLoader::simpleLoadTerrain(terrainVertices, terrainIndices);
+    //Terrain* terrain = new Terrain {terrainVertices, terrainIndices, numStrips, numTrisPerStrip};
+    Terrain* terrain = new Terrain {terrainVertices, terrainIndices};
+    TextureLoader::loadTexture(terrainTexture, terrain->getTextureID());
+    addRenderableObject(terrain);
 
     // create example object sphere
     const char* sunPath = "../assets/models/sphere.obj";
@@ -40,10 +53,28 @@ bool Scene::init(Window* pWindow) {
 
     addRenderableObject(sun);
 
+    const char* AppleImg = "../assets/models/apple/Apple_Sphere.png";
+    const char* face = "../assets/textures/awesomeface.png";
+
+    const char* CubePath = "../assets/models/cube.obj";
+    vector<Vertex> cubeVertices;
+    OBJModelLoader::load(CubePath, cubeVertices);
+
+    Tree* teapot  = new Tree {cubeVertices};
+
+    TextureLoader::loadTexture(terrainTexture, teapot->getTextureID());
+
+    vec3 cubeColor {0, 168, 107};
+    teapot->setColor(cubeColor);
+    teapot->setMaterial(MATERIAL_JADE);
+
+    addRenderableObject(teapot);
+
+
     // scene settings
-    cullFace(true);
+    cullFace(false);
     polygonModeRasterized(false);
-    depthTest(true);
+    depthTest(false);
 
     return true;
 }

@@ -2,7 +2,7 @@
 
 Camera::Camera()
     : movementSpeed {DEFAULT_SPEED}, mouseSensitivity {DEFAULT_SENSITIVITY}, fieldOfView {FOV}, yaw {DEFAULT_YAW}, pitch {DEFAULT_PITCH} {
-    this->position = {0.0f, 0.0f, 3.0f};
+    this->position = {0.0f, 2.0f, 3.0f};
     this->front = {0.0f, 0.0f, 0.0f};
     this->up = {0.0f, 1.0f, 0.0f};
 
@@ -21,7 +21,7 @@ void Camera::processKeyboard(Camera_Movement direction, float cDeltaTime) {
 
     float velocity = movementSpeed * cDeltaTime;
     if (direction == FORWARD)
-        if(position.z() >= 1) {
+        if(position.z() >= 0.5) {
             position += front * velocity;
         }
     if (direction == BACKWARD)

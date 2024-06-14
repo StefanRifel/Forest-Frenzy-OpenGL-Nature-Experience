@@ -5,6 +5,11 @@ Mesh::Mesh(const vector<Vertex>& vertices)
     init();
 }
 
+Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices)
+        : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, indices {indices}, material {materials[MATERIAL_BLACK_PLASTIC]} {
+    init();
+}
+
 Mesh::Mesh(const vector<Vertex>& vertices, const vec3& color)
     : color {color}, vertices {vertices} {
     init();
@@ -53,14 +58,14 @@ bool Mesh::init() {
     );
     glEnableVertexAttribArray(2);
 
-    /* todo when convert back to indices rendering
+
     if(indices.size() != 0) {
         //EBO
         glGenBuffers(1, &EBO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices.at(0)), GL_STATIC_DRAW);
     }
-     */
+
     return true;
 }
 

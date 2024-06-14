@@ -38,6 +38,7 @@ protected:
 
 public:
     explicit Mesh(const vector<Vertex>& vertices);
+    Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices);
     Mesh(const vector<Vertex>& vertices, const vec3& color);
     virtual ~Mesh() = default;
 
