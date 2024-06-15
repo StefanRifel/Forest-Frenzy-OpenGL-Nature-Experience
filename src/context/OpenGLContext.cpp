@@ -26,9 +26,9 @@ OpenGLContext::~OpenGLContext() {
     glfwTerminate();
 }
 
-bool OpenGLContext::init(Window* window) {
+bool OpenGLContext::init(Window* pWindow) {
     // Call parent class init
-    if(!RenderContext::init(window)) {
+    if(!RenderContext::init(pWindow)) {
         std::cerr << "ERROR::OPENGL_CONTEXT::FAILED_TO_INIT_RENDER_CONTEXT" << std::endl;
     }
 
@@ -37,27 +37,28 @@ bool OpenGLContext::init(Window* window) {
         std::cerr << "ERROR::OPENGL_CONTEXT::FAILED_TO_GLFW_INIT" << std::endl;
         return false;
     }
-
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // Initialize GLFWWindow
-    window->window = glfwCreateWindow(window->width, window->height, window->programName.c_str(), nullptr, nullptr);
-    if (!window->window) {
+    pWindow->window = glfwCreateWindow(pWindow->width, pWindow->height, pWindow->programName.c_str(), nullptr, nullptr);
+    if (!pWindow->window) {
         std::cerr << "ERROR::OPENGL_CONTEXT::FAILED_TO_CREATE_WINDOW" << std::endl;
         glfwTerminate();
         return false;
     }
 
-    glfwSetWindowUserPointer(window->window, window);
-    glfwSetFramebufferSizeCallback(window->window, framebuffer_size_callback);
-    glfwSetWindowCloseCallback(window->window, on_window_close_callback);
-    glfwSetCursorPosCallback(window->window, mouse_callback);
-    glfwSetScrollCallback(window->window, scroll_callback);
-    glfwMakeContextCurrent(window->window);
+    glfwMakeContextCurrent(pWindow->window);
+    glfwSetWindowUserPointer(pWindow->window, pWindow);
+    glfwSetFramebufferSizeCallback(pWindow->window, framebuffer_size_callback);
+    glfwSetWindowCloseCallback(pWindow->window, on_window_close_callback);
+    glfwSetCursorPosCallback(pWindow->window, mouse_callback);
+    glfwSetScrollCallback(pWindow->window, scroll_callback);
 
-    //glfwSetInputMode(window->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    // Disable the cursor and lock it to the center of the specified window.
+    // Useful for first-person camera controls.
+    glfwSetInputMode(pWindow->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     // Initialize GLEW
     if (glewInit() != GLEW_OK) {

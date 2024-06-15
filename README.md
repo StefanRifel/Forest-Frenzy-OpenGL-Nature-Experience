@@ -20,12 +20,12 @@ Präsentation: 24. - 27. Juni 2024 vergabe über Moodle
 - tag nacht zyklus 
 - skybox hinzufügen
 - Material Eigenschaften hinzufügen
-- texture manager
+- recource manager
 
 nicht wichtig:
 - FPS zähler in eigene Datei auslagern
 - Controlls auslagern in eigene Klasse
-- Camerasteuerung verbessern (gehen und springen) (An)
+
 ## Fragen zu klären
 
 - Imgui verwenden für die Gui

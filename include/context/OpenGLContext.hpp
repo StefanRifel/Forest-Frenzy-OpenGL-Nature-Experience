@@ -12,7 +12,7 @@ public:
     OpenGLContext() = default;
     ~OpenGLContext();
 
-    bool init(Window* window) override;
+    bool init(Window* pWindow) override;
     void preRender() override;
     void postRender() override;
 };

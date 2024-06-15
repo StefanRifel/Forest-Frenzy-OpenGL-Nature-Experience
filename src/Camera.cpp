@@ -2,16 +2,17 @@
 
 Camera::Camera()
     : movementSpeed {DEFAULT_SPEED}, mouseSensitivity {DEFAULT_SENSITIVITY}, fieldOfView {FOV}, yaw {DEFAULT_YAW}, pitch {DEFAULT_PITCH} {
-    this->position = {0.0f, 2.0f, 3.0f};
-    this->front = {0.0f, 0.0f, 0.0f};
-    this->up = {0.0f, 1.0f, 0.0f};
+    this->position = {0.0f, 0.0f, 0.0f};
+    this->front = {0.0f, 0.0f, -1.0f};
+    this->worldUp = {0.0f, 1.0f, 0.0f};
 
     updateCameraVectors();
 }
 
 void Camera::look(Shader& shader) {
     // set view matrix in shader
-    shader.setView(Transformation::lookAt(position, front, up, right, worldUp));
+    vec3 pf = position + front;
+    shader.setView(Transformation::lookAt(position, pf, up));
 
     // set projection matrix in shader
     shader.setProjection(Transformation::perspective(fieldOfView, ASPECT_RATIO, NEAR_PLANE, FAR_PLANE));
@@ -21,24 +22,13 @@ void Camera::processKeyboard(Camera_Movement direction, float cDeltaTime) {
 
     float velocity = movementSpeed * cDeltaTime;
     if (direction == FORWARD)
-        if(position.z() >= 0.5) {
-            position += front * velocity;
-        }
+        position += front * velocity;
     if (direction == BACKWARD)
         position -= front * velocity;
-
     if (direction == LEFT)
         position -= right * velocity;
     if (direction == RIGHT)
         position += right * velocity;
-    /*
-    if (direction == UP)
-        position += worldUp * velocity;
-    if (direction == DOWN)
-        position -= worldUp * velocity;
-    */
-    std::cout << "Position: " << position << std::endl;
-    std::cout << "Front: " << front << std::endl;
 }
 
 /**
