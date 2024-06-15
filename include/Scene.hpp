@@ -12,6 +12,7 @@
 #include "renderable/Mesh.hpp"
 #include "loader/OBJModelLoader.hpp"
 #include "loader/TextureLoader.hpp"
+#include "loader/AssetLoader.hpp"
 #include "renderable/Tree.hpp"
 #include "renderable/Terrain.hpp"
 #include "renderable/Skybox.hpp"

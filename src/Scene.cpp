@@ -12,14 +12,12 @@ bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
     // obj paths
-    const char* sunPath = "../assets/models/sphere.obj";
-    const char* cubePath = "../assets/models/cube.obj";
-    const char* skyboxPath = "../assets/models/skybox.obj";
+    std::string sunPath = AssetLoader::getModelPath("sphere.obj");
+    std::string cubePath = AssetLoader::getModelPath("cube.obj");
+    std::string skyboxPath = AssetLoader::getModelPath("skybox.obj");
 
     // texture paths
-    const char* appleImg = "../assets/models/apple/Apple_Sphere.png";
-    const char* face = "../assets/textures/awesomeface.png";
-    const char* terrainTexture = "../assets/textures/terrain/coast_sand_rocks_02_diff_4k.jpg";
+    std::string terrainTexture = AssetLoader::getTexturePath("coast_sand_rocks_02_diff_4k.jpg");
 
     vector<const char*> skyboxFaces;
     skyboxFaces.push_back("right.png");

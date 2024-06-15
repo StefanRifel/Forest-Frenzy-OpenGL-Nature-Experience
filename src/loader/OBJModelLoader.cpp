@@ -11,7 +11,7 @@
  * @param outVertices A reference to a vector that will store the loaded vertex data (vertices, normals, textures).
  * @return true if the model was successfully loaded, false otherwise.
  */
-bool OBJModelLoader::load(const char* path, vector<Vertex>& outVertices) {
+bool OBJModelLoader::load(const std::string& path, vector<Vertex>& outVertices) {
     vector<GLuint> vertexIndices, normalIndices, textureIndices;
     vector<vec3> tempVertices, tempNormals;
     vector<vec2> tempTextures;

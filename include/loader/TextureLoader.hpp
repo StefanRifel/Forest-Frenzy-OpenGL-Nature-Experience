@@ -10,7 +10,7 @@
 
 class TextureLoader {
 public:
-    static void loadTexture(const char* texturePath, GLuint& textureID);
+    static void loadTexture(const std::string& texturePath, GLuint& textureID);
     static void loadTerrain(const char* texturePath, vector<Vertex>& terrainVertices, vector<unsigned int>& indices, int& numStrips, int& numTrisPerStrip);
     static void simpleLoadTerrain(vector<Vertex>& terrainVertices, vector<unsigned int>& indices);
     static void loadCubemap(vector<const char*> faces, GLuint& textureID);

@@ -27,7 +27,7 @@
 class OBJModelLoader {
 
 public:
-    static bool load(const char* path, vector<Vertex>& outVertices);
+    static bool load(const std::string& path, vector<Vertex>& outVertices);
 };
 
 #endif
