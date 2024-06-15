@@ -7,10 +7,10 @@ Sun::Sun(const vector<Vertex> &vertices)
     }
 }
 
-void Sun::draw() const {
-    Mesh::draw();
+void Sun::draw(Camera& camera) const {
+    Mesh::draw(camera);
     shader.setVec3("objColor", color);
-
+    shader.setView(camera.getView());
     // add Transformation here
     mat4 model {1.0f};
     //vec3 scale {0.5, 0.5, 0.5};
@@ -23,4 +23,5 @@ void Sun::draw() const {
     //glPrimitiveRestartIndex(0xFFFF);
     //glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
     glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+    glBindVertexArray(0);
 }

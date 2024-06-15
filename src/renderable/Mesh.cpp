@@ -26,6 +26,7 @@ bool Mesh::init() {
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices.at(0)), GL_STATIC_DRAW);
 
     // Position
+    glEnableVertexAttribArray(0);
     glVertexAttribPointer(
         0,                      // location attribute number in vertex shader
         3,                       // size of the vertex attribute
@@ -34,9 +35,9 @@ bool Mesh::init() {
         sizeof(Vertex),        // stride and tells us the space between consecutive vertex attributes
         (void*)nullptr        // offset of where the position data begins in the buffer
     );
-    glEnableVertexAttribArray(0);
 
     // Normal
+    glEnableVertexAttribArray(1);
     glVertexAttribPointer(
         1,
         3,
@@ -45,9 +46,9 @@ bool Mesh::init() {
         sizeof(Vertex),
         (void*)(sizeof(vec3))
     );
-    glEnableVertexAttribArray(1);
 
     // Texture
+    glEnableVertexAttribArray(2);
     glVertexAttribPointer(
             2,
             2,
@@ -56,7 +57,6 @@ bool Mesh::init() {
             sizeof(Vertex),
             (void*)(2 * sizeof(vec3))
     );
-    glEnableVertexAttribArray(2);
 
 
     if(indices.size() != 0) {
@@ -69,9 +69,10 @@ bool Mesh::init() {
     return true;
 }
 
-void Mesh::draw() const {
+void Mesh::draw(Camera& camera) const {
     shader.use();
     glBindVertexArray(VAO);
+    shader.setProjection(camera.getPerspective());
 }
 
 void Mesh::setColor(vec3 color) {

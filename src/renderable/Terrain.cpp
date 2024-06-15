@@ -13,8 +13,11 @@ Terrain::Terrain(const vector<Vertex> &vertices, const vector<GLuint> &indices) 
     }
 }
 
-void Terrain::draw() const {
-    Mesh::draw();
+void Terrain::draw(Camera& camera) const {
+    Mesh::draw(camera);
+
+    shader.setView(camera.getView());
+
     shader.setVec3("objColor", color);
 
     shader.setInt("texture1", 0);

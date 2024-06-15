@@ -13,7 +13,7 @@ public:
     Terrain(const vector<Vertex>& vertices, const vector<GLuint>& indices);
     ~Terrain() override = default;
 
-    void draw() const override;
+    void draw(Camera& camera) const override;
 };
 
 #endif

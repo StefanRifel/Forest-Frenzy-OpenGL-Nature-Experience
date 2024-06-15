@@ -9,7 +9,7 @@ public:
     explicit Skybox(const vector<Vertex>& vertices);
     ~Skybox() override = default;
 
-    void draw() const override;
+    void draw(Camera& camera) const override;
 };
 
 #endif

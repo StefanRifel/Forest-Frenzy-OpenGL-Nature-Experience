@@ -2,13 +2,17 @@
 
 Tree::Tree(const vector<Vertex>& vertices)
     : Mesh {vertices} {
-    if(!shader.createShader("../shaders/mesh_vert.glsl", "../shaders/lighting_frag.glsl")) {
+    if(!shader.createShader("../shaders/skybox/cubemaps_vert.glsl", "../shaders/skybox/cubemaps_frag.glsl")) {
         std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
     }
 }
 
-void Tree::draw() const {
-    Mesh::draw();
+void Tree::draw(Camera& camera) const {
+    Mesh::draw(camera);
+    shader.setInt("skybox", 0);
+
+
+    /*
     shader.setVec3("objColor", color);
 
     vec3 lightColor {1.0f, 1.0f, 1.0f};
@@ -29,16 +33,23 @@ void Tree::draw() const {
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
-
+*/
     // add Transformation here
+
+    shader.setView(camera.getView());
+
     mat4 model {1.0f};
-    //vec3 scale {5, 5, 5};
-    //model = Transformation::scale(model, scale);
     shader.setModel(model);
 
+    shader.setVec3("cameraPos", camera.getPosition());
+
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
     //glEnable(GL_PRIMITIVE_RESTART);
     //glPrimitiveRestartIndex(0xFFFF);
     //glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
 
     glDrawArrays(GL_TRIANGLES, 0, vertices.size());
+    glBindVertexArray(0);
 }

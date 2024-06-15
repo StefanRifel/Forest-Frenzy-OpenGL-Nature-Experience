@@ -4,6 +4,7 @@
 #include "Vertex.h"
 #include "Material.h"
 #include "../Shader.hpp"
+#include "../Camera.hpp"
 
 #include "../Transformation.hpp"
 
@@ -44,7 +45,7 @@ public:
 
     Shader& getShader();
 
-    virtual void draw() const;
+    virtual void draw(Camera& camera) const;
     void setColor(vec3 color);
     void setMaterial(MaterialType type);
     GLuint& getTextureID();

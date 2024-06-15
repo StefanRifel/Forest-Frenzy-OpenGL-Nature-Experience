@@ -6,10 +6,10 @@
 class Sun : public Mesh {
 
 public:
-    Sun(const vector<Vertex>& vertices);
+    explicit Sun(const vector<Vertex>& vertices);
     ~Sun() override = default;
 
-    void draw() const override;
+    void draw(Camera& camera) const override;
 };
 
 #endif
