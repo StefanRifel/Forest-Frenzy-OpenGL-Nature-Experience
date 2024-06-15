@@ -144,15 +144,12 @@ void TextureLoader::loadCubemap(vector<const char*> faces, GLuint& textureID) {
     int width, height, nrChannels;
     for (unsigned int i = 0; i < faces.size(); i++) {
         unsigned char *data = stbi_load((path + faces.at(i)).c_str(), &width, &height, &nrChannels, 0);
-        if (data)
-        {
+        if (data) {
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                         0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
-            );
+                         0, GL_RGB, width, height, 0, nrChannels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
             stbi_image_free(data);
         }
-        else
-        {
+        else {
             std::cout << "Cubemap tex failed to load at path: " << faces.at(i) << std::endl;
             stbi_image_free(data);
         }
