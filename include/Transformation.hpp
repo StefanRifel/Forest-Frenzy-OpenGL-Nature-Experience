@@ -53,6 +53,8 @@ public:
     static float dot(vec3& a, vec3& b);
 
     static GLfloat radiant(GLfloat angle);
+
+    static void removeTranslation(mat4& mat);
 };
 
 #endif

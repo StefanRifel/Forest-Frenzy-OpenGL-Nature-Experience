@@ -248,3 +248,12 @@ mat4 Transformation::perspective(float fov, float aspect, float near, float far)
 GLfloat Transformation::radiant(GLfloat angle) {
     return (GLfloat)(angle * M_PI /180);
 }
+
+void Transformation::removeTranslation(mat4 &mat) {
+    mat[0][3] = 0.0f;
+    mat[1][3] = 0.0f;
+    mat[2][3] = 0.0f;
+    mat[3][0] = 0.0f;
+    mat[3][1] = 0.0f;
+    mat[3][2] = 0.0f;
+}

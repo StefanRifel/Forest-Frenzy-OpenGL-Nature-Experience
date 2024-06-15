@@ -9,13 +9,13 @@ Camera::Camera()
     updateCameraVectors();
 }
 
-void Camera::look(Shader& shader) {
+void Camera::look() {
     // set view matrix in shader
     vec3 pf = position + front;
-    shader.setView(Transformation::lookAt(position, pf, up));
+    this->view = Transformation::lookAt(position, pf, up);
 
     // set projection matrix in shader
-    shader.setProjection(Transformation::perspective(fieldOfView, ASPECT_RATIO, NEAR_PLANE, FAR_PLANE));
+    this->perspective = Transformation::perspective(fieldOfView, ASPECT_RATIO, NEAR_PLANE, FAR_PLANE);
 }
 
 void Camera::processKeyboard(Camera_Movement direction, float cDeltaTime) {
@@ -70,4 +70,16 @@ void Camera::zoomWithMouseScroll(float yOffset) {
     if (fieldOfView > 120.0f) {
         fieldOfView = 120.0f;
     }
+}
+
+mat4& Camera::getView() {
+    return view;
+}
+
+const mat4& Camera::getPerspective() const {
+    return perspective;
+}
+
+const vec3 &Camera::getPosition() const {
+    return position;
 }

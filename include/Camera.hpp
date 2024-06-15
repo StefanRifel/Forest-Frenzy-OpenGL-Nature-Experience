@@ -7,8 +7,6 @@
 #include "../libs/SMath/include/mat4.hpp"
 #include "Transformation.hpp"
 
-#include "Shader.hpp"
-
 enum Camera_Movement {
     FORWARD,
     BACKWARD,
@@ -60,6 +58,9 @@ private:
     vec3 right;                     ///< Camera right direction
     vec3 worldUp;                   ///< World's up direction
 
+    mat4 view;
+    mat4 perspective;
+
     // Camera rotation
     float yaw;                      ///< Camera yaw (horizontal rotation)
     float pitch;                    ///< Camera pitch (vertical rotation)
@@ -89,7 +90,12 @@ public:
     float lastFrame = 0.0f;         ///< Time of the last frame
 
     Camera();
-    void look(Shader& shader);
+    void look();
+
+    mat4 &getView();
+    const mat4& getPerspective() const;
+
+    const vec3 &getPosition() const;
 
     void processKeyboard(Camera_Movement direction, float deltaTime);
     void processMouseMovement(float xPos, float yPos, GLboolean constrainPitch);
