@@ -35,7 +35,7 @@ public:
     * @param fragmentPath Path to the fragment shader source file.
     * @return True if the shader program was created successfully, false otherwise.
     */
-    bool createShader(const char* vertexPath, const char* fragmentPath);
+    bool createShader(const std::string& vertexPath, const std::string& fragmentPath);
     /**
      * @brief Activates the shader program for rendering.
      */

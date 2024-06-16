@@ -2,8 +2,8 @@
 
 Skybox::Skybox(const vector<Vertex>& vertices)
         : Mesh {vertices} {
-    if(!shader.createShader("../shaders/skybox/skybox_vert.glsl", "../shaders/skybox/skybox_frag.glsl")) {
-        std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
+    if(!shader.createShader(AssetLoader::getShaderPath("skybox_vert.glsl"), AssetLoader::getShaderPath("skybox_frag.glsl"))) {
+        std::cerr << "ERROR::SKYBOX::FAILED_TO_CREATE_SHADER" << std::endl;
     }
 }
 

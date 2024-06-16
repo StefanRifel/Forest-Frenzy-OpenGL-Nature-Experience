@@ -6,6 +6,8 @@
 #include "../Shader.hpp"
 #include "../Camera.hpp"
 
+#include "../loader/AssetLoader.hpp"
+
 #include "../Transformation.hpp"
 
 #include "../../libs/SMath/include/vec3.hpp"

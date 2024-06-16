@@ -2,7 +2,7 @@
 
 Tree::Tree(const vector<Vertex>& vertices)
     : Mesh {vertices} {
-    if(!shader.createShader("../shaders/skybox/cubemaps_vert.glsl", "../shaders/skybox/cubemaps_frag.glsl")) {
+    if(!shader.createShader(AssetLoader::getShaderPath("cubemaps_vert.glsl"), AssetLoader::getShaderPath("cubemaps_frag.glsl"))) {
         std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
     }
 }

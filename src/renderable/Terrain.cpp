@@ -2,13 +2,13 @@
 
 Terrain::Terrain(const vector<Vertex>& vertices,  const vector<GLuint>& indices, int& numStrips, int& numTrisPerStrip)
         : Mesh {vertices, indices}, numStrips {numStrips}, numTrisPerStrip {numTrisPerStrip} {
-    if(!shader.createShader("../shaders/terrain_vert.glsl", "../shaders/terrain_frag.glsl")) {
+    if(!shader.createShader(AssetLoader::getShaderPath("terrain_vert.glsl"), AssetLoader::getShaderPath("terrain_frag.glsl"))) {
         std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
     }
 }
 
 Terrain::Terrain(const vector<Vertex> &vertices, const vector<GLuint> &indices) : Mesh(vertices, indices) {
-    if(!shader.createShader("../shaders/terrain_vert.glsl", "../shaders/terrain_frag.glsl")) {
+    if(!shader.createShader(AssetLoader::getShaderPath("terrain_vert.glsl"), AssetLoader::getShaderPath("terrain_frag.glsl"))) {
         std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
     }
 }

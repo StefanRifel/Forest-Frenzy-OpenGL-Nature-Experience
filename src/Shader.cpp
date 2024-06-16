@@ -5,15 +5,15 @@ void Shader::use() const {
     glUseProgram(ID);
 }
 
-bool Shader::createShader(const char* vertexPath, const char* fragmentPath) {
+bool Shader::createShader(const std::string& vertexPath, const std::string& fragmentPath) {
     // 1. Retrieve the vertex/fragment source code from filePath
     std::string vertexSource;
     std::string fragmentSource;
 
     // Read shader files
     try {
-        vertexSource = readFile(vertexPath);
-        fragmentSource = readFile(fragmentPath);
+        vertexSource = readFile(vertexPath.c_str());
+        fragmentSource = readFile(fragmentPath.c_str());
     } catch (const std::ifstream::failure& e) {
         std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ\n" << e.what() << std::endl;
         return false;

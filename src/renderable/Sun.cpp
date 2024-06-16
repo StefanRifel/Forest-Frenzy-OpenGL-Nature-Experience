@@ -2,7 +2,7 @@
 
 Sun::Sun(const vector<Vertex> &vertices)
     : Mesh(vertices) {
-    if(!shader.createShader("../shaders/mesh_vert.glsl", "../shaders/sun_frag.glsl")) {
+    if(!shader.createShader(AssetLoader::getShaderPath("mesh_vert.glsl"), AssetLoader::getShaderPath("sun_frag.glsl"))) {
         std::cerr << "ERROR::SUN::FAILED_TO_CREATE_SHADER" << std::endl;
     }
 }
