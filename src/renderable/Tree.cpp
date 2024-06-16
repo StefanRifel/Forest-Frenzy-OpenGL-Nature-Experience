@@ -2,19 +2,15 @@
 
 Tree::Tree(const vector<Vertex>& vertices)
     : Mesh {vertices} {
-    if(!shader.createShader(AssetLoader::getShaderPath("cubemaps_vert.glsl"), AssetLoader::getShaderPath("cubemaps_frag.glsl"))) {
+    if(!shader.createShader(AssetLoader::getShaderPath("jacaranda_tree_vert.glsl"), AssetLoader::getShaderPath("jacaranda_tree_frag.glsl"))) {
         std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
     }
 }
 
 void Tree::draw(Camera& camera) const {
     Mesh::draw(camera);
-    shader.setInt("skybox", 0);
-
-
-    /*
     shader.setVec3("objColor", color);
-
+/*
     vec3 lightColor {1.0f, 1.0f, 1.0f};
     shader.setVec3("lightColor", lightColor);
 
@@ -39,13 +35,15 @@ void Tree::draw(Camera& camera) const {
     shader.setView(camera.getView());
 
     mat4 model {1.0f};
+    vec3 translate {0.0f, 0.1f, 0.0f};
+    model = Transformation::translate(model, translate);
+
     shader.setModel(model);
+    //shader.setVec3("cameraPos", camera.getPosition());
 
-    shader.setVec3("cameraPos", camera.getPosition());
 
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+    //glActiveTexture(GL_TEXTURE0);
+    //glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
     //glEnable(GL_PRIMITIVE_RESTART);
     //glPrimitiveRestartIndex(0xFFFF);
     //glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);

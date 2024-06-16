@@ -25,6 +25,9 @@ public:
     GLfloat& x();
     GLfloat& y();
     GLfloat& z();
+    GLfloat& r();
+    GLfloat& g();
+    GLfloat& b();
     const GLfloat& r() const;
     const GLfloat& g() const;
     const GLfloat& b() const;

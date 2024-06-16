@@ -43,6 +43,18 @@ const GLfloat& vec3::b() const {
     return vector[2];
 }
 
+GLfloat& vec3::r() {
+    return vector[0];
+}
+
+GLfloat& vec3::g() {
+    return vector[1];
+}
+
+GLfloat& vec3::b() {
+    return vector[2];
+}
+
 GLfloat vec3::length() const {
     return sqrt(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
 }
