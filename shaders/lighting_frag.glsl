@@ -1,10 +1,14 @@
 #version 330 core
 
 struct Material {
+    vec3 emissive;
     vec3 ambient;       // Ambient reflectivity of the material
     vec3 diffuse;       // Diffuse reflectivity of the material
     vec3 specular;      // Specular reflectivity of the material
     float shininess;    // Shininess coefficient for specular highlights
+    float density;
+    float dissolve;
+    float illumination;
 };
 
 out vec4 FragColor;

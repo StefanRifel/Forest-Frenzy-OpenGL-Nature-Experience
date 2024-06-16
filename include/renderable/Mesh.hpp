@@ -3,10 +3,14 @@
 
 #include "Vertex.h"
 #include "Material.h"
+#include "Face.h"
+
 #include "../Shader.hpp"
 #include "../Camera.hpp"
 
 #include "../loader/AssetLoader.hpp"
+#include "../../include/loader/OBJModelLoader.hpp"
+#include "../../include/loader/TextureLoader.hpp"
 
 #include "../Transformation.hpp"
 
@@ -27,30 +31,24 @@
  */
 class Mesh {
 
-private:
+protected:
     bool init();
 
 protected:
     GLuint VAO {0}, VBO {0}, EBO {0}, textureID {0};
     vector<Vertex> vertices;
-    vector<GLuint> indices;
-    vector<vec3> normals;
+    Face faces;
+    vector<Material> materials;
     Shader shader;
-    Material material;
-    vec3 color;
 
 public:
-    explicit Mesh(const vector<Vertex>& vertices);
-    Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices);
-    Mesh(const vector<Vertex>& vertices, const vec3& color);
+    Mesh();
+    explicit Mesh(const std::string& objFile);
     virtual ~Mesh() = default;
 
-    Shader& getShader();
-
     virtual void draw(Camera& camera) const;
-    void setColor(vec3 color);
-    void setMaterial(MaterialType type);
-    GLuint& getTextureID();
+
+    void setTexture(const std::string& textureFile);
 }; 
 
 #endif

@@ -11,59 +11,21 @@ Scene::~Scene() {
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
-    // obj paths
-    std::string sunPath = AssetLoader::getModelPath("sphere.obj");
-    std::string cubePath = AssetLoader::getModelPath("cube.obj");
-    std::string skyboxPath = AssetLoader::getModelPath("skybox.obj");
-
-    // texture paths
-    std::string terrainTexture = AssetLoader::getTexturePath("coast_sand_rocks_02_diff_4k.jpg");
-
-    vector<const char*> skyboxFaces;
-    skyboxFaces.push_back("right.png");
-    skyboxFaces.push_back("left.png");
-    skyboxFaces.push_back("top.png");
-    skyboxFaces.push_back("bottom.png");
-    skyboxFaces.push_back("front.png");
-    skyboxFaces.push_back("back.png");
-
-
-    // terrain
-    vector<Vertex> terrainVertices;
-    vector<GLuint> terrainIndices;
-    TextureLoader::simpleLoadTerrain(terrainVertices, terrainIndices);
-    Terrain* terrain = new Terrain {terrainVertices, terrainIndices};
-    TextureLoader::loadTexture(terrainTexture, terrain->getTextureID());
-
-
-    // create example object sphere
-    vector<Vertex> sunVertices;
-    OBJModelLoader::load(sunPath, sunVertices);
-    Sun* sun = new Sun {sunVertices};
-    vec3 sunColor {253, 251, 211};
-    sun->setColor(sunColor);
-    //sun->setMaterial(MATERIAL_GOLD);
-
     // create example cube
-    vector<Vertex> cubeVertices;
-    OBJModelLoader::load(cubePath, cubeVertices);
-    Tree* teapot  = new Tree {cubeVertices};
-    //TextureLoader::loadTexture(face, teapot->getTextureID());
-    TextureLoader::loadCubemap(skyboxFaces, teapot->getTextureID());
-    vec3 cubeColor {0, 168, 107};
-    teapot->setColor(cubeColor);
-    teapot->setMaterial(MATERIAL_JADE);
+    Terrain* terrain = new Terrain {};
+    terrain->setTexture("coast_sand_rocks_02_diff_4k.jpg");
 
+    Tree* test  = new Tree {"jacaranda_tree_4k.obj"};
+    test->setTexture("jacaranda_tree_trunk_diff_4k.png");
 
-    // skybox
-    vector<Vertex> skyboxVertices;
-    OBJModelLoader::load(skyboxPath, skyboxVertices);
-    Skybox* skybox = new Skybox {skyboxVertices};
-    TextureLoader::loadCubemap(skyboxFaces, skybox->getTextureID());
+    Sun* sun = new Sun {"sphere.obj"};
+
+    Skybox* skybox = new Skybox {"skybox.obj"};
+    skybox->setCubeMap();
 
     addRenderableObject(terrain);
+    addRenderableObject(test);
     addRenderableObject(sun);
-    addRenderableObject(teapot);
     addRenderableObject(skybox);
 
     // scene settings

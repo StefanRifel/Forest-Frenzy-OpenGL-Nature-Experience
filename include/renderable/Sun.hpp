@@ -6,7 +6,7 @@
 class Sun : public Mesh {
 
 public:
-    explicit Sun(const vector<Vertex>& vertices);
+    explicit Sun(const std::string& objFile);
     ~Sun() override = default;
 
     void draw(Camera& camera) const override;

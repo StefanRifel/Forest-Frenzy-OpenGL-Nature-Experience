@@ -6,7 +6,7 @@
 class Tree : public Mesh {
 
 public:
-    explicit Tree(const vector<Vertex>& vertices);
+    explicit Tree(const std::string& objFile);
     ~Tree() override = default;
 
     void draw(Camera& camera) const override;

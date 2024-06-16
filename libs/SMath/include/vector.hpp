@@ -15,6 +15,7 @@ public:
     void push_back(const T& element);
     void pop_back();
     T& at(int index);
+    const T& at(int index) const;
     [[nodiscard]] int size() const { return length; }
     [[nodiscard]] size_t capacity() const { return storage; }
     
@@ -89,6 +90,14 @@ void vector<T>::pop_back() {
 
 template <typename T>
 T& vector<T>::at(int index) {
+    if (index >= length || index < 0) {
+        throw std::out_of_range("Index out of range");
+    }
+    return data[index];
+}
+
+template <typename T>
+const T& vector<T>::at(int index) const {
     if (index >= length || index < 0) {
         throw std::out_of_range("Index out of range");
     }

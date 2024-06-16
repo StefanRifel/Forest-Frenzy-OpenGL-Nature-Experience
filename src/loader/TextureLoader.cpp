@@ -3,11 +3,11 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../libs/LoadImg/stb_image.h"
 
-void TextureLoader::loadTexture(const std::string& texturePath, GLuint& textureID) {
+void TextureLoader::loadTexture(const std::string& textureFile, GLuint& textureID) {
     int width, height, channels;
-    unsigned char* data = stbi_load(texturePath.c_str(), &width, &height, &channels, 0);
+    unsigned char* data = stbi_load(AssetLoader::getTexturePath(textureFile).c_str(), &width, &height, &channels, 0);
     if (!data) {
-        std::cerr << "Failed to load texture: " << texturePath << std::endl;
+        std::cerr << "Failed to load texture: " << textureFile << std::endl;
     }
 
     glGenTextures(1, &textureID);

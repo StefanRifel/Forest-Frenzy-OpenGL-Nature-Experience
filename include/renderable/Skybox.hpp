@@ -6,10 +6,12 @@
 class Skybox : public Mesh {
 
 public:
-    explicit Skybox(const vector<Vertex>& vertices);
+    explicit Skybox(const std::string& objFile);
     ~Skybox() override = default;
 
     void draw(Camera& camera) const override;
+
+    void setCubeMap();
 };
 
 #endif

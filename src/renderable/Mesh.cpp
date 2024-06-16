@@ -1,19 +1,13 @@
 #include "../../include/renderable/Mesh.hpp"
 
-Mesh::Mesh(const vector<Vertex>& vertices)
-    : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, material {MATERIALS[MATERIAL_BLACK_PLASTIC]} {
+Mesh::Mesh(const std::string& objFile) {
+    if (!OBJModelLoader::loadObj(objFile ,vertices, faces, materials)) {
+        std::cerr << "fail" << std::endl;
+    }
     init();
 }
 
-Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices)
-        : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, indices {indices}, material {MATERIALS[MATERIAL_BLACK_PLASTIC]} {
-    init();
-}
-
-Mesh::Mesh(const vector<Vertex>& vertices, const vec3& color)
-    : color {color}, vertices {vertices} {
-    init();
-}
+Mesh::Mesh() = default;
 
 bool Mesh::init() {
     // VAO
@@ -58,12 +52,11 @@ bool Mesh::init() {
             (void*)(2 * sizeof(vec3))
     );
 
-
-    if(indices.size() != 0) {
+    if(faces.vertexIndices.size() != 0) {
         //EBO
         glGenBuffers(1, &EBO);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices.at(0)), GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, faces.vertexIndices.size() * sizeof(GLuint), &(faces.vertexIndices.at(0)), GL_STATIC_DRAW);
     }
 
     return true;
@@ -75,20 +68,6 @@ void Mesh::draw(Camera& camera) const {
     shader.setProjection(camera.getPerspective());
 }
 
-void Mesh::setColor(vec3 color) {
-    this->color.x() = ((100.0f / 255) * color.x()) / 100;
-    this->color.y() = ((100.0f / 255) * color.y()) / 100;
-    this->color.z() = ((100.0f / 255) * color.z()) / 100;
-}
-
-Shader &Mesh::getShader() {
-    return shader;
-}
-
-void Mesh::setMaterial(MaterialType type) {
-    this->material = MATERIALS[type];
-}
-
-GLuint& Mesh::getTextureID() {
-    return textureID;
+void Mesh::setTexture(const std::string& textureFile) {
+    TextureLoader::loadTexture(textureFile, textureID);
 }

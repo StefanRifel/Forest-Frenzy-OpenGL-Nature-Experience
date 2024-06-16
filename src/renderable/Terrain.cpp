@@ -1,24 +1,19 @@
 #include "../../include/renderable/Terrain.hpp"
 
-Terrain::Terrain(const vector<Vertex>& vertices,  const vector<GLuint>& indices, int& numStrips, int& numTrisPerStrip)
-        : Mesh {vertices, indices}, numStrips {numStrips}, numTrisPerStrip {numTrisPerStrip} {
+Terrain::Terrain() {
     if(!shader.createShader(AssetLoader::getShaderPath("terrain_vert.glsl"), AssetLoader::getShaderPath("terrain_frag.glsl"))) {
         std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
     }
-}
 
-Terrain::Terrain(const vector<Vertex> &vertices, const vector<GLuint> &indices) : Mesh(vertices, indices) {
-    if(!shader.createShader(AssetLoader::getShaderPath("terrain_vert.glsl"), AssetLoader::getShaderPath("terrain_frag.glsl"))) {
-        std::cerr << "ERROR::TREE::FAILED_TO_CREATE_SHADER" << std::endl;
-    }
+    TextureLoader::simpleLoadTerrain(vertices, faces.vertexIndices);
+
+    Mesh::init();
 }
 
 void Terrain::draw(Camera& camera) const {
     Mesh::draw(camera);
 
     shader.setView(camera.getView());
-
-    shader.setVec3("objColor", color);
 
     shader.setInt("texture1", 0);
 
@@ -33,7 +28,7 @@ void Terrain::draw(Camera& camera) const {
 
     //glEnable(GL_PRIMITIVE_RESTART);
     //glPrimitiveRestartIndex(0xFFFF);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
+    glDrawElements(GL_TRIANGLES, faces.vertexIndices.size(), GL_UNSIGNED_INT, nullptr);
 
     //glDrawArrays(GL_TRIANGLES, 0, vertices.size());
 

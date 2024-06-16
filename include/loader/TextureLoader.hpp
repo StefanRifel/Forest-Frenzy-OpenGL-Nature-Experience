@@ -6,6 +6,8 @@
 
 #include "../renderable/Vertex.h"
 
+#include "AssetLoader.hpp"
+
 #include "../../libs/SMath/include/vector.hpp"
 
 class TextureLoader {

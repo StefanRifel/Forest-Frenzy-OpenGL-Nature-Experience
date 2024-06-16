@@ -15,7 +15,7 @@
 /**
  * @brief The Shader class encapsulates the functionality for creating, using, and managing OpenGL shaders.
  *
- * This class provides methods to load and compile vertex and fragment shaders from files, link them into a shader program,
+ * This class provides methods to loadObj and compile vertex and fragment shaders from files, link them into a shader program,
  * and set various types of uniform variables in the shaders.
  */
 class Shader {
