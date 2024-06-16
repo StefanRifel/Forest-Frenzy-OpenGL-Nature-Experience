@@ -2,7 +2,7 @@
 
 Camera::Camera()
     : movementSpeed {DEFAULT_SPEED}, mouseSensitivity {DEFAULT_SENSITIVITY}, fieldOfView {FOV}, yaw {DEFAULT_YAW}, pitch {DEFAULT_PITCH} {
-    this->position = {0.0f, 0.0f, 0.0f};
+    this->position = {0.0f, 2.0f, 0.0f};
     this->front = {0.0f, 0.0f, -1.0f};
     this->worldUp = {0.0f, 1.0f, 0.0f};
 
