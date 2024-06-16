@@ -3,9 +3,8 @@
 
 #include "../../libs/SMath/include/vec3.hpp"
 
-class Material {
-public:
-    std::string mtlName;
+typedef struct {
+    char mtlName[64];
     vec3 emissive;    ///< Ke
     vec3 ambient;     ///< Ka
     vec3 diffuse;     ///< Kd
@@ -16,7 +15,7 @@ public:
     float dissolve;   ///< d
 
     float illumination; ///< illum
-};
+} Material;
 
 enum MaterialType {
     MATERIAL_GOLD,
@@ -28,7 +27,7 @@ enum MaterialType {
     MATERIAL_COUNT
 };
 
-const Material materials[MATERIAL_COUNT] = {
+const Material MATERIALS[MATERIAL_COUNT] = {
         {
                 "Gold",
                 vec3(0.0f, 0.0f, 0.0f), // emissive

@@ -1,12 +1,12 @@
 #include "../../include/renderable/Mesh.hpp"
 
 Mesh::Mesh(const vector<Vertex>& vertices)
-    : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, material {materials[MATERIAL_BLACK_PLASTIC]} {
+    : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, material {MATERIALS[MATERIAL_BLACK_PLASTIC]} {
     init();
 }
 
 Mesh::Mesh(const vector<Vertex>& vertices, const vector<GLuint>& indices)
-        : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, indices {indices}, material {materials[MATERIAL_BLACK_PLASTIC]} {
+        : color {0.04f, 0.38f, 0.69f}, vertices {vertices}, indices {indices}, material {MATERIALS[MATERIAL_BLACK_PLASTIC]} {
     init();
 }
 
@@ -86,7 +86,7 @@ Shader &Mesh::getShader() {
 }
 
 void Mesh::setMaterial(MaterialType type) {
-    this->material = materials[type];
+    this->material = MATERIALS[type];
 }
 
 GLuint& Mesh::getTextureID() {
