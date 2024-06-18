@@ -3,16 +3,12 @@
 const std::string AssetLoader::assetsBasePath = "../assets";
 const std::string AssetLoader::shaderBasePath = "../shaders";
 
-std::string AssetLoader::getTexturePath(const std::string& filename) {
+std::string AssetLoader::getAssetPath(const std::string& filename) {
     return searchForFile(assetsBasePath, filename);
 }
 
 std::string AssetLoader::getShaderPath(const std::string& filename) {
     return searchForFile(shaderBasePath, filename);
-}
-
-std::string AssetLoader::getModelPath(const std::string& filename) {
-    return searchForFile(assetsBasePath, filename);
 }
 
 std::string AssetLoader::searchForFile(const std::string& directory, const std::string& filename) {

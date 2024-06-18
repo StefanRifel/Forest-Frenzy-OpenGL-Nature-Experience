@@ -20,7 +20,7 @@ enum Camera_Movement {
 const float FOV = 90.0f;
 const float ASPECT_RATIO = 1024.0f / 768.0f;
 const float NEAR_PLANE = 0.1f;
-const float FAR_PLANE = 10000.0f;
+const float FAR_PLANE = 100.0f;
 
 const float DEFAULT_YAW         = -90.0f;
 const float DEFAULT_PITCH       = 0.0f;

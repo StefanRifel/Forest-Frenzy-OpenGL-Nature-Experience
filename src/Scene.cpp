@@ -1,4 +1,5 @@
 #include "../include/Scene.hpp"
+#include "../include/renderable/Model.h"
 
 Scene::Scene() : window {nullptr} {}
 
@@ -11,22 +12,8 @@ Scene::~Scene() {
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
-    // create example cube
-    Terrain* terrain = new Terrain {};
-    terrain->setTexture("coast_sand_rocks_02_diff_4k.jpg");
-
-    Tree* test  = new Tree {"jacaranda_tree_4k.obj"};
-    test->setTexture("jacaranda_tree_trunk_diff_4k.png");
-
-    Sun* sun = new Sun {"sphere.obj"};
-
-    Skybox* skybox = new Skybox {"skybox.obj"};
-    skybox->setCubeMap();
-
-    addRenderableObject(terrain);
-    addRenderableObject(test);
-    addRenderableObject(sun);
-    addRenderableObject(skybox);
+    auto* model = new Model {"street_rat_1k"};
+    addRenderableModelObject(model);
 
     // scene settings
     cullFace(false);
@@ -41,9 +28,9 @@ void Scene::addRenderableObject(Mesh* object) {
 }
 
 void Scene::render() {
-    for (Mesh* obj : renderable) {
-        camera.look();
-        obj->draw(camera);
+    camera.look();
+    for (Model* model: renderableModel) {
+        model->draw(camera);
     }
 }
 

@@ -7,9 +7,8 @@
 
 class AssetLoader {
 public:
-    static std::string getTexturePath(const std::string& filename);
+    static std::string getAssetPath(const std::string& filename);
     static std::string getShaderPath(const std::string& filename);
-    static std::string getModelPath(const std::string& filename);
 
 private:
     static const std::string assetsBasePath;

@@ -1,5 +1,5 @@
-#ifndef FACE_H
-#define FACE_H
+#ifndef FACE_HH
+#define FACE_HH
 
 #include "../../libs/SMath/include/vector.hpp"
 

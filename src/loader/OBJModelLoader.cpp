@@ -1,75 +1,93 @@
 #include "../../include/loader/OBJModelLoader.hpp"
 
-/**
- * @brief Loads a 3D model from a file in the OBJ format.
- *
- * This function reads a 3D model file specified by the given path. It parses the file to extract vertex positions,
- * vertex normals, and face indices. The parsed data is stored in the provided output vectors for vertices and indices.
- *
- * @param path The file path to the model file to be loaded.
- * @param outVertices A reference to a vector that will store the loaded vertex data (vertices, normals, textures).
- * @return true if the model was successfully loaded, false otherwise.
- */
+unsigned int OBJModelLoader::LAST_VERTX_INDEX = 0;
+unsigned int OBJModelLoader::LAST_NORMAL_INDEX = 0;
+unsigned int OBJModelLoader::LAST_TEXTURE_INDEX = 0;
 
+void OBJModelLoader::loadMtl(const std::string& mtlFile, vector<Material>& outMaterials) {
 
-void OBJModelLoader::loadMtl(const std::string& mtlPath, vector<Material>& materials) {
-    std::ifstream mtlFile {mtlPath};
+    std::ifstream file{AssetLoader::getAssetPath(mtlFile + ".mtl")};
+
+    if (!file.is_open()) {
+        std::cerr << "Unable to open MTL file: " << mtlFile << std::endl;
+    }
 
     std::string line;
     int index = 0;
-
-    while (std::getline(mtlFile, line)) {
-        std::istringstream iss {line};
-        std::string prefix;
-        iss >> prefix;
-
-        if(prefix == "newmtl") {
-            Material material;
-            iss >> material.mtlName;
-            materials.push_back(material);
-            index = materials.size() - 1;
-        } else if (prefix == "ke") {
-            iss >> materials.at(index).emissive.r() >> materials.at(index).emissive.g() >> materials.at(index).emissive.b();
-        } else if (prefix == "Ka") {
-            iss >> materials.at(index).ambient.r() >> materials.at(index).ambient.g() >> materials.at(index).ambient.b();
-        } else if (prefix == "Kd") {
-            iss >> materials.at(index).diffuse.r() >> materials.at(index).diffuse.g() >> materials.at(index).diffuse.b();
-        } else if (prefix == "Ks") {
-            iss >> materials.at(index).specular.r() >> materials.at(index).specular.g() >> materials.at(index).specular.b();
-        } else if (prefix == "Ns") {
-            iss >> materials.at(index).shininess;
-        } else if (prefix == "Ni") {
-            iss >> materials.at(index).density;
-        } else if (prefix == "d") {
-            iss >> materials.at(index).dissolve;
-        } else if (prefix == "illum") {
-            iss >> materials.at(index).illumination;
-        }
-
-    }
-}
-
-bool OBJModelLoader::loadObj(const std::string& objFile, vector<Vertex>& outVertices, Face& faces, vector<Material>& materials) {
-    std::ifstream modelFile {AssetLoader::getModelPath(objFile)};
-    if(!modelFile.is_open()) {
-        std::cerr << "ERROR::OBJ_MODEL_LOADER::LOAD_OBJ::FAILED_TO_OPEN_FILE" << std::endl;
-        return false;
-    }
-
-    vector<vec3> tempVertices, tempNormals;
-    vector<vec2> tempTextures;
-
-    std::string line;
-    while (std::getline(modelFile, line)) {
+    while (std::getline(file, line)) {
         std::istringstream iss{line};
         std::string prefix;
         iss >> prefix;
 
-        if (prefix == "mtllib") {
-            std::string mtlFile;
-            iss >> mtlFile;
-            loadMtl(AssetLoader::getModelPath(mtlFile), materials);
-        } else if (prefix == "v") {
+        if (prefix == "newmtl") {
+            Material material;
+            iss >> material.mtlName;
+            outMaterials.push_back(material);
+            index = outMaterials.size() - 1;
+        } else if (prefix == "Ka") {
+            iss >> outMaterials.at(index).ambient.r() >> outMaterials.at(index).ambient.g() >> outMaterials.at(index).ambient.b();
+        } else if (prefix == "Kd") {
+            iss >> outMaterials.at(index).diffuse.r() >> outMaterials.at(index).diffuse.g() >> outMaterials.at(index).diffuse.b();
+        } else if (prefix == "Ks") {
+            iss >> outMaterials.at(index).specular.r() >> outMaterials.at(index).specular.g() >> outMaterials.at(index).specular.b();
+        } else if (prefix == "Ke") {
+            iss >> outMaterials.at(index).emissive.r() >> outMaterials.at(index).emissive.g() >> outMaterials.at(index).emissive.b();
+        } else if (prefix == "Ns") {
+            iss >> outMaterials.at(index).shininess;
+        } else if (prefix == "Ni") {
+            iss >> outMaterials.at(index).density;
+        } else if (prefix == "d") {
+            iss >> outMaterials.at(index).dissolve;
+        } else if (prefix == "illum") {
+            iss >> outMaterials.at(index).illumination;
+        } else if (prefix == "map_Kd") {
+            iss >> outMaterials.at(index).diffuse_map;
+        } else if (prefix == "map_Ns") {
+            iss >> outMaterials.at(index).shininess_map;
+        } else if (prefix == "map_refl") {
+            iss >> outMaterials.at(index).reflect_map;
+        } else if (prefix == "map_Bump") {
+            std::string bumpFlag;
+            iss >> bumpFlag; // read "-bm"
+            if (bumpFlag == "-bm") {
+                float bm;
+                iss >> bm; // read bump multiplier (usually 1.0)
+                iss >> outMaterials.at(index).normal_map;
+                outMaterials.at(index).bumpMultiplier = bm; // store the bump multiplier if needed
+            }
+        }
+    }
+    file.close();
+}
+
+void OBJModelLoader::loadObj(const std::string& objFile, vector<Mesh>& outMeshes, vector<Material>& outMaterials) {
+    OBJModelLoader::LAST_VERTX_INDEX = 0;
+    OBJModelLoader::LAST_NORMAL_INDEX = 0;
+    OBJModelLoader::LAST_TEXTURE_INDEX = 0;
+
+    vector<std::string> dividedObj;
+    divideObj(AssetLoader::getAssetPath(objFile + ".obj"), dividedObj);
+
+    for (const auto& meshInput : dividedObj) {
+        outMeshes.push_back(createMesh(meshInput, outMaterials));
+    }
+}
+
+Mesh OBJModelLoader::createMesh(const std::string& meshInput, vector<Material>& outMaterials) {
+    vector<vec3> tempVertices, tempNormals;
+    vector<vec2> tempTextures;
+    Face faces;
+
+    std::istringstream issMesh{meshInput};
+    std::string line;
+    std::string usemtl;
+
+    while (std::getline(issMesh, line)) {
+        std::istringstream iss{line};
+        std::string prefix;
+        iss >> prefix;
+
+        if (prefix == "v") {
             vec3 vertex;
             iss >> vertex.x() >> vertex.y() >> vertex.z();
             tempVertices.push_back(vertex);
@@ -81,27 +99,73 @@ bool OBJModelLoader::loadObj(const std::string& objFile, vector<Vertex>& outVert
             vec2 texture;
             iss >> texture.x() >> texture.y();
             tempTextures.push_back(texture);
+        } else if (prefix == "usemtl") {
+            iss >> usemtl;
         } else if (prefix == "f") {
             char slash;
             int v, t, n;
             while (iss >> v >> slash >> t >> slash >> n) {
-                // Assuming the indices are 1-based and need to be adjusted to 0-based
-                faces.vertexIndices.push_back(v - 1);
-                faces.textureIndices.push_back(t - 1);
-                faces.normalIndices.push_back(n - 1);
+                faces.vertexIndices.push_back(v - 1 - OBJModelLoader::LAST_VERTX_INDEX);
+                faces.normalIndices.push_back(n - 1 - OBJModelLoader::LAST_NORMAL_INDEX);
+                faces.textureIndices.push_back(t - 1 - OBJModelLoader::LAST_TEXTURE_INDEX);
             }
         }
     }
 
-    modelFile.close();
+    OBJModelLoader::LAST_VERTX_INDEX += tempVertices.size();
+    OBJModelLoader::LAST_NORMAL_INDEX += tempNormals.size();
+    OBJModelLoader:: LAST_TEXTURE_INDEX += tempTextures.size();
 
-    for(size_t i = 0; i < faces.vertexIndices.size(); i++){
+    vector<Vertex> vertices;
+    for (size_t i = 0; i < faces.vertexIndices.size(); ++i) {
         Vertex v;
-        v.position = tempVertices.at(faces.vertexIndices.at(i));
-        v.normal = tempNormals.at(faces.normalIndices.at(i));
-        v.texture = tempTextures.at(faces.textureIndices.at(i));
-        outVertices.push_back(v);
+        v.Position = tempVertices.at(faces.vertexIndices.at(i));
+        v.Normal = tempNormals.at(faces.normalIndices.at(i));
+        v.TexCoords = tempTextures.at(faces.textureIndices.at(i));
+        vertices.push_back(v);
     }
 
-    return true;
+    Material material;
+    for (const auto& search: outMaterials) {
+        if (search.mtlName == usemtl) {
+            material = search;
+        }
+    }
+
+    vector<Texture> textures = TextureLoader::loadMaterialTextures(material);
+
+    return Mesh{vertices, faces.vertexIndices, textures, material};
+}
+
+void OBJModelLoader::divideObj(const std::string &filePath, vector<std::string> &outMeshes) {
+    FILE *file = fopen(filePath.c_str(), "r");
+    if (!file) {
+        std::cerr << "ERROR::MODEL::PROCESS_OBJ_FILE::FAILED_TO_OPEN_FILE::" << filePath << std::endl;
+        return;
+    }
+
+    constexpr size_t MAX_LINE_LENGTH = 256;
+    char line[MAX_LINE_LENGTH];
+    std::string currentConstruct;
+    bool insideConstruct = false;
+
+    while (fgets(line, sizeof(line), file)) {
+        if (strncmp(line, "o ", 2) == 0) {
+            if (insideConstruct) {
+                outMeshes.push_back(std::move(currentConstruct));
+                currentConstruct.clear();
+            }
+            insideConstruct = true;
+        }
+
+        if (insideConstruct) {
+            currentConstruct += line;
+        }
+    }
+
+    if (!currentConstruct.empty()) {
+        outMeshes.push_back(std::move(currentConstruct));
+    }
+
+    fclose(file);
 }

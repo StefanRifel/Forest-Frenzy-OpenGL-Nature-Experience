@@ -3,9 +3,89 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../libs/LoadImg/stb_image.h"
 
+unsigned int TextureLoader::loadTextureFromFile(const std::string& textureFile) {
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrComponents;
+    stbi_set_flip_vertically_on_load(true);
+    unsigned char *data = stbi_load(textureFile.c_str(), &width, &height, &nrComponents, 0);
+    if (data)
+    {
+        GLenum format;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    }
+    else
+    {
+        std::cout << "Texture failed to load at path: " << textureFile << std::endl;
+        stbi_image_free(data);
+    }
+
+    return textureID;
+}
+
+vector<Texture> TextureLoader::loadMaterialTextures(Material& material) {
+    vector<Texture> textures;
+
+    // Load diffuse map
+    if (strlen(material.diffuse_map) > 0) {
+        Texture texture;
+        texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.diffuse_map)));
+        texture.type = "texture_diffuse";
+        textures.push_back(texture);
+    }
+
+    // Load specular map (shininess map)
+    if (strlen(material.shininess_map) > 0) {
+        Texture texture;
+        texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.shininess_map)));
+        texture.type = "texture_specular";
+        textures.push_back(texture);
+    }
+
+    // Load reflect map
+    if (strlen(material.reflect_map) > 0) {
+        Texture texture;
+        texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.reflect_map)));
+        texture.type = "texture_reflect";
+        textures.push_back(texture);
+    }
+
+    // Load normal map
+    if (strlen(material.normal_map) > 0) {
+        Texture texture;
+        texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.normal_map)));
+        texture.type = "texture_normal";
+        textures.push_back(texture);
+    }
+
+    return textures;
+}
+
+std::string TextureLoader::formatPath(char* c) {
+    std::string s = c;
+    return s.substr(s.find_last_of('/') + 1);
+}
+
 void TextureLoader::loadTexture(const std::string& textureFile, GLuint& textureID) {
     int width, height, channels;
-    unsigned char* data = stbi_load(AssetLoader::getTexturePath(textureFile).c_str(), &width, &height, &channels, 0);
+    unsigned char* data = stbi_load(AssetLoader::getAssetPath(textureFile).c_str(), &width, &height, &channels, 0);
     if (!data) {
         std::cerr << "Failed to load texture: " << textureFile << std::endl;
     }
@@ -48,18 +128,18 @@ void TextureLoader::simpleLoadTerrain(vector<Vertex>& terrainVertices, vector<un
             vertex.x() = -SIZE/2.0f + SIZE*i/(float)SIZE;
             vertex.y() = dis(gen);
             vertex.z() = -SIZE/2.0f + SIZE*j/(float)SIZE;
-            v.position = vertex;
+            v.Position = vertex;
 
             vec3 normal;
             normal.x() = 0;
             normal.y() = 1;
             normal.z() = 0;
-            v.normal = normal;
+            v.Normal = normal;
 
             vec2 texture;
             texture.x() = ((float)j/((float)VERTEX_COUNT - 1)) * SIZE/8;
             texture.y() = ((float)i/((float)VERTEX_COUNT - 1)) * SIZE/8;
-            v.texture = texture;
+            v.TexCoords = texture;
 
             terrainVertices.push_back(v);
             vertexPointer++;
@@ -104,13 +184,13 @@ void TextureLoader::loadTerrain(const char *texturePath, vector<Vertex>& terrain
 
             // vertex
             Vertex vertex;
-            vertex.position.x() = -height/2.0f + height*i/(float)height;
-            vertex.position.y() = (int) y * yScale - yShift;
-            vertex.position.z() = -width/2.0f + width*j/(float)width;
+            vertex.Position.x() = -height/2.0f + height*i/(float)height;
+            vertex.Position.y() = (int) y * yScale - yShift;
+            vertex.Position.z() = -width/2.0f + width*j/(float)width;
 
             // texture coordinates
-            vertex.texture.x() = (float)j / (width - 1);
-            vertex.texture.y() = (float)i / (height - 1);
+            vertex.TexCoords.x() = (float)j / (width - 1);
+            vertex.TexCoords.y() = (float)i / (height - 1);
 
             terrainVertices.push_back(vertex);
         }

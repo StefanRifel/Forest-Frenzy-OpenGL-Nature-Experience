@@ -9,20 +9,17 @@
 #include "Window.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"
-#include "renderable/Mesh.hpp"
 #include "loader/OBJModelLoader.hpp"
 #include "loader/TextureLoader.hpp"
 #include "loader/AssetLoader.hpp"
-#include "renderable/Tree.hpp"
-#include "renderable/Terrain.hpp"
-#include "renderable/Skybox.hpp"
-#include "../include/renderable/Sun.hpp"
+#include "renderable/Model.h"
 
 class Scene {
 public:
     Window* window;
 
     vector<Mesh*> renderable;
+    vector<Model*> renderableModel;
     Camera camera;
 
 public:
@@ -32,6 +29,9 @@ public:
     bool init(Window* pWindow);
 
     void addRenderableObject(Mesh* object);
+    void addRenderableModelObject(Model* object) {
+        renderableModel.push_back(object);
+    }
 
     // different pWindow settings
     static void cullFace(bool b);

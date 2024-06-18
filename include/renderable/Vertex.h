@@ -5,9 +5,9 @@
 #include "../../libs/SMath/include/vec2.hpp"
 
 typedef struct {
-    vec3 position;
-    vec3 normal;
-    vec2 texture;
+    vec3 Position;    // position
+    vec3 Normal;      // normal
+    vec2 TexCoords;   // texCoords
 } Vertex;
 
 #endif
