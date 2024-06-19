@@ -76,6 +76,8 @@ public:
     static void loadMtl(const std::string& mtlFile, vector<Material>& outMaterials, vector<Texture>& textures);
 
     static bool loadSimpleObj(const std::string& objFile, vector<vec3>& outVertices, vector<GLuint>& outIndies);
+
+    static void createSimpleTerrain(vector<Vertex>& terrainVertices, vector<unsigned int>& terrainIndices);
 };
 
 #endif // MODEL_LOADER_HH

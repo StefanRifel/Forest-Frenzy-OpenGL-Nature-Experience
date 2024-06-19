@@ -14,6 +14,7 @@
 #include "loader/AssetLoader.hpp"
 #include "renderable/Model.h"
 #include "renderable/Skybox.hpp"
+#include "renderable/Terrain.hpp"
 
 class Scene {
 public:
@@ -22,6 +23,7 @@ public:
     vector<Mesh*> renderable;
     vector<Model*> renderableModel;
     Skybox* skybox;
+    Terrain* terrain;
     Camera camera;
 
 public:

@@ -11,6 +11,8 @@ Scene::~Scene() {
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
+    terrain = new Terrain {"coast_sand_rocks_02_diff_4k.jpg"};
+
     auto* model = new Model {"brass_goblets_1k"};
     addRenderableModelObject(model);
 
@@ -36,6 +38,7 @@ void Scene::addRenderableObject(Mesh* object) {
 
 void Scene::render() {
     camera.look();
+    terrain->draw(camera);
     for (Model* model: renderableModel) {
         model->draw(camera);
     }

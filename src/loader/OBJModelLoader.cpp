@@ -246,3 +246,57 @@ bool OBJModelLoader::loadSimpleObj(const std::string &objFile, vector<vec3> &out
 
     return true;
 }
+
+void OBJModelLoader::createSimpleTerrain(vector<Vertex>& terrainVertices, vector<unsigned int>& terrainIndices) {
+    const int SIZE = 512;
+    const int VERTEX_COUNT = 512;
+
+    // Define the range for random heights
+    const float MIN_HEIGHT = 0.0f;
+    const float MAX_HEIGHT = 0.4f;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(MIN_HEIGHT, MAX_HEIGHT);
+
+    int vertexPointer = 0;
+    for(int i=0;i<VERTEX_COUNT;i++){
+        for(int j=0;j<VERTEX_COUNT;j++){
+            Vertex v;
+            vec3 vertex;
+            vertex.x() = -SIZE/2.0f + SIZE*i/(float)SIZE;
+            vertex.y() = dis(gen);
+            vertex.z() = -SIZE/2.0f + SIZE*j/(float)SIZE;
+            v.position = vertex;
+
+            vec3 normal;
+            normal.x() = 0;
+            normal.y() = 1;
+            normal.z() = 0;
+            v.normal = normal;
+
+            vec2 texture;
+            texture.x() = ((float)j/((float)VERTEX_COUNT - 1)) * SIZE/8;
+            texture.y() = ((float)i/((float)VERTEX_COUNT - 1)) * SIZE/8;
+            v.texCoords = texture;
+
+            terrainVertices.push_back(v);
+            vertexPointer++;
+        }
+    }
+
+    for(int gz=0;gz<VERTEX_COUNT-1;gz++){
+        for(int gx=0;gx<VERTEX_COUNT-1;gx++){
+            int topLeft = (gz*VERTEX_COUNT)+gx;
+            int topRight = topLeft + 1;
+            int bottomLeft = ((gz+1)*VERTEX_COUNT)+gx;
+            int bottomRight = bottomLeft + 1;
+            terrainIndices.push_back(topLeft);
+            terrainIndices.push_back(bottomLeft);
+            terrainIndices.push_back(topRight);
+            terrainIndices.push_back(topRight);
+            terrainIndices.push_back(bottomLeft);
+            terrainIndices.push_back(bottomRight);
+        }
+    }
+}

@@ -1,6 +1,5 @@
 #include "../../include/renderable/Skybox.hpp"
 
-
 Skybox::Skybox(const std::string& objFile) {
     if (!shader.createShader(
             AssetLoader::getShaderPath("skybox_vert.glsl"),
@@ -16,7 +15,6 @@ Skybox::Skybox(const std::string& objFile) {
     setCubeMap();
 }
 
-// Private method: Initialize VAO, VBO, EBO
 bool Skybox::init(const std::string& objFile) {
     if(!OBJModelLoader::loadSimpleObj(objFile, vertices, indices)) {
         return false;
@@ -29,7 +27,7 @@ bool Skybox::init(const std::string& objFile) {
     // VBO for position
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices.at(0)), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), &(vertices.at(0)), GL_STATIC_DRAW);
 
     // Position
     glEnableVertexAttribArray(0);
@@ -50,7 +48,6 @@ bool Skybox::init(const std::string& objFile) {
     return true;
 }
 
-// Private method: Load and set cube map texture
 void Skybox::setCubeMap() {
     vector<const char*> skyboxFaces;
     skyboxFaces.push_back("right.png");
@@ -63,7 +60,6 @@ void Skybox::setCubeMap() {
     TextureLoader::loadCubeMap(skyboxFaces, textureID);
 }
 
-// Public method: Draw the skybox
 void Skybox::draw(Camera& camera) const {
     // Make sure depth test passes when values are equal to depth buffer's content
     glDepthFunc(GL_LEQUAL);
