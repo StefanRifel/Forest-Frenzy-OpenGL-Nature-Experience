@@ -18,11 +18,11 @@ void Mesh::draw(Shader &shader, Camera &camera) const {
     shader.setVec3("viewPos", camera.getPosition());
 
     // Set light properties
-    vec3 lightAmbient {0.2f, 0.2f, 0.2f};
+    vec3 lightAmbient {0.1f, 0.1f, 0.15f};
     shader.setVec3("light.ambient", lightAmbient);
-    vec3 lightDiffuse {1.0f, 1.0f, 1.0f};
+    vec3 lightDiffuse {0.8f, 0.6f, 0.5f};
     shader.setVec3("light.diffuse", lightDiffuse);
-    vec3 lightSpecular {1.0f, 1.0f, 1.0f};
+    vec3 lightSpecular {0.9f, 0.8f, 0.7f};
     shader.setVec3("light.specular", lightSpecular);
     vec3 lightPos {0.0f, 1.0f, 1.0f};
     shader.setVec3("light.position", lightPos);

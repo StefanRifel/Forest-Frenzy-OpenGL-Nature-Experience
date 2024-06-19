@@ -15,6 +15,7 @@
 #include "renderable/Model.h"
 #include "renderable/Skybox.hpp"
 #include "renderable/Terrain.hpp"
+#include "renderable/Moon.hpp"
 
 class Scene {
 public:
@@ -24,6 +25,7 @@ public:
     vector<Model*> renderableModel;
     Skybox* skybox;
     Terrain* terrain;
+    Moon* moon;
     Camera camera;
 
 public:

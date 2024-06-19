@@ -11,11 +11,12 @@ Scene::~Scene() {
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
-    terrain = new Terrain {"coast_sand_rocks_02_diff_4k.jpg"};
+    terrain = new Terrain {"mud_forest_diff_1k.jpg"};
 
     auto* model = new Model {"brass_goblets_1k"};
     addRenderableModelObject(model);
 
+    moon = new Moon {"moon"};
     //auto* model1 = new Model {"street_rat_1k"};
     //addRenderableModelObject(model1);
 
@@ -38,10 +39,12 @@ void Scene::addRenderableObject(Mesh* object) {
 
 void Scene::render() {
     camera.look();
+
     terrain->draw(camera);
     for (Model* model: renderableModel) {
         model->draw(camera);
     }
+    moon->draw(camera);
     skybox->draw(camera);
 }
 
