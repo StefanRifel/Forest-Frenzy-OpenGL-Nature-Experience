@@ -1,37 +1,30 @@
-#include <utility>
-
 #include "../../include/renderable/Mesh.h"
 
-Mesh::Mesh(vector<Vertex>& vertices, vector<GLuint>& indices, vector<Texture>& textures, Material& material) {
-    this->vertices = vertices;
-    this->indices = indices;
-    this->textures = textures;
-    this->material = material;
+Mesh::Mesh(vector<Vertex>& vertices, vector<GLuint>& indices, vector<Texture>& textures, Material& material)
+        : vertices(vertices), indices(indices), textures(textures), material(material) {
     setupMesh();
 }
 
-void Mesh::Draw(Shader &shader, Camera &camera) const {
+void Mesh::draw(Shader &shader, Camera &camera) const {
     shader.use();
 
-    // Set Matrix's
+    // Set matrices
     shader.setProjection(camera.getPerspective());
     shader.setView(camera.getView());
     mat4 model {1.0f};
-    //vec3 scale {50,50,50};
-    //model = Transformation::scale(model, scale);
     shader.setModel(model);
 
-    // Set camera
+    // Set camera position
     shader.setVec3("viewPos", camera.getPosition());
 
-    // Set light
+    // Set light properties
     vec3 lightAmbient {0.2f, 0.2f, 0.2f};
     shader.setVec3("light.ambient", lightAmbient);
     vec3 lightDiffuse {1.0f, 1.0f, 1.0f};
     shader.setVec3("light.diffuse", lightDiffuse);
     vec3 lightSpecular {1.0f, 1.0f, 1.0f};
     shader.setVec3("light.specular", lightSpecular);
-    vec3 lightPos {0.0f, 10.0f, -5.0f};
+    vec3 lightPos {0.0f, 1.0f, 1.0f};
     shader.setVec3("light.position", lightPos);
 
     // Set material properties
@@ -42,29 +35,28 @@ void Mesh::Draw(Shader &shader, Camera &camera) const {
     shader.setFloat("material.shininess", material.shininess);
 
     // Bind textures
-    for (auto& texture: textures) {
-        std::string s {"textures." + texture.type};
-        glUniform1i(glGetUniformLocation(shader.ID, s.c_str()), texture.id - 1);
+    for (const auto& texture : textures) {
+        std::string uniformName = "textures." + texture.type;
+        glUniform1i(glGetUniformLocation(shader.ID, uniformName.c_str()), texture.id - 1);
         glActiveTexture(GL_TEXTURE0 + texture.id - 1);
         glBindTexture(GL_TEXTURE_2D, texture.id);
     }
 
     // Draw mesh
     glBindVertexArray(VAO);
-
     glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertices.size()));
-    glBindVertexArray(0);
 
-    // Always good practice to reset to default after configuration
+    // Reset to default
+    glBindVertexArray(0);
     glActiveTexture(GL_TEXTURE0);
 }
 
 void Mesh::setupMesh() {
-    // VAO
+    // Generate and bind VAO
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    // VBO for Vertex information's
+    // Generate and bind VBO for vertex data
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(vertices.size() * sizeof(Vertex)), &(vertices.at(0)), GL_STATIC_DRAW);
@@ -91,7 +83,7 @@ void Mesh::setupMesh() {
             (void*)(sizeof(vec3))
     );
 
-    // Texture
+    // Texture coordinates
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(
             2,
@@ -102,6 +94,7 @@ void Mesh::setupMesh() {
             (void*)(2 * sizeof(vec3))
     );
 
+    // Generate and bind EBO for index data, if indices are present
     if(indices.size() != 0) {
         //EBO
         glGenBuffers(1, &EBO);
@@ -109,5 +102,6 @@ void Mesh::setupMesh() {
         glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices.at(0)), GL_STATIC_DRAW);
     }
 
+    // Unbind VAO
     glBindVertexArray(0);
 }

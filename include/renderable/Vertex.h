@@ -4,10 +4,14 @@
 #include "../../libs/SMath/include/vec3.hpp"
 #include "../../libs/SMath/include/vec2.hpp"
 
+/**
+ * @brief Struct representing a vertex with position, normal, and texture coordinates.
+ */
 typedef struct {
-    vec3 Position;    // position
-    vec3 Normal;      // normal
-    vec2 TexCoords;   // texCoords
+    vec3 position;    ///< position of the vertex
+    vec3 normal;      ///< normal vector associated with the vertex
+    vec2 texCoords;   ///< Texture coordinates of the vertex
 } Vertex;
 
-#endif
+#endif // VERTEX_HH
+

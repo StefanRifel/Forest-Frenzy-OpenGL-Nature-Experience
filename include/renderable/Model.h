@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef MODEL_HH
+#define MODEL_HH
 
 #include <iostream>
 #include <cstring>
@@ -11,20 +11,40 @@
 #include "../../include/loader/OBJModelLoader.hpp"
 #include "../../include/loader/TextureLoader.hpp"
 
+/**
+ * @brief Class representing a 3D model composed of multiple meshes and materials.
+ *
+ * The Model class handles the loading, storage, and rendering of a 3D model.
+ * It uses multiple meshes, materials, and textures to represent the model's geometry and appearance.
+ */
 class Model {
 public:
-    vector<Texture> textures_loaded; // stores all the textures loaded so far
-    vector<Mesh> meshes;
-    vector<Material> materials;
-    Shader shader;
+    vector<Texture> textures_loaded;     ///< Stores all the textures loaded so far
+    vector<Mesh> meshes;                 ///< List of meshes that make up the model
+    vector<Material> materials;          ///< List of materials used in the model
+    Shader shader;                       ///< Shader program used for rendering the model
 
+    /**
+     * @brief Constructs a new Model object and loads the model from an OBJ file.
+     *
+     * @param objFile Name of the OBJ file to load.
+     */
     explicit Model(const std::string& objFile);
 
+    /**
+     * @brief Draws the model using the provided camera.
+     *
+     * @param camera Camera used for rendering the model.
+     */
     void draw(Camera &camera);
 
 private:
+    /**
+     * @brief Loads the model from an OBJ file.
+     *
+     * @param objFile Path to the OBJ file to load.
+     */
     void loadModel(const std::string &objFile);
-
 };
 
-#endif
+#endif // MODEL_HH

@@ -12,7 +12,7 @@ Scene::~Scene() {
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
-    auto* model = new Model {"jacaranda_tree_1k"};
+    auto* model = new Model {"brass_goblets_1k"};
     addRenderableModelObject(model);
 
     //auto* model1 = new Model {"street_rat_1k"};

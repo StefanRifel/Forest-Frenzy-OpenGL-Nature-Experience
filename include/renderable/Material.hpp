@@ -3,6 +3,9 @@
 
 #include "../../libs/SMath/include/vec3.hpp"
 
+/**
+ * @brief Struct representing a material with various properties.
+ */
 typedef struct {
     char mtlName[64] = {};                      ///< Name of the material
 
@@ -18,7 +21,7 @@ typedef struct {
     float illumination = 0.0f;                 ///< illum: Illumination model of the material
     float bumpMultiplier{0.0f};                ///< Bump map intensity multiplier
 
-    char normal_map[64] = {};                  ///< map_bump: Normal map (height or bump map)
+    char normal_map[64] = {};                  ///< map_bump: normal map (height or bump map)
     char ambient_map[64] = {};                 ///< map_Ka: Ambient occlusion map
     char diffuse_map[64] = {};                 ///< map_Kd: Diffuse map
     char metalness_map[64] = {};               ///< map_Pm: Metalness map (custom)

@@ -5,11 +5,11 @@ unsigned int OBJModelLoader::LAST_NORMAL_INDEX = 0;
 unsigned int OBJModelLoader::LAST_TEXTURE_INDEX = 0;
 
 void OBJModelLoader::loadMtl(const std::string& mtlFile, vector<Material>& outMaterials, vector<Texture>& outTextures) {
-
     std::ifstream file{AssetLoader::getAssetPath(mtlFile + ".mtl")};
 
     if (!file.is_open()) {
-        std::cerr << "Unable to open MTL file: " << mtlFile << std::endl;
+        std::cerr << "ERROR::OBJ_MODEL_LOADER::LOAD_MTL::FAILED_TO_OPEN_FILE::" << AssetLoader::getAssetPath(mtlFile + ".mtl") << std::endl;
+        return;
     }
 
     std::string line;
@@ -144,9 +144,9 @@ Mesh OBJModelLoader::createMesh(const std::string& meshInput, vector<Material>& 
     vector<Vertex> vertices;
     for (size_t i = 0; i < faces.vertexIndices.size(); ++i) {
         Vertex v;
-        v.Position = tempVertices.at(faces.vertexIndices.at(i));
-        v.Normal = tempNormals.at(faces.normalIndices.at(i));
-        v.TexCoords = tempTextures.at(faces.textureIndices.at(i));
+        v.position = tempVertices.at(faces.vertexIndices.at(i));
+        v.normal = tempNormals.at(faces.normalIndices.at(i));
+        v.texCoords = tempTextures.at(faces.textureIndices.at(i));
         vertices.push_back(v);
     }
 
@@ -161,9 +161,9 @@ Mesh OBJModelLoader::createMesh(const std::string& meshInput, vector<Material>& 
     vector<Texture> textures;
 
     for (auto a:outTextures) {
-        if(material.mtlName == a.usemtlName) {
+        if(material.mtlName == a.materialName) {
             Texture t;
-            t.usemtlName = a.usemtlName;
+            t.materialName = a.materialName;
             t.type = a.type;
             t.id = a.id;
             textures.push_back(t);
@@ -176,7 +176,7 @@ Mesh OBJModelLoader::createMesh(const std::string& meshInput, vector<Material>& 
 void OBJModelLoader::divideObj(const std::string &filePath, vector<std::string> &outMeshes) {
     FILE *file = fopen(filePath.c_str(), "r");
     if (!file) {
-        std::cerr << "ERROR::MODEL::PROCESS_OBJ_FILE::FAILED_TO_OPEN_FILE::" << filePath << std::endl;
+        std::cerr << "ERROR::OBJ_MODEL_LOADER::DIVIDE_OBJ::FAILED_TO_OPEN_FILE::" << filePath << std::endl;
         return;
     }
 
