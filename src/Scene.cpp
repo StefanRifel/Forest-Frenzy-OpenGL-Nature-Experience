@@ -1,5 +1,4 @@
 #include "../include/Scene.hpp"
-#include "../include/renderable/Model.h"
 
 Scene::Scene() : window {nullptr} {}
 
@@ -21,6 +20,8 @@ bool Scene::init(Window* pWindow) {
     //auto* model2 = new Model {"jacaranda_tree_1k"};
     //addRenderableModelObject(model2);
 
+    skybox = new Skybox {"skybox"};
+
     // scene settings
     cullFace(false);
     polygonModeRasterized(false);
@@ -38,6 +39,7 @@ void Scene::render() {
     for (Model* model: renderableModel) {
         model->draw(camera);
     }
+    skybox->draw(camera);
 }
 
 /*

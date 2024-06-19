@@ -205,3 +205,44 @@ void OBJModelLoader::divideObj(const std::string &filePath, vector<std::string> 
 
     fclose(file);
 }
+
+bool OBJModelLoader::loadSimpleObj(const std::string &objFile, vector<vec3> &outVertices, vector<GLuint> &outIndies) {
+    std::ifstream file{AssetLoader::getAssetPath(objFile + ".obj")};
+
+    if (!file.is_open()) {
+        std::cerr << "ERROR::OBJ_MODEL_LOADER::LOAD_MTL::FAILED_TO_OPEN_FILE::" << AssetLoader::getAssetPath(objFile + ".obj") << std::endl;
+        return false;
+    }
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line.empty()) continue;
+        char prefix = line[0];
+
+        switch (prefix) {
+            case 'v': {
+                if (line[1] == ' ') {
+                    vec3 vertex;
+                    sscanf(line.c_str(), "v %f %f %f", &vertex.x(), &vertex.y(), &vertex.z());
+                    outVertices.push_back(vertex);
+                }
+                break;
+            }
+            case 'f': {
+                int v[3], t[3], n[3];
+                if (sscanf(line.c_str(), "f %d/%d/%d %d/%d/%d %d/%d/%d",
+                           &v[0], &t[0], &n[0],
+                           &v[1], &t[1], &n[1],
+                           &v[2], &t[2], &n[2]) == 9) {
+                    for (int i : v) {
+                        outIndies.push_back(i - 1);
+                    }
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    return true;
+}

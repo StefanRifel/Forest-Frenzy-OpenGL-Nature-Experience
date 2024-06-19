@@ -64,6 +64,34 @@ std::string TextureLoader::formatPath(char* c) {
     return s.substr(s.find_last_of('/') + 1);
 }
 
+void TextureLoader::loadCubeMap(vector<const char*> faces, GLuint& textureID) {
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+
+    int width, height, nrChannels;
+    stbi_set_flip_vertically_on_load(true);
+    for (unsigned int i = 0; i < faces.size(); i++){
+        std::cout << AssetLoader::getAssetPath(faces.at(i)) << std::endl;
+        unsigned char *data = stbi_load(AssetLoader::getAssetPath(faces.at(i)).c_str(), &width, &height, &nrChannels, 0);
+        if (data) {
+            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, nrChannels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
+            stbi_image_free(data);
+        }
+        else {
+            std::cout << "Cubemap texture failed to load at path: " << faces.at(i) << std::endl;
+            stbi_image_free(data);
+        }
+    }
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+}
+
+///<------------------------------------------------------------------------
+
+
 void TextureLoader::loadTexture(const std::string& textureFile, GLuint& textureID) {
     int width, height, channels;
     unsigned char* data = stbi_load(AssetLoader::getAssetPath(textureFile).c_str(), &width, &height, &channels, 0);
@@ -194,29 +222,4 @@ void TextureLoader::loadTerrain(const char *texturePath, vector<Vertex>& terrain
     numTrisPerStrip = (width/rez)*2-2;
     std::cout << "Created lattice of " << numStrips << " strips with " << numTrisPerStrip << " triangles each" << std::endl;
     std::cout << "Created " << numStrips * numTrisPerStrip << " triangles total" << std::endl;
-}
-
-void TextureLoader::loadCubemap(vector<const char*> faces, GLuint& textureID) {
-    std::string path = "../assets/textures/skybox/";
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-
-    int width, height, nrChannels;
-    for (unsigned int i = 0; i < faces.size(); i++) {
-        unsigned char *data = stbi_load((path + faces.at(i)).c_str(), &width, &height, &nrChannels, 0);
-        if (data) {
-            glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                         0, GL_RGB, width, height, 0, nrChannels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, data);
-            stbi_image_free(data);
-        } else {
-            std::cout << "Cubemap tex failed to load at path: " << faces.at(i) << std::endl;
-            stbi_image_free(data);
-            return;
-        }
-    }
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }

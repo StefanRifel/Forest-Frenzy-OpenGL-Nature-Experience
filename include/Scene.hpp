@@ -13,6 +13,7 @@
 #include "loader/TextureLoader.hpp"
 #include "loader/AssetLoader.hpp"
 #include "renderable/Model.h"
+#include "renderable/Skybox.hpp"
 
 class Scene {
 public:
@@ -20,6 +21,7 @@ public:
 
     vector<Mesh*> renderable;
     vector<Model*> renderableModel;
+    Skybox* skybox;
     Camera camera;
 
 public:

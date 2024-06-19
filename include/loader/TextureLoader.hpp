@@ -85,7 +85,7 @@ public:
      * @param faces An array of six C-style strings, each representing the path to an image file for a cubemap face.
      * @param textureID Reference to an OpenGL texture ID where the cubemap texture will be loaded.
      */
-    static void loadCubemap(vector<const char*> faces, GLuint& textureID);
+    static void loadCubeMap(vector<const char*> faces, GLuint& textureID);
 
     /**
      * @brief Loads textures specified in the Material structure and returns them.

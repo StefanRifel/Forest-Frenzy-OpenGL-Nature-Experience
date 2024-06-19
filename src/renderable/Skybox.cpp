@@ -1,0 +1,86 @@
+#include "../../include/renderable/Skybox.hpp"
+
+
+Skybox::Skybox(const std::string& objFile) {
+    if (!shader.createShader(
+            AssetLoader::getShaderPath("skybox_vert.glsl"),
+            AssetLoader::getShaderPath("skybox_frag.glsl")
+        )) {
+        std::cerr << "ERROR::MODEL::FAILED_TO_CREATE_SHADER" << std::endl;
+    }
+
+    if (!init(objFile)) {
+        std::cerr << "Failed to initialize Skybox" << std::endl;
+    }
+
+    setCubeMap();
+}
+
+// Private method: Initialize VAO, VBO, EBO
+bool Skybox::init(const std::string& objFile) {
+    if(!OBJModelLoader::loadSimpleObj(objFile, vertices, indices)) {
+        return false;
+    }
+
+    // VAO
+    glGenVertexArrays(1, &VAO);
+    glBindVertexArray(VAO);
+
+    // VBO for position
+    glGenBuffers(1, &VBO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &(vertices.at(0)), GL_STATIC_DRAW);
+
+    // Position
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(
+            0,
+            3,
+            GL_FLOAT,
+            GL_FALSE,
+            sizeof(vec3),
+            (void*)nullptr
+    );
+
+    //EBO
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices.at(0)), GL_STATIC_DRAW);
+
+    return true;
+}
+
+// Private method: Load and set cube map texture
+void Skybox::setCubeMap() {
+    vector<const char*> skyboxFaces;
+    skyboxFaces.push_back("right.png");
+    skyboxFaces.push_back("left.png");
+    skyboxFaces.push_back("bottom.png");
+    skyboxFaces.push_back("top.png");
+    skyboxFaces.push_back("front.png");
+    skyboxFaces.push_back("back.png");
+
+    TextureLoader::loadCubeMap(skyboxFaces, textureID);
+}
+
+// Public method: Draw the skybox
+void Skybox::draw(Camera& camera) const {
+    // Make sure depth test passes when values are equal to depth buffer's content
+    glDepthFunc(GL_LEQUAL);
+    shader.use();
+
+    // Set matrices
+    shader.setProjection(camera.getPerspective());
+    Transformation::removeTranslation(camera.getView());
+    shader.setView(camera.getView());
+    mat4 model {1.0f};
+    model = Transformation::rotateX(model, 180);
+    shader.setModel(model);
+
+    glBindVertexArray(VAO);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(0);
+    glDepthMask(GL_TRUE);
+}

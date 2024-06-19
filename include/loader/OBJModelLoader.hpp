@@ -74,6 +74,8 @@ public:
      * @param textures A reference to a vector of textures to be filled.
      */
     static void loadMtl(const std::string& mtlFile, vector<Material>& outMaterials, vector<Texture>& textures);
+
+    static bool loadSimpleObj(const std::string& objFile, vector<vec3>& outVertices, vector<GLuint>& outIndies);
 };
 
 #endif // MODEL_LOADER_HH
