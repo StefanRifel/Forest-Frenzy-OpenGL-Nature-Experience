@@ -12,8 +12,14 @@ Scene::~Scene() {
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
-    auto* model = new Model {"street_rat_1k"};
+    auto* model = new Model {"jacaranda_tree_1k"};
     addRenderableModelObject(model);
+
+    //auto* model1 = new Model {"street_rat_1k"};
+    //addRenderableModelObject(model1);
+
+    //auto* model2 = new Model {"jacaranda_tree_1k"};
+    //addRenderableModelObject(model2);
 
     // scene settings
     cullFace(false);

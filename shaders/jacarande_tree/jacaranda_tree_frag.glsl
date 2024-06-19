@@ -40,3 +40,22 @@ void main() {
 
     FragColor = texture(texture1, TexCoord) * vec4(lightingResult, 1.0);
 }
+
+
+// ambient
+vec3 ambient = light.ambient * texture(textures.texture_diffuse, TexCoords).rgb;
+
+// diffuse
+vec3 norm = normalize(Normal);
+vec3 lightDir = normalize(light.position - FragPos);
+float diff = max(dot(norm, lightDir), 0.0);
+vec3 diffuse = light.diffuse * diff * texture(textures.texture_diffuse, TexCoords).rgb;
+
+// specular
+vec3 viewDir = normalize(viewPos - FragPos);
+vec3 reflectDir = reflect(-lightDir, norm);
+float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+vec3 specular = light.specular * spec * texture(textures.texture_reflect, TexCoords).rgb;
+
+vec3 result = ambient + diffuse + specular;
+FragColor = vec4(result, 1.0);

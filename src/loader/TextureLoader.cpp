@@ -43,35 +43,43 @@ unsigned int TextureLoader::loadTextureFromFile(const std::string& textureFile) 
 vector<Texture> TextureLoader::loadMaterialTextures(Material& material) {
     vector<Texture> textures;
 
-    // Load diffuse map
     if (strlen(material.diffuse_map) > 0) {
         Texture texture;
         texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.diffuse_map)));
         texture.type = "texture_diffuse";
+        texture.usemtlName = material.mtlName;
         textures.push_back(texture);
     }
 
-    // Load specular map (shininess map)
-    if (strlen(material.shininess_map) > 0) {
-        Texture texture;
-        texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.shininess_map)));
-        texture.type = "texture_specular";
-        textures.push_back(texture);
-    }
-
-    // Load reflect map
-    if (strlen(material.reflect_map) > 0) {
-        Texture texture;
-        texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.reflect_map)));
-        texture.type = "texture_reflect";
-        textures.push_back(texture);
-    }
-
-    // Load normal map
     if (strlen(material.normal_map) > 0) {
         Texture texture;
         texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.normal_map)));
         texture.type = "texture_normal";
+        texture.usemtlName = material.mtlName;
+        textures.push_back(texture);
+    }
+
+    if (strlen(material.ambient_map) > 0) {
+        Texture texture;
+        texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.ambient_map)));
+        texture.type = "texture_ambient";
+        texture.usemtlName = material.mtlName;
+        textures.push_back(texture);
+    }
+
+    if (strlen(material.metalness_map) > 0) {
+        Texture texture;
+        texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.metalness_map)));
+        texture.type = "texture_metalness";
+        texture.usemtlName = material.mtlName;
+        textures.push_back(texture);
+    }
+
+    if (strlen(material.roughness_map) > 0) {
+        Texture texture;
+        texture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath(TextureLoader::formatPath(material.roughness_map)));
+        texture.type = "texture_roughness";
+        texture.usemtlName = material.mtlName;
         textures.push_back(texture);
     }
 

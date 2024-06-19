@@ -6,6 +6,7 @@
 typedef struct {
     unsigned int id;
     std::string type;
+    std::string usemtlName;
 } Texture;
 
 #endif

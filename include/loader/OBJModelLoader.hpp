@@ -33,7 +33,7 @@
 
 class OBJModelLoader {
 private:
-    static Mesh createMesh(const std::string &meshString, vector<Material>& outMaterials);
+    static Mesh createMesh(const std::string &meshString, vector<Material>& outMaterials, vector<Texture>& outTextures);
     static void divideObj(const std::string &filePath, vector<std::string> &outMeshes);
 
 public:
@@ -41,8 +41,8 @@ public:
     static unsigned int LAST_NORMAL_INDEX;
     static unsigned int LAST_TEXTURE_INDEX;
 
-    static void loadObj(const std::string& objFile, vector<Mesh>& outMeshes, vector<Material>& outMaterials);
-    static void loadMtl(const std::string& mtlFile, vector<Material>& outMaterials);
+    static void loadObj(const std::string& objFile, vector<Mesh>& outMeshes, vector<Material>& outMaterials, vector<Texture>& outTextures);
+    static void loadMtl(const std::string& mtlFile, vector<Material>& outMaterials, vector<Texture>& textures);
 };
 
 #endif

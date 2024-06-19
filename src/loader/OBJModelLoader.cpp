@@ -4,7 +4,7 @@ unsigned int OBJModelLoader::LAST_VERTX_INDEX = 0;
 unsigned int OBJModelLoader::LAST_NORMAL_INDEX = 0;
 unsigned int OBJModelLoader::LAST_TEXTURE_INDEX = 0;
 
-void OBJModelLoader::loadMtl(const std::string& mtlFile, vector<Material>& outMaterials) {
+void OBJModelLoader::loadMtl(const std::string& mtlFile, vector<Material>& outMaterials, vector<Texture>& outTextures) {
 
     std::ifstream file{AssetLoader::getAssetPath(mtlFile + ".mtl")};
 
@@ -42,11 +42,13 @@ void OBJModelLoader::loadMtl(const std::string& mtlFile, vector<Material>& outMa
             iss >> outMaterials.at(index).illumination;
         } else if (prefix == "map_Kd") {
             iss >> outMaterials.at(index).diffuse_map;
-        } else if (prefix == "map_Ns") {
-            iss >> outMaterials.at(index).shininess_map;
-        } else if (prefix == "map_refl") {
-            iss >> outMaterials.at(index).reflect_map;
-        } else if (prefix == "map_Bump") {
+        } else if (prefix == "map_Ka") {
+            iss >> outMaterials.at(index).ambient_map;
+        } else if (prefix == "map_Pr") {
+            iss >> outMaterials.at(index).roughness_map;
+        } else if (prefix == "map_Pm") {
+            iss >> outMaterials.at(index).metalness_map;
+        } else if (prefix == "map_bump") {
             std::string bumpFlag;
             iss >> bumpFlag; // read "-bm"
             if (bumpFlag == "-bm") {
@@ -58,9 +60,16 @@ void OBJModelLoader::loadMtl(const std::string& mtlFile, vector<Material>& outMa
         }
     }
     file.close();
+
+    for (auto& material: outMaterials) {
+        vector<Texture> loadMaterialTextures = TextureLoader::loadMaterialTextures(material);
+        for (auto& tex: loadMaterialTextures) {
+            outTextures.push_back(tex);
+        }
+    }
 }
 
-void OBJModelLoader::loadObj(const std::string& objFile, vector<Mesh>& outMeshes, vector<Material>& outMaterials) {
+void OBJModelLoader::loadObj(const std::string& objFile, vector<Mesh>& outMeshes, vector<Material>& outMaterials, vector<Texture>& outTextures) {
     OBJModelLoader::LAST_VERTX_INDEX = 0;
     OBJModelLoader::LAST_NORMAL_INDEX = 0;
     OBJModelLoader::LAST_TEXTURE_INDEX = 0;
@@ -69,11 +78,11 @@ void OBJModelLoader::loadObj(const std::string& objFile, vector<Mesh>& outMeshes
     divideObj(AssetLoader::getAssetPath(objFile + ".obj"), dividedObj);
 
     for (const auto& meshInput : dividedObj) {
-        outMeshes.push_back(createMesh(meshInput, outMaterials));
+        outMeshes.push_back(createMesh(meshInput, outMaterials, outTextures));
     }
 }
 
-Mesh OBJModelLoader::createMesh(const std::string& meshInput, vector<Material>& outMaterials) {
+Mesh OBJModelLoader::createMesh(const std::string& meshInput, vector<Material>& outMaterials, vector<Texture>& outTextures) {
     vector<vec3> tempVertices, tempNormals;
     vector<vec2> tempTextures;
     Face faces;
@@ -83,32 +92,48 @@ Mesh OBJModelLoader::createMesh(const std::string& meshInput, vector<Material>& 
     std::string usemtl;
 
     while (std::getline(issMesh, line)) {
-        std::istringstream iss{line};
-        std::string prefix;
-        iss >> prefix;
+        if (line.empty()) continue;
+        char prefix = line[0];
 
-        if (prefix == "v") {
-            vec3 vertex;
-            iss >> vertex.x() >> vertex.y() >> vertex.z();
-            tempVertices.push_back(vertex);
-        } else if (prefix == "vn") {
-            vec3 normal;
-            iss >> normal.x() >> normal.y() >> normal.z();
-            tempNormals.push_back(normal);
-        } else if (prefix == "vt") {
-            vec2 texture;
-            iss >> texture.x() >> texture.y();
-            tempTextures.push_back(texture);
-        } else if (prefix == "usemtl") {
-            iss >> usemtl;
-        } else if (prefix == "f") {
-            char slash;
-            int v, t, n;
-            while (iss >> v >> slash >> t >> slash >> n) {
-                faces.vertexIndices.push_back(v - 1 - OBJModelLoader::LAST_VERTX_INDEX);
-                faces.normalIndices.push_back(n - 1 - OBJModelLoader::LAST_NORMAL_INDEX);
-                faces.textureIndices.push_back(t - 1 - OBJModelLoader::LAST_TEXTURE_INDEX);
+        switch (prefix) {
+            case 'v': {
+                if (line[1] == ' ') {
+                    vec3 vertex;
+                    sscanf(line.c_str(), "v %f %f %f", &vertex.x(), &vertex.y(), &vertex.z());
+                    tempVertices.push_back(vertex);
+                } else if (line[1] == 'n') {
+                    vec3 normal;
+                    sscanf(line.c_str(), "vn %f %f %f", &normal.x(), &normal.y(), &normal.z());
+                    tempNormals.push_back(normal);
+                } else if (line[1] == 't') {
+                    vec2 texture;
+                    sscanf(line.c_str(), "vt %f %f", &texture.x(), &texture.y());
+                    tempTextures.push_back(texture);
+                }
+                break;
             }
+            case 'u': {
+                char mtl[64];
+                sscanf(line.c_str(), "usemtl %s", mtl);
+                usemtl = mtl;
+                break;
+            }
+            case 'f': {
+                int v[3], t[3], n[3];
+                if (sscanf(line.c_str(), "f %d/%d/%d %d/%d/%d %d/%d/%d",
+                           &v[0], &t[0], &n[0],
+                           &v[1], &t[1], &n[1],
+                           &v[2], &t[2], &n[2]) == 9) {
+                    for (int i = 0; i < 3; i++) {
+                        faces.vertexIndices.push_back(v[i] - 1 - OBJModelLoader::LAST_VERTX_INDEX);
+                        faces.normalIndices.push_back(n[i] - 1 - OBJModelLoader::LAST_NORMAL_INDEX);
+                        faces.textureIndices.push_back(t[i] - 1 - OBJModelLoader::LAST_TEXTURE_INDEX);
+                    }
+                }
+                break;
+            }
+            default:
+                break;
         }
     }
 
@@ -129,10 +154,21 @@ Mesh OBJModelLoader::createMesh(const std::string& meshInput, vector<Material>& 
     for (const auto& search: outMaterials) {
         if (search.mtlName == usemtl) {
             material = search;
+            break;
         }
     }
 
-    vector<Texture> textures = TextureLoader::loadMaterialTextures(material);
+    vector<Texture> textures;
+
+    for (auto a:outTextures) {
+        if(material.mtlName == a.usemtlName) {
+            Texture t;
+            t.usemtlName = a.usemtlName;
+            t.type = a.type;
+            t.id = a.id;
+            textures.push_back(t);
+        }
+    }
 
     return Mesh{vertices, faces.vertexIndices, textures, material};
 }

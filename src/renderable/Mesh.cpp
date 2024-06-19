@@ -17,6 +17,8 @@ void Mesh::Draw(Shader &shader, Camera &camera) const {
     shader.setProjection(camera.getPerspective());
     shader.setView(camera.getView());
     mat4 model {1.0f};
+    //vec3 scale {50,50,50};
+    //model = Transformation::scale(model, scale);
     shader.setModel(model);
 
     // Set camera
@@ -25,7 +27,7 @@ void Mesh::Draw(Shader &shader, Camera &camera) const {
     // Set light
     vec3 lightAmbient {0.2f, 0.2f, 0.2f};
     shader.setVec3("light.ambient", lightAmbient);
-    vec3 lightDiffuse {0.5f, 0.5f, 0.5f};
+    vec3 lightDiffuse {1.0f, 1.0f, 1.0f};
     shader.setVec3("light.diffuse", lightDiffuse);
     vec3 lightSpecular {1.0f, 1.0f, 1.0f};
     shader.setVec3("light.specular", lightSpecular);
@@ -33,19 +35,20 @@ void Mesh::Draw(Shader &shader, Camera &camera) const {
     shader.setVec3("light.position", lightPos);
 
     // Set material properties
+    shader.setVec3("material.emissive", material.emissive);
     shader.setVec3("material.ambient", material.ambient);
     shader.setVec3("material.diffuse", material.diffuse);
     shader.setVec3("material.specular", material.specular);
     shader.setFloat("material.shininess", material.shininess);
 
     // Bind textures
-    //std::cout << "---------------------" << std::endl;
-    for (auto& a: textures) {
-        //std::cout << "ID: " << a.id << " TYPE: " << a.type << std::endl;
-        glActiveTexture(GL_TEXTURE0 + a.id - 1);
-        glBindTexture(GL_TEXTURE_2D, a.id);
+    for (auto& texture: textures) {
+        std::string s {"textures." + texture.type};
+        glUniform1i(glGetUniformLocation(shader.ID, s.c_str()), texture.id - 1);
+        glActiveTexture(GL_TEXTURE0 + texture.id - 1);
+        glBindTexture(GL_TEXTURE_2D, texture.id);
     }
-    //std::cout << "---------------------" << std::endl;
+
     // Draw mesh
     glBindVertexArray(VAO);
 

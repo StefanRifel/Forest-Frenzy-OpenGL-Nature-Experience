@@ -17,8 +17,14 @@ void Model::draw(Camera &camera) {
 }
 
 void Model::loadModel(const std::string &objFile) {
-    OBJModelLoader::loadMtl(objFile, materials);
+    auto start = std::chrono::high_resolution_clock::now();
+
+    OBJModelLoader::loadMtl(objFile, materials, textures_loaded);
     std::cout << objFile << ": load mtl finished" << std::endl;
-    OBJModelLoader::loadObj(objFile, meshes, materials);
+    OBJModelLoader::loadObj(objFile, meshes, materials, textures_loaded);
     std::cout << objFile << ": load obj finished" << std::endl;
+
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed = end - start;
+    std::cout << "Time taken to load one model: " << elapsed.count() << " seconds" << std::endl;
 }
