@@ -1,10 +1,13 @@
 #version 330 core
 out vec4 FragColor;
 
-in vec2 TexCoord;
+in vec2 TexCoords;
 
-uniform sampler2D texture1;
+uniform sampler2D moonTexture;
+uniform vec3 lightColor;
 
 void main() {
-    FragColor = texture(texture1, TexCoord);
+    vec4 texColor = texture(moonTexture, TexCoords);
+
+    FragColor = vec4(texColor.rgb * lightColor, texColor.a);
 }

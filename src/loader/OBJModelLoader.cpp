@@ -206,7 +206,7 @@ void OBJModelLoader::divideObj(const std::string &filePath, vector<std::string> 
     fclose(file);
 }
 
-bool OBJModelLoader::loadSimpleObj(const std::string &objFile, vector<vec3> &outVertices, vector<GLuint> &outIndies) {
+bool OBJModelLoader::loadSimpleVec3Obj(const std::string &objFile, vector<vec3> &outVertices, vector<GLuint> &outIndies) {
     std::ifstream file{AssetLoader::getAssetPath(objFile + ".obj")};
 
     if (!file.is_open()) {
@@ -246,6 +246,8 @@ bool OBJModelLoader::loadSimpleObj(const std::string &objFile, vector<vec3> &out
 
     return true;
 }
+
+
 
 void OBJModelLoader::createSimpleTerrain(vector<Vertex>& terrainVertices, vector<unsigned int>& terrainIndices) {
     const int SIZE = 512;
@@ -299,4 +301,66 @@ void OBJModelLoader::createSimpleTerrain(vector<Vertex>& terrainVertices, vector
             terrainIndices.push_back(bottomRight);
         }
     }
+}
+
+bool OBJModelLoader::loadSimpleVertexObj(const std::string &objFile, vector<Vertex> &outVertices, vector<GLuint> &outIndies) {
+    vector<vec3> tempVertices, tempNormals;
+    vector<vec2> tempTextures;
+    Face faces;
+
+    std::ifstream file{AssetLoader::getAssetPath(objFile + ".obj")};
+
+    if (!file.is_open()) {
+        std::cerr << "ERROR::OBJ_MODEL_LOADER::LOAD_MTL::FAILED_TO_OPEN_FILE::" << AssetLoader::getAssetPath(objFile + ".obj") << std::endl;
+        return false;
+    }
+    std::string line;
+    while (std::getline(file, line)) {
+        if (line.empty()) continue;
+        char prefix = line[0];
+
+        switch (prefix) {
+            case 'v': {
+                if (line[1] == ' ') {
+                    vec3 vertex;
+                    sscanf(line.c_str(), "v %f %f %f", &vertex.x(), &vertex.y(), &vertex.z());
+                    tempVertices.push_back(vertex);
+                } else if (line[1] == 'n') {
+                    vec3 normal;
+                    sscanf(line.c_str(), "vn %f %f %f", &normal.x(), &normal.y(), &normal.z());
+                    tempNormals.push_back(normal);
+                } else if (line[1] == 't') {
+                    vec2 texture;
+                    sscanf(line.c_str(), "vt %f %f", &texture.x(), &texture.y());
+                    tempTextures.push_back(texture);
+                }
+                break;
+            }
+            case 'f': {
+                int v[3], t[3], n[3];
+                if (sscanf(line.c_str(), "f %d/%d/%d %d/%d/%d %d/%d/%d",
+                           &v[0], &t[0], &n[0],
+                           &v[1], &t[1], &n[1],
+                           &v[2], &t[2], &n[2]) == 9) {
+                    for (int i = 0; i < 3; i++) {
+                        faces.vertexIndices.push_back(v[i] - 1);
+                        faces.normalIndices.push_back(n[i] - 1);
+                        faces.textureIndices.push_back(t[i] - 1);
+                    }
+                }
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    for (size_t i = 0; i < faces.vertexIndices.size(); ++i) {
+        Vertex v;
+        v.position = tempVertices.at(faces.vertexIndices.at(i));
+        v.normal = tempNormals.at(faces.normalIndices.at(i));
+        v.texCoords = tempTextures.at(faces.textureIndices.at(i));
+        outVertices.push_back(v);
+    }
+    return true;
 }

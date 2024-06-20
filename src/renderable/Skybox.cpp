@@ -16,7 +16,7 @@ Skybox::Skybox(const std::string& objFile) {
 }
 
 bool Skybox::init(const std::string& objFile) {
-    if(!OBJModelLoader::loadSimpleObj(objFile, vertices, indices)) {
+    if(!OBJModelLoader::loadSimpleVec3Obj(objFile, vertices, indices)) {
         return false;
     }
 

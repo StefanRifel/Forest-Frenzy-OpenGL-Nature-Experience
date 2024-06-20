@@ -20,7 +20,7 @@ private:
     GLuint EBO {0};           ///< Element Buffer Object for index data
     GLuint textureID {0};     ///< Element Buffer Object for index data
 
-    vector<vec3> vertices;  ///< List of vertices in the mesh
+    vector<Vertex> vertices;  ///< List of vertices in the mesh
     vector<GLuint> indices;
     Light light;
 
