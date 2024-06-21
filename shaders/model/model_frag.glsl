@@ -52,7 +52,7 @@ void main() {
     // It depends on the angle between the light direction and the surface normal.
     vec3 diffuseTexture = texture(textures.texture_diffuse, TexCoords).rgb;
     vec3 lightDir = normalize(light.position - FragPos);
-    float diff = max(dot(normal, lightDir), 0.0);
+    float diff = max(dot(Normal, lightDir), 0.0);
     vec3 diffuse = light.diffuse * material.diffuse * diff * diffuseTexture;
 
     // Calculate specular light
@@ -71,12 +71,12 @@ void main() {
     //   /           \
     //  /             \
     // View (v)     Light (l)
-    float spec = pow(max(dot(normal, halfWayDir), 0.0), material.shininess);
+    float spec = pow(max(dot(Normal, halfWayDir), 0.0), material.shininess);
     vec3 specular = vec3(0.2) * (roughtness * spec * (light.specular * material.specular));
 
     // Combine all lighting components
     // The final color is a combination of ambient, diffuse, and specular lighting, all scaled by the object's base color.
     vec3 result = ambient + diffuse + specular + material.emissive;
 
-    FragColor = vec4(result , 1.0);
+    FragColor = vec4(diffuseTexture , 1.0);
 }

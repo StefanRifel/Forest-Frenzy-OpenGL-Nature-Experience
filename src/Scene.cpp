@@ -13,7 +13,7 @@ bool Scene::init(Window* pWindow) {
 
     terrain = new Terrain {"mud_forest_diff_1k.jpg"};
 
-    auto* model = new Model {"brass_goblets_1k"};
+    auto* model = new Model {"street_rat_1k"};
     addRenderableModelObject(model);
 
     moon = new Moon {"moon"};
