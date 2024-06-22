@@ -5,8 +5,8 @@
 #include <GLFW/glfw3.h>
 
 #include "../renderable/Mesh.h"
-#include "../renderable/Face.h"
-#include "../renderable/Material.hpp"
+#include "../renderable/typs/Face.h"
+#include "../renderable/typs/Material.hpp"
 
 #include "AssetLoader.hpp"
 #include "TextureLoader.hpp"

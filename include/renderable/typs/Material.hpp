@@ -1,7 +1,7 @@
 #ifndef MATERIAL_HH
 #define MATERIAL_HH
 
-#include "../../libs/SMath/include/vec3.hpp"
+#include "../../../libs/SMath/include/vec3.hpp"
 
 /**
  * @brief Struct representing a material with various properties.

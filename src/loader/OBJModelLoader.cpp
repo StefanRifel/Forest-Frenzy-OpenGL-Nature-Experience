@@ -362,5 +362,9 @@ bool OBJModelLoader::loadSimpleVertexObj(const std::string &objFile, vector<Vert
         v.texCoords = tempTextures.at(faces.textureIndices.at(i));
         outVertices.push_back(v);
     }
+
+    for (auto v:faces.vertexIndices) {
+        outIndies.push_back(v);
+    }
     return true;
 }

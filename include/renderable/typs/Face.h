@@ -1,7 +1,7 @@
 #ifndef FACE_HH
 #define FACE_HH
 
-#include "../../libs/SMath/include/vector.hpp"
+#include "../../../libs/SMath/include/vector.hpp"
 
 /**
  * @brief Struct representing a face in 3D graphics.

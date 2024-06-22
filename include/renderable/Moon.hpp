@@ -3,35 +3,28 @@
 
 #include "../../libs/SMath/include/vector.hpp"
 
-#include "Vertex.h"
-#include "Light.h"
+#include "typs/Vertex.h"
+#include "typs/Light.h"
 
 #include "../Shader.hpp"
 #include "../Camera.hpp"
+
+#include "Drawable.h"
 
 #include "../../include/loader/AssetLoader.hpp"
 #include "../../include/loader/OBJModelLoader.hpp"
 #include "../../include/loader/TextureLoader.hpp"
 
-class Moon {
+class Moon : public Drawable {
 private:
-    GLuint VAO {0};           ///< Vertex Array Object for the mesh
-    GLuint VBO {0};           ///< Vertex Buffer Object for vertex data
-    GLuint EBO {0};           ///< Element Buffer Object for index data
-    GLuint textureID {0};     ///< Element Buffer Object for index data
+    GLuint textureID {0};
 
-    vector<Vertex> vertices;  ///< List of vertices in the mesh
-    vector<GLuint> indices;
     Light light;
-
-    Shader shader;
-
-    bool init(const std::string& objFile);
 
 public:
     explicit Moon(const std::string& objFile);
-    virtual ~Moon() = default;
-    void draw(Camera& camera) const;
+
+    void draw(Camera& camera) const override;
     Light& getLight();
 };
 

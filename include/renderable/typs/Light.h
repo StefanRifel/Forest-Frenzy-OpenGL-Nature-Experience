@@ -1,7 +1,7 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "../../libs/SMath/include/vec3.hpp"
+#include "../../../libs/SMath/include/vec3.hpp"
 
 typedef struct {
     vec3 color;

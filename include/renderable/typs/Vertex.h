@@ -1,8 +1,8 @@
 #ifndef VERTEX_HH
 #define VERTEX_HH
 
-#include "../../libs/SMath/include/vec3.hpp"
-#include "../../libs/SMath/include/vec2.hpp"
+#include "../../../libs/SMath/include/vec3.hpp"
+#include "../../../libs/SMath/include/vec2.hpp"
 
 /**
  * @brief Struct representing a vertex with position, normal, and texture coordinates.
