@@ -23,9 +23,9 @@ public:
 
     vector<Mesh*> renderable;
     vector<Model*> renderableModel;
-    Skybox* skybox;
-    Terrain* terrain;
-    Moon* moon;
+    Skybox* skybox {nullptr};
+    Terrain* terrain {nullptr};
+    Moon* moon {nullptr};
     Camera camera;
 
 public:
