@@ -3,7 +3,7 @@
 
 #include "../../libs/SMath/include/vector.hpp"
 
-#include "Vertex.h"
+#include "typs/Vertex.h"
 
 #include "../Shader.hpp"
 #include "../Camera.hpp"

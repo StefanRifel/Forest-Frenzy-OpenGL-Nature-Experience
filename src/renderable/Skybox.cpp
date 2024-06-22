@@ -73,10 +73,12 @@ void Skybox::draw(Camera& camera) const {
     model = Transformation::rotateX(model, 180);
     shader.setModel(model);
 
-    glBindVertexArray(VAO);
     glBindTexture(GL_TEXTURE_CUBE_MAP, textureID);
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(indices.size()), GL_UNSIGNED_INT, 0);
 
     glBindVertexArray(0);
-    glDepthMask(GL_TRUE);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+    glDepthFunc(GL_LESS);
 }
