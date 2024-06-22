@@ -5,9 +5,9 @@
 
 #include "../../libs/SMath/include/vector.hpp"
 
-#include "Vertex.h"
-#include "Texture.h"
-#include "Material.hpp"
+#include "typs/Vertex.h"
+#include "typs/Texture.h"
+#include "typs/Material.hpp"
 
 #include "../Shader.hpp"
 #include "../Camera.hpp"
