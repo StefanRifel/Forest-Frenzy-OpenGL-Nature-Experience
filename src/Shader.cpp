@@ -111,3 +111,8 @@ void Shader::setProjection(mat4 projection) const {
     int projectionLoc = glGetUniformLocation(ID, "projection");
     glUniformMatrix4fv(projectionLoc, 1, GL_FALSE, projection.valuePtr());
 }
+
+void Shader::setMat4(const std::string &name, mat4 value) const {
+    int mat4Loc = glGetUniformLocation(ID, name.c_str());
+    glUniformMatrix4fv(mat4Loc, 1, GL_FALSE, value.valuePtr());
+}

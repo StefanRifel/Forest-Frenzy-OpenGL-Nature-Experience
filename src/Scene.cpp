@@ -29,6 +29,7 @@ bool Scene::init(Window* pWindow) {
     cullFace(false);
     polygonModeRasterized(false);
     depthTest(true);
+    glEnable(GL_MULTISAMPLE);
 
     return true;
 }
