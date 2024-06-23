@@ -51,7 +51,7 @@ Light& Moon::getLight() {
 }
 
 void Moon::updateRotation(float deltaTime) {
-    rotationAngle += deltaTime * 0.03f;
+    rotationAngle += deltaTime * 0.02f;
     if(rotationAngle > 360.0f) {
         rotationAngle -= 360.0f;
     }

@@ -26,7 +26,7 @@ void Mesh::draw(Shader &shader, Camera &camera) const {
     shader.setVec3("light.diffuse", lightDiffuse);
     vec3 lightSpecular {0.9f, 0.8f, 0.7f};
     shader.setVec3("light.specular", lightSpecular);
-    vec3 lightPos {0.0f, 1.0f, 1.0f};
+    vec3 lightPos {-4.0f, 14.0f, 12.0f};
     shader.setVec3("light.position", lightPos);
 
     // Set material properties

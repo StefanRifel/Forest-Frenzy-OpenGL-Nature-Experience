@@ -78,5 +78,5 @@ void main() {
     // The final color is a combination of ambient, diffuse, and specular lighting, all scaled by the object's base color.
     vec3 result = ambient + diffuse + specular + material.emissive;
 
-    FragColor = vec4(diffuseTexture , 1.0);
+    FragColor = vec4(result , 1.0);
 }

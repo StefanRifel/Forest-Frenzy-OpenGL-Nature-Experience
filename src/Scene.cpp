@@ -13,10 +13,16 @@ bool Scene::init(Window* pWindow) {
 
     framebuffer = new Framebuffer {};
 
-    terrain = new Terrain {"mud_forest_diff_1k.jpg"};
+    terrain = new Terrain {"leafy_grass_diff_1k.jpg"};
     moon = new Moon {"moon"};
     skybox = new Skybox {"skybox"};
 
+    Model* car = new Model {"covered_car_1k"};
+    addRenderableModelObject(car);
+    vec3 vc {-4.0, 0.2, -7.0};
+    for (auto& a : car->meshes) {
+        a.changePosition(vc);
+    }
 
     Model* model = new Model {"wooden_picnic_table_1k"};
     addRenderableModelObject(model);
@@ -27,11 +33,9 @@ bool Scene::init(Window* pWindow) {
 
     auto* model1 = new Model {"street_rat_1k"};
     addRenderableModelObject(model1);
-    vec3 v2 {4.0, 0.3, 4.0};
-    vec3 s2 {35.0, 35.0, 35.0};
+    vec3 v2 {-4.0, 1.6, -7.0};
     for (auto& a : model1->meshes) {
         a.changePosition(v2);
-        a.scale(s2);
     }
 
 
@@ -44,7 +48,7 @@ bool Scene::init(Window* pWindow) {
 
     std::random_device rd;  // Random device to seed the generator
     std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-    std::uniform_real_distribution<> dis(-50.0, 50.0); // Distribution for x and z positions
+    std::uniform_real_distribution<> dis(-10.0, 10.0); // Distribution for x and z positions
 
     for (int i = 0; i < 5; ++i) {
         auto* model5 = new Model {"fern_02_1k"};
@@ -54,16 +58,14 @@ bool Scene::init(Window* pWindow) {
         float x = static_cast<float>(dis(gen));
         float z = static_cast<float>(dis(gen));
         vec3 v5 {x, 0.3f, z};
-        vec3 s5 {6.0f, 6.0f, 6.0f};
 
         // Apply position and scale transformations to all meshes in the model
         for (auto& a : model5->meshes) {
             a.changePosition(v5);
-            a.scale(s5);
         }
     }
 
-    std::uniform_real_distribution<> diss(-150.0, 150.0); // Distribution for x and z positions
+    std::uniform_real_distribution<> diss(-25.0, 25.0); // Distribution for x and z positions
     for (int i = 0; i < 5; ++i) {
         auto* model3 = new Model {"boulder_01_1k"};
         addRenderableModelObject(model3);
@@ -72,12 +74,10 @@ bool Scene::init(Window* pWindow) {
         float x = static_cast<float>(diss(gen));
         float z = static_cast<float>(diss(gen));
         vec3 v5 {x, 0.3f, z};
-        vec3 s5 {6.0f, 6.0f, 6.0f};
 
         // Apply position and scale transformations to all meshes in the model
         for (auto& a : model3->meshes) {
             a.changePosition(v5);
-            a.scale(s5);
         }
     }
 

@@ -23,6 +23,9 @@ void Terrain::draw(Camera& camera) {
     shader.setView(camera.getView());
     shader.setModel(model);
 
+    shader.setVec3("lightPos", vec3(-4.0f, 14.0f, 12.0f));
+    shader.setVec3("viewPos", camera.getPosition());
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
 
