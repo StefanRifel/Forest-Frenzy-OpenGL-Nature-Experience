@@ -48,6 +48,7 @@ public:
 
     static mat4 lookAt(vec3& eye, vec3& center, vec3& up);
     static mat4 perspective(float fov, float aspect, float near, float far);
+    static mat4 ortho(float left, float right, float bottom, float top, float nearPlane, float farPlane);
     static vec3 normalize(const vec3& v);
     static vec3 cross(vec3& a, vec3& b);
     static float dot(vec3& a, vec3& b);

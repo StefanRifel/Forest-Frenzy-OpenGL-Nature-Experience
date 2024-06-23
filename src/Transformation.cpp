@@ -257,3 +257,16 @@ void Transformation::removeTranslation(mat4 &mat) {
     mat[3][1] = 0.0f;
     mat[3][2] = 0.0f;
 }
+
+mat4 Transformation::ortho(float left, float right, float bottom, float top, float nearPlane, float farPlane) {
+    mat4 orthoMat(1.0f);
+
+    orthoMat[0][0] = 2.0f / (right - left);
+    orthoMat[1][1] = 2.0f / (top - bottom);
+    orthoMat[2][2] = -2.0f / (farPlane - nearPlane);
+    orthoMat[3][0] = -(right + left) / (right - left);
+    orthoMat[3][1] = -(top + bottom) / (top - bottom);
+    orthoMat[3][2] = -(farPlane + nearPlane) / (farPlane - nearPlane);
+
+    return orthoMat;
+}
