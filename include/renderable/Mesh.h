@@ -11,6 +11,7 @@
 
 #include "../Shader.hpp"
 #include "../Camera.hpp"
+#include "Drawable.h"
 
 /**
  * @brief Class representing a mesh in 3D graphics.
@@ -18,7 +19,7 @@
  * The Mesh class encapsulates the data and functionality needed to render a 3D mesh,
  * including vertices, indices, textures, materials, and OpenGL buffer objects.
  */
-class Mesh {
+class Mesh : public Drawable {
 private:
     GLuint VBO {0}; ///< Vertex Buffer Object for vertex data
     GLuint EBO {0}; ///< Element Buffer Object for index data
@@ -49,7 +50,7 @@ public:
     /**
      * @brief Default destructor.
      */
-    ~Mesh() = default;
+    ~Mesh() override = default;
 
     /**
      * @brief Draws the mesh using the provided shader and camera.
@@ -58,6 +59,8 @@ public:
      * @param camera Camera to use for view and projection transformations
      */
     void draw(Shader &shader, Camera &camera) const;
+
+    void draw(Camera& camera) const override;
 };
 
 #endif // MESH_HH

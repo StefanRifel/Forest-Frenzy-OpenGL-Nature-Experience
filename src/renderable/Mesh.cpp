@@ -11,9 +11,6 @@ void Mesh::draw(Shader &shader, Camera &camera) const {
     // Set matrices
     shader.setProjection(camera.getPerspective());
     shader.setView(camera.getView());
-    mat4 model {1.0f};
-    vec3 translate {0.0f, 0.3f, 0.0f};
-    model = Transformation::translate(model, translate);
     shader.setModel(model);
 
     // Set camera position
@@ -106,4 +103,8 @@ void Mesh::setupMesh() {
 
     // Unbind VAO
     glBindVertexArray(0);
+}
+
+void Mesh::draw(Camera &camera) const {
+
 }
