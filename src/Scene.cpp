@@ -119,11 +119,7 @@ void Scene::render() {
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    framebuffer->shader.use();
-    glBindVertexArray(framebuffer->quadVAO);
-    glDisable(GL_DEPTH_TEST);
-    glBindTexture(GL_TEXTURE_2D, framebuffer->tcb);
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    framebuffer->postProcess();
 }
 
 /*

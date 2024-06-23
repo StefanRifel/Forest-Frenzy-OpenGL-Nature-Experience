@@ -14,10 +14,10 @@
 
 class Framebuffer {
 public:
-    unsigned int fbo{}, tcb{}, rbo{};
+    unsigned int fbo{}, tcb{}, depthBuffer{};
     Shader shader;
 
-    unsigned int quadVAO, quadVBO;
+    unsigned int quadVAO{}, quadVBO{};
 
     float quadVertices[24] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
             // positions   // texCoords
@@ -39,7 +39,7 @@ public:
         }
 
         shader.use();
-        shader.setInt("screenTexture", 0);
+        shader.setInt("framebufferTexture", 0);
 
         init();
     }
@@ -57,11 +57,11 @@ public:
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, tcb, 0);
         // create a renderbuffer object for depth and stencil attachment (we won't be sampling these)
 
-        glGenRenderbuffers(1, &rbo);
-        glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, 1024, 768); // use a single renderbuffer object for both a depth AND stencil buffer.
-        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
-        // now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
+        glGenRenderbuffers(1, &depthBuffer);
+        glBindRenderbuffer(GL_RENDERBUFFER, depthBuffer);
+        glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, 1024, 768);
+        glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthBuffer);
+
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -76,6 +76,21 @@ public:
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
         glEnableVertexAttribArray(1);
         glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+    }
+
+    void postProcess() const {
+        glBindFramebuffer(GL_FRAMEBUFFER, 0); // Zurück zum Standard-Framebuffer
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        shader.use();
+        GLint resolutionLoc = glGetUniformLocation(shader.ID, "resolution");
+        glUniform2f(resolutionLoc, 1024, 768);
+        glBindVertexArray(quadVAO);
+        glDisable(GL_DEPTH_TEST);
+
+        glBindTexture(GL_TEXTURE_2D, tcb);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
     }
 };
 
