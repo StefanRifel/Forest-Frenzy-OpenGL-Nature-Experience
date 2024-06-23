@@ -26,7 +26,7 @@ bool Scene::init(Window* pWindow) {
     skybox = new Skybox {"skybox"};
 
     // scene settings
-    cullFace(false);
+    cullFace(true);
     polygonModeRasterized(false);
     depthTest(true);
     glEnable(GL_MULTISAMPLE);
@@ -40,13 +40,14 @@ void Scene::addRenderableObject(Mesh* object) {
 
 void Scene::render() {
     camera.look();
-
+    glCullFace(GL_FRONT);
     terrain->draw(camera);
+    glCullFace(GL_BACK);
     for (Model* model: renderableModel) {
         model->draw(camera);
     }
     moon->draw(camera);
-    skybox->draw(camera);
+    //skybox->draw(camera);
 }
 
 /*
