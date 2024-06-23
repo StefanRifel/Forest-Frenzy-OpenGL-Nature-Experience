@@ -1,7 +1,10 @@
 #include "../../include/renderable/Mesh.h"
 
 Mesh::Mesh(vector<Vertex>& vertices, vector<GLuint>& indices, vector<Texture>& textures, Material& material)
-        : vertices(vertices), indices(indices), textures(textures), material(material) {
+        : textures(textures), material(material) {
+    this->vertices = vertices;
+    this->indices = indices;
+
     setupMesh();
 }
 

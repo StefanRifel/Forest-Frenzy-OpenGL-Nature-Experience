@@ -21,22 +21,16 @@
  */
 class Mesh : public Drawable {
 private:
-    GLuint VBO {0}; ///< Vertex Buffer Object for vertex data
-    GLuint EBO {0}; ///< Element Buffer Object for index data
 
     /**
      * @brief Sets up the mesh for rendering by initializing the VAO, VBO, and EBO.
      */
     void setupMesh();
 
-protected:
-    vector<Vertex> vertices;  ///< List of vertices in the mesh
-    vector<GLuint> indices;   ///< List of indices for indexed drawing
+public:
     vector<Texture> textures; ///< List of textures applied to the mesh
     Material material;        ///< Material properties of the mesh
-    GLuint VAO {0};           ///< Vertex Array Object for the mesh
-
-public:
+    GLuint VAO {0};
     /**
      * @brief Constructs a new Mesh object.
      *
