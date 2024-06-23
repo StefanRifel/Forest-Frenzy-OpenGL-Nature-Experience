@@ -48,6 +48,7 @@ void Scene::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // we're not using the stencil buffer now
     glEnable(GL_DEPTH_TEST);
 
+    // Draw Scene
     glCullFace(GL_FRONT);
     terrain->draw(camera);
     glCullFace(GL_BACK);
@@ -55,7 +56,9 @@ void Scene::render() {
         model->draw(camera);
     }
     moon->draw(camera);
-    //skybox->draw(camera);
+    cullFace(false);
+    skybox->draw(camera);
+    //end
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
