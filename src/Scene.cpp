@@ -14,18 +14,27 @@ bool Scene::init(Window* pWindow) {
     framebuffer = new Framebuffer {};
 
     terrain = new Terrain {"mud_forest_diff_1k.jpg"};
+    moon = new Moon {"moon"};
+    skybox = new Skybox {"skybox"};
 
-    auto* model = new Model {"street_rat_1k"};
+
+    auto* model = new Model {"wooden_picnic_table_1k"};
     addRenderableModelObject(model);
 
-    moon = new Moon {"moon"};
-    //auto* model1 = new Model {"street_rat_1k"};
-    //addRenderableModelObject(model1);
+    auto* model1 = new Model {"street_rat_1k"};
+    addRenderableModelObject(model1);
 
-    //auto* model2 = new Model {"jacaranda_tree_1k"};
-    //addRenderableModelObject(model2);
+    auto* model2 = new Model {"brass_goblets_1k"};
+    addRenderableModelObject(model2);
 
-    skybox = new Skybox {"skybox"};
+    auto* model3 = new Model {"boulder_01_1k"};
+    addRenderableModelObject(model3);
+
+    auto* model4 = new Model {"boulder_01_1k"};
+    addRenderableModelObject(model4);
+
+    auto* model5 = new Model {"fern_02_1k"};
+    addRenderableModelObject(model5);
 
     // scene settings
     cullFace(true);

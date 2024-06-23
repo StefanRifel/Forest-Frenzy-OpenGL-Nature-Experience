@@ -12,10 +12,8 @@ void Mesh::draw(Shader &shader, Camera &camera) const {
     shader.setProjection(camera.getPerspective());
     shader.setView(camera.getView());
     mat4 model {1.0f};
-    vec3 scale {35.0f, 35.0f, 35.0f};
     vec3 translate {0.0f, 0.3f, 0.0f};
     model = Transformation::translate(model, translate);
-    model = Transformation::scale(model, scale);
     shader.setModel(model);
 
     // Set camera position

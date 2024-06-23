@@ -21,7 +21,6 @@ void Terrain::draw(Camera& camera) const {
     // Set matrices
     shader.setProjection(camera.getPerspective());
     shader.setView(camera.getView());
-    mat4 model {1.0f};
     shader.setModel(model);
 
     glActiveTexture(GL_TEXTURE0);

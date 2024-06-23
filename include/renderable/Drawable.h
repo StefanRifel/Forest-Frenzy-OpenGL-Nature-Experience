@@ -17,6 +17,8 @@ public:
     vector<Vertex> vertices;  ///< List of vertices in the mesh
     vector<GLuint> indices;   ///< List of indices for indexed drawing
 
+    mat4 model{1.0f};
+
     Shader shader;
 
     virtual ~Drawable() {
@@ -29,6 +31,14 @@ public:
         if (EBO != 0) {
             glDeleteBuffers(1, &EBO);
         }
+    }
+
+    void changePosition(vec3& transform) {
+        model = Transformation::translate(model, transform);
+    }
+
+    void scale(vec3& scale) {
+        model = Transformation::scale(model, scale);
     }
 
     virtual void draw(Camera& camera) const = 0;

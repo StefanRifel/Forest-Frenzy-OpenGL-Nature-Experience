@@ -21,6 +21,8 @@ private:
 
     Light light;
 
+    unsigned int instanceVBO;
+    vec2 translations[100];
 public:
     explicit Moon(const std::string& objFile);
 
