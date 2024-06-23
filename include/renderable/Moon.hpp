@@ -20,13 +20,13 @@ private:
     GLuint textureID {0};
 
     Light light;
+    float rotationAngle;
 
-    unsigned int instanceVBO;
-    vec2 translations[100];
 public:
     explicit Moon(const std::string& objFile);
 
-    void draw(Camera& camera) const override;
+    void updateRotation(float deltaTime);
+    void draw(Camera& camera) override;
     Light& getLight();
 };
 

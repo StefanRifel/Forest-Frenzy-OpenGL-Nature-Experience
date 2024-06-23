@@ -96,6 +96,7 @@ void Scene::addRenderableObject(Mesh* object) {
 
 void Scene::render() {
     camera.look();
+    moon->updateRotation(camera.deltaTime);
 
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);

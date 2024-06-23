@@ -41,7 +41,7 @@ public:
         model = Transformation::scale(model, scale);
     }
 
-    virtual void draw(Camera& camera) const = 0;
+    virtual void draw(Camera& camera) = 0;
 
     void init() {
 

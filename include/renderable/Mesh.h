@@ -54,7 +54,7 @@ public:
      */
     void draw(Shader &shader, Camera &camera) const;
 
-    void draw(Camera& camera) const override;
+    void draw(Camera& camera) override;
 };
 
 #endif // MESH_HH

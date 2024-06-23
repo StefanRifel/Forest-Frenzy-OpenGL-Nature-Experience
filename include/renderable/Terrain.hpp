@@ -22,7 +22,7 @@ public:
     explicit Terrain(const std::string& textureFile);
     ~Terrain() override = default;
 
-    void draw(Camera& camera) const override;
+    void draw(Camera& camera) override;
 };
 
 #endif //TERRAIN_HH

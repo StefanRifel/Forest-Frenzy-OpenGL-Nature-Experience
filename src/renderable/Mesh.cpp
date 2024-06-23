@@ -108,6 +108,6 @@ void Mesh::setupMesh() {
     glBindVertexArray(0);
 }
 
-void Mesh::draw(Camera &camera) const {
+void Mesh::draw(Camera &camera) {
 
 }

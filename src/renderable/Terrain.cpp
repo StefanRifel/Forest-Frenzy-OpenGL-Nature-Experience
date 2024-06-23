@@ -15,7 +15,7 @@ Terrain::Terrain(const std::string& textureFile) {
     init();
 }
 
-void Terrain::draw(Camera& camera) const {
+void Terrain::draw(Camera& camera) {
     shader.use();
 
     // Set matrices
