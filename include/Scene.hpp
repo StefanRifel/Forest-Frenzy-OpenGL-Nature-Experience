@@ -6,6 +6,7 @@
 
 #include <string>
 
+#include "renderable/Framebuffer.h"
 #include "Window.hpp"
 #include "Camera.hpp"
 #include "Shader.hpp"
@@ -27,6 +28,7 @@ public:
     Terrain* terrain {nullptr};
     Moon* moon {nullptr};
     Camera camera;
+    Framebuffer* framebuffer {nullptr};
 
 public:
     Scene();

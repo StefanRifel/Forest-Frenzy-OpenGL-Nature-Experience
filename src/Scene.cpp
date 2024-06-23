@@ -11,6 +11,8 @@ Scene::~Scene() {
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
+    framebuffer = new Framebuffer {};
+
     terrain = new Terrain {"mud_forest_diff_1k.jpg"};
 
     auto* model = new Model {"street_rat_1k"};
@@ -40,6 +42,12 @@ void Scene::addRenderableObject(Mesh* object) {
 
 void Scene::render() {
     camera.look();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // we're not using the stencil buffer now
+    glEnable(GL_DEPTH_TEST);
+
     glCullFace(GL_FRONT);
     terrain->draw(camera);
     glCullFace(GL_BACK);
@@ -48,6 +56,16 @@ void Scene::render() {
     }
     moon->draw(camera);
     //skybox->draw(camera);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    framebuffer->shader.use();
+    glBindVertexArray(framebuffer->quadVAO);
+    glDisable(GL_DEPTH_TEST);
+    glBindTexture(GL_TEXTURE_2D, framebuffer->tcb);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
 }
 
 /*
