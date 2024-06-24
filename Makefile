@@ -3,7 +3,7 @@ PROGRAM_NAME = Forest_Frenzy
 PROGRAM_NAME_TEST = Forest_Frenzy_Test
 
 # Compiler
-CC = g++
+CC = g++ -std=c++17
 
 # Libraries
 GLEW_LIBS = -lGLEW -lEGL -lGL -lGLU -lOpenGL 
