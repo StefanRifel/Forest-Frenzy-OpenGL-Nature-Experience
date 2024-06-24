@@ -45,16 +45,6 @@ public:
     static unsigned int loadTextureFromFile(const std::string& textureFile);
 
     /**
-     * @brief Loads a texture from a file and assigns it to the provided OpenGL texture ID.
-     *
-     * This function loads a texture image file and assigns it to the provided OpenGL texture ID.
-     *
-     * @param texturePath The path to the texture file.
-     * @param textureID Reference to an OpenGL texture ID where the texture will be loaded.
-     */
-    static void loadTexture(const std::string& texturePath, GLuint& textureID);
-
-    /**
      * @brief Loads terrain textures and constructs terrain geometry.
      *
      * This function loads terrain textures and constructs terrain geometry using the provided vertices and indices.
@@ -66,16 +56,6 @@ public:
      * @param numTrisPerStrip Number of triangles per strip in the terrain.
      */
     static void loadTerrain(const char* texturePath, vector<Vertex>& terrainVertices, vector<unsigned int>& indices, int& numStrips, int& numTrisPerStrip);
-
-    /**
-     * @brief Simplified version of loading terrain without specific texture path.
-     *
-     * This function creates a simple terrain mesh without loading textures.
-     *
-     * @param terrainVertices Reference to a vector of vertices that define the terrain geometry.
-     * @param indices Reference to a vector of indices that define the triangles in the terrain mesh.
-     */
-    static void simpleLoadTerrain(vector<Vertex>& terrainVertices, vector<unsigned int>& indices);
 
     /**
      * @brief Loads a cubemap texture from multiple image files and assigns it to the provided OpenGL texture ID.
