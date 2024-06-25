@@ -26,6 +26,8 @@ struct Flashlight {
 
 uniform Flashlight flashlight;
 
+uniform bool flashLightOn;
+
 void main() {
     vec3 ambientColor = vec3(0.1f, 0.1f, 0.15f); // Ambient light color
     vec3 diffuseColor = vec3(0.8f, 0.6f, 0.5f); // Diffuse light color
@@ -63,7 +65,7 @@ void main() {
     float epsilon = (flashlight.cutOff - flashlight.outerCutOff);
     float intensity = smoothstep(flashlight.outerCutOff, flashlight.cutOff, theta);
 
-    if (intensity > 0.0) {
+    if (intensity > 0.0 && flashLightOn) {
         // Flashlight ambient
         vec3 flashlightAmbient = flashlight.ambient * texture(texture1, TexCoord).rgb;
 

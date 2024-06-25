@@ -89,6 +89,8 @@ public:
     float deltaTime = 0.0f;	        ///< Time between current frame and last frame
     float lastFrame = 0.0f;         ///< Time of the last frame
 
+    bool flashlight;
+
     Camera();
     void look();
 
@@ -97,6 +99,10 @@ public:
 
     const vec3& getPosition() const;
     const vec3& getFront() const;
+
+    bool isFlashlight();
+
+    void setFlashlight(bool flashlight);
 
     void processKeyboard(Camera_Movement direction, float deltaTime);
     void processMouseMovement(float xPos, float yPos, GLboolean constrainPitch);

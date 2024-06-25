@@ -53,6 +53,8 @@ uniform Flashlight flashlight;
 
 uniform vec3 viewPos; // Camera/viewer position
 
+uniform bool flashLightOn;
+
 void main() {
     // Calculate flashlight influence
     vec3 norm = normalize(Normal);
@@ -61,7 +63,7 @@ void main() {
     float epsilon = (flashlight.cutOff - flashlight.outerCutOff);
     float intensity = smoothstep(flashlight.outerCutOff, flashlight.cutOff, theta);
 
-    if(intensity > 0.0) {
+    if(intensity > 0.0 && flashLightOn) {
         // Ambient
         vec3 ambient = flashlight.ambient * texture(textures.texture_diffuse, TexCoords).rgb;
 

@@ -87,3 +87,11 @@ const vec3 &Camera::getPosition() const {
 const vec3 &Camera::getFront() const {
     return front;
 }
+
+bool Camera::isFlashlight() {
+    return flashlight;
+}
+
+void Camera::setFlashlight(bool nFlashlight) {
+    Camera::flashlight = nFlashlight;
+}

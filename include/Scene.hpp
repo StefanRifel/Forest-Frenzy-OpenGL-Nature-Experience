@@ -30,6 +30,8 @@ public:
     Framebuffer* framebuffer {nullptr};
 
 public:
+    bool uKeyWasPressed = false;
+
     Scene();
     ~Scene() = default;
 

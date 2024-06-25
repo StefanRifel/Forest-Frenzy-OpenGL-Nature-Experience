@@ -43,6 +43,8 @@ void Terrain::draw(Camera& camera) {
     shader.setFloat("flashlight.linear", 0.09f);
     shader.setFloat("flashlight.quadratic", 0.032f);
 
+    shader.setBool("flashLightOn", camera.isFlashlight());
+
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureID);
 

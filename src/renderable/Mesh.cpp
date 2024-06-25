@@ -62,6 +62,8 @@ void Mesh::draw(Shader &shader, Camera &camera) const {
     shader.setFloat("flashlight.linear", 0.09f);
     shader.setFloat("flashlight.quadratic", 0.032f);
 
+    shader.setBool("flashLightOn", camera.isFlashlight());
+
     if(material.mtlName[0] != '\0') {
         // Set material properties
         shader.setVec3("material.emissive", material.emissive);
