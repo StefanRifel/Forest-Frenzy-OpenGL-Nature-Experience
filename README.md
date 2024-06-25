@@ -43,6 +43,7 @@ Im Rahmen eines Uni-Projekts wurde diese OpenGL-basierte Anwendung entwickelt, d
 - **Instanziierung**: Instancing ermöglicht die effiziente Darstellung vieler identischer Objekte durch einmalige Berechnung und wiederholte Verwendung der Geometrie und Materialien.
 - **Anti Aliasing**: Anti-Aliasing reduziert sichtbare Treppeneffekte (Aliasing) in gerenderten Bildern, indem es glatte Kanten und Linien erzeugt.
 - **Terrain**: Es wird eine Geometrie erzeugt, um das Terrain darzustellen.
+- **Taschenlampe**: Eine Zweite Lichtquelle aus der perspektive der Person.
 
 ## Ausführung und Steuerung
 
@@ -94,6 +95,7 @@ Im Rahmen eines Uni-Projekts wurde diese OpenGL-basierte Anwendung entwickelt, d
 - `S`: Rückwärts bewegen
 - `A`: Nach links bewegen
 - `D`: Nach rechts bewegen
+- `U`: Taschenlampe an und aus
 - `Mausrad nach oben`: FOV verkleinern
 - `Mausrad nach unten`: FOV vergrößern
 - `Esc`: Anwendung beenden
