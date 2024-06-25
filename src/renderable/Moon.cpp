@@ -20,13 +20,16 @@ Moon::Moon(const std::string& objFile) : mesh {objFile} {
     moonTexture.type = "moon";
     moonTexture.materialName = "brown_mud_diff_1k.jpg";
 
+    mesh.model = Transformation::translate(mesh.model, light.position);
+
     mesh.textures.push_back(moonTexture);
 }
 
 void Moon::draw(Camera& camera) {
-    //Transformation::removeTranslation(camera.getView());
+    Transformation::removeTranslation(camera.getView());
     updateRotation(camera.deltaTime);
     mesh.model = Transformation::rotateY(mesh.model, rotationAngle);
+
     mesh.draw(shader, camera);
 
     shader.setVec3("light.color", light.color);

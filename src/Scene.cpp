@@ -17,69 +17,23 @@ bool Scene::init(Window* pWindow) {
     moon = new Moon {"moon"};
     skybox = new Skybox {"skybox"};
 
-    Model* car = new Model {"covered_car_1k"};
+    Model* car = new Model {"covered_car_1k", "model"};
     addRenderableModelObject(car);
-    vec3 vc {-4.0, 0.2, -7.0};
-    for (auto& a : car->meshes) {
-        a.changePosition(vc);
-    }
 
-    Model* model = new Model {"wooden_picnic_table_1k"};
-    addRenderableModelObject(model);
-    vec3 v1 {4.0, 0.3, 0.0};
-    for (auto& a : model->meshes) {
-        a.changePosition(v1);
-    }
+    Model* table = new Model {"wooden_picnic_table_1k", "model"};
+    addRenderableModelObject(table);
 
-    auto* model1 = new Model {"street_rat_1k"};
-    addRenderableModelObject(model1);
-    vec3 v2 {-4.0, 1.6, -7.0};
-    for (auto& a : model1->meshes) {
-        a.changePosition(v2);
-    }
+    auto* rat = new Model {"street_rat_1k", "model"};
+    addRenderableModelObject(rat);
 
+    auto* goblet = new Model {"brass_goblets_1k", "model"};
+    addRenderableModelObject(goblet);
 
-    auto* model2 = new Model {"brass_goblets_1k"};
-    addRenderableModelObject(model2);
-    vec3 v3 {4.0, 1.05, 0.0};
-    for (auto& a : model2->meshes) {
-        a.changePosition(v3);
-    }
+    auto* fern = new Model {"fern_02_1k", "instance_model", 5};
+    addRenderableModelObject(fern);
 
-    std::random_device rd;  // Random device to seed the generator
-    std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
-    std::uniform_real_distribution<> dis(-10.0, 10.0); // Distribution for x and z positions
-
-    for (int i = 0; i < 5; ++i) {
-        auto* model5 = new Model {"fern_02_1k"};
-        addRenderableModelObject(model5);
-
-        // Generate random positions within the range -100 to 100 for x and z
-        float x = static_cast<float>(dis(gen));
-        float z = static_cast<float>(dis(gen));
-        vec3 v5 {x, 0.3f, z};
-
-        // Apply position and scale transformations to all meshes in the model
-        for (auto& a : model5->meshes) {
-            a.changePosition(v5);
-        }
-    }
-
-    std::uniform_real_distribution<> diss(-25.0, 25.0); // Distribution for x and z positions
-    for (int i = 0; i < 5; ++i) {
-        auto* model3 = new Model {"boulder_01_1k"};
-        addRenderableModelObject(model3);
-
-        // Generate random positions within the range -100 to 100 for x and z
-        float x = static_cast<float>(diss(gen));
-        float z = static_cast<float>(diss(gen));
-        vec3 v5 {x, 0.3f, z};
-
-        // Apply position and scale transformations to all meshes in the model
-        for (auto& a : model3->meshes) {
-            a.changePosition(v5);
-        }
-    }
+    auto* boulder = new Model {"boulder_01_1k", "instance_model", 5};
+    addRenderableModelObject(boulder);
 
     // scene settings
     cullFace(true);
@@ -96,7 +50,6 @@ void Scene::addRenderableObject(Mesh* object) {
 
 void Scene::render() {
     camera.look();
-    moon->updateRotation(camera.deltaTime);
 
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
@@ -120,6 +73,7 @@ void Scene::render() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     framebuffer->postProcess();
+
 }
 
 /*
