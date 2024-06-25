@@ -19,14 +19,6 @@ bool Scene::init(Window* pWindow) {
     car->setModelTranslation(carMat);
     addRenderableModelObject(car);
 
-    // Rat
-    auto* rat = new Model {"street_rat_1k", "model"};
-    mat4 ratMat{1.0f};
-    vec3 ratTranslate {-7.0, 1.6, 2.0};
-    ratMat = Transformation::translate(ratMat, ratTranslate);
-    rat->setModelTranslation(ratMat);
-    addRenderableModelObject(rat);
-
     // Table
     Model* table = new Model {"wooden_picnic_table_1k", "model"};
     mat4 tableMat{1.0f};
@@ -35,19 +27,8 @@ bool Scene::init(Window* pWindow) {
     table->setModelTranslation(tableMat);
     addRenderableModelObject(table);
 
-    // Goblets
-    auto* goblet = new Model {"brass_goblets_1k", "model"};
-    mat4 gobletsMat{1.0f};
-    vec3 gobletsTranslate {4.0, 1.04, 0.0};
-    gobletsMat = Transformation::translate(gobletsMat, gobletsTranslate);
-    goblet->setModelTranslation(gobletsMat);
-    addRenderableModelObject(goblet);
-
     auto* fern = new Model {"fern_02_1k", "instance_model", 2000};
     addRenderableModelObject(fern);
-
-    auto* boulder = new Model {"boulder_01_1k", "instance_model", 5};
-    addRenderableModelObject(boulder);
 
     // scene settings
     cullFace(true);
