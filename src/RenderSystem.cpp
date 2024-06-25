@@ -139,8 +139,6 @@ void RenderSystem::renderInstancedMesh(Mesh& mesh) {
         glBindVertexArray(0);
     }
 
-    //glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(mesh.vertices.size()));
-
     glBindVertexArray(mesh.VAO);
     glDrawArraysInstanced(
             GL_TRIANGLES, 0, static_cast<GLsizei>(mesh.vertices.size()), RenderSystem::AMOUNT
@@ -154,7 +152,7 @@ void RenderSystem::renderInstancedMesh(Mesh& mesh) {
 void RenderSystem::createModelMatrices() {
     for (int i = 0; i < AMOUNT; ++i) {
         mat4 model {1.0f};
-        vec3 translate {static_cast<GLfloat>(i+ 1), static_cast<GLfloat>(i + 1), static_cast<GLfloat>(i + 1)};
+        vec3 translate {static_cast<GLfloat>(i+ 1), 0, static_cast<GLfloat>(i + 1)};
         model = Transformation::translate(model, translate);
         MODEL_MATRICES[i] = model;
     }
