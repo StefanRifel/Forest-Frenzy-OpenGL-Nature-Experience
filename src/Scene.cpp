@@ -19,6 +19,14 @@ bool Scene::init(Window* pWindow) {
     car->setModelTranslation(carMat);
     addRenderableModelObject(car);
 
+    // Rat
+    Model* rat = new Model {"street_rat_1k", "model"};
+    mat4 ratMat{1.0f};
+    vec3 ratTranslate {-7.0, 1.6, 2.0};
+    ratMat = Transformation::translate(ratMat, ratTranslate);
+    rat->setModelTranslation(ratMat);
+    addRenderableModelObject(rat);
+
     // Table
     Model* table = new Model {"wooden_picnic_table_1k", "model"};
     mat4 tableMat{1.0f};
@@ -26,6 +34,15 @@ bool Scene::init(Window* pWindow) {
     tableMat = Transformation::translate(tableMat, tableTranslate);
     table->setModelTranslation(tableMat);
     addRenderableModelObject(table);
+
+    // Chess Board
+    Model* chessBoard = new Model {"chess_set_1k", "model"};
+    mat4 chessBoardMat{1.0f};
+    vec3 chessBoardTranslate {4.0, 1.04, 0.0};
+    chessBoardMat = Transformation::translate(chessBoardMat, chessBoardTranslate);
+    chessBoardMat = Transformation::rotateY(chessBoardMat, 17);
+    chessBoard->setModelTranslation(chessBoardMat);
+    addRenderableModelObject(chessBoard);
 
     // Dead Tree
     Model* deadTree = new Model {"dead_tree_trunk_02_1k", "model"};
