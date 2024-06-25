@@ -53,14 +53,14 @@ bool Scene::init(Window* pWindow) {
     addRenderableModelObject(deadTree);
 
     // Fern
-    auto* fern = new Model {"fern_02_1k", "instance_model", 300};
+    auto* fern = new Model {"fern_02_1k", "instance_model", 350};
     addRenderableModelObject(fern);
 
     // Nettle
-    auto* nettle = new Model {"nettle_plant_1k", "instance_model", 300};
+    auto* nettle = new Model {"nettle_plant_1k", "instance_model", 350};
     addRenderableModelObject(nettle);
 
-    auto* tree_stump = new Model {"tree_stump_01_1k", "instance_model", 40};
+    auto* tree_stump = new Model {"tree_stump_01_1k", "instance_model", 45};
     addRenderableModelObject(tree_stump);
 
     // scene settings
