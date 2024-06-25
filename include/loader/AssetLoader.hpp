@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <filesystem>
+#include <cassert>
 
 /**
  * @brief Class responsible for loading asset paths and shader paths.

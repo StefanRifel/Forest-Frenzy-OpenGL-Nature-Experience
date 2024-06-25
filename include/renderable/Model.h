@@ -24,6 +24,7 @@ public:
     vector<Material> materials;          ///< List of materials used in the model
     Shader shader;                       ///< Shader program used for rendering the model
     unsigned int amount {0};
+    mat4* model_matrices;
 
     /**
      * @brief Constructs a new Model object and loads the model from an OBJ file.
@@ -32,12 +33,14 @@ public:
      */
     Model(const std::string& objFile, const std::string& shaderName);
     Model(const std::string& objFile, const std::string& shaderName, unsigned int amount);
+
     /**
      * @brief Draws the model using the provided camera.
      *
      * @param camera Camera used for rendering the model.
      */
-    void draw(Camera &camera);
+    void draw(Camera& camera);
+    void setModelTranslation(const mat4& modelTranslation);
 
 
 
@@ -47,7 +50,8 @@ private:
      *
      * @param objFile Path to the OBJ file to load.
      */
-    void loadModel(const std::string &objFile);
+    void loadModel(const std::string& objFile);
+    void setUpTranslations();
 };
 
 #endif // MODEL_HH

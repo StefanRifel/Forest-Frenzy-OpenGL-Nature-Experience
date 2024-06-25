@@ -160,12 +160,12 @@ Mesh OBJModelLoader::createMesh(const std::string& meshInput, vector<Material>& 
 
     vector<Texture> textures;
 
-    for (auto a:outTextures) {
-        if(material.mtlName == a.materialName) {
+    for (auto& tex:outTextures) {
+        if(material.mtlName == tex.materialName) {
             Texture t;
-            t.materialName = a.materialName;
-            t.type = a.type;
-            t.id = a.id;
+            t.materialName = tex.materialName;
+            t.type = tex.type;
+            t.id = tex.id;
             textures.push_back(t);
         }
     }

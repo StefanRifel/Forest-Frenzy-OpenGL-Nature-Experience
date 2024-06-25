@@ -22,7 +22,7 @@ public:
     Material material;        ///< Material properties of the mesh
     GLuint VAO {0};
     GLuint VBO {0};         ///< Vertex Buffer Object for vertex data
-    GLuint BUFFER {0};
+    GLuint INSTANCE_BUFFER {0};
     GLuint EBO {0};         ///< Element Buffer Object for index data
 
     mat4 model{1.0f};
@@ -40,17 +40,7 @@ public:
     /**
      * @brief Default destructor.
      */
-     ~Mesh() {
-        if (VAO != 0) {
-            glDeleteVertexArrays(1, &VAO);
-        }
-        if (VBO != 0) {
-            glDeleteBuffers(1, &VBO);
-        }
-        if (EBO != 0) {
-            glDeleteBuffers(1, &EBO);
-        }
-    }
+     ~Mesh();
 
     /**
      * @brief Draws the mesh using the provided shader and camera.

@@ -24,6 +24,7 @@ public:
     const T& at(int index) const;
     [[nodiscard]] int size() const { return length; }
     [[nodiscard]] size_t capacity() const { return storage; }
+    bool empty() const;
 
     // Iterator class
     class iterator {
@@ -60,6 +61,11 @@ private:
     size_t storage;
     int length;
 };
+
+template<typename T>
+bool vector<T>::empty() const {
+    return length == 0;
+}
 
 template <typename T>
 vector<T>::vector() : data{nullptr}, storage{0}, length{0} {}

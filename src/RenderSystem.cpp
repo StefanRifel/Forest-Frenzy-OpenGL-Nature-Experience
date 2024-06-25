@@ -1,9 +1,10 @@
 #include "../include/RenderSystem.hpp"
 
 unsigned int RenderSystem::AMOUNT = 0;
-mat4* RenderSystem::MODEL_MATRICES = new mat4[AMOUNT];
 
 void RenderSystem::renderMesh(Mesh& mesh) {
+    assert(!mesh.vertices.empty() && "Vertices list is empty.");
+    assert(!mesh.indices.empty() && "Indices list is empty.");
 
     if(mesh.VAO == 0) {
         // Generate and bind VAO
@@ -68,11 +69,8 @@ void RenderSystem::renderMesh(Mesh& mesh) {
     glActiveTexture(GL_TEXTURE0);
 }
 
-void RenderSystem::renderInstancedMesh(Mesh& mesh, unsigned int amount) {
+void RenderSystem::renderInstancedMesh(Mesh& mesh, mat4* model_matrices, unsigned int amount) {
     RenderSystem::AMOUNT = amount;
-    if(MODEL_MATRICES[0][0][0] == 0) {
-        createModelMatrices();
-    }
 
     if(mesh.VAO == 0) {
         // Generate and bind VAO
@@ -117,9 +115,9 @@ void RenderSystem::renderInstancedMesh(Mesh& mesh, unsigned int amount) {
                 (void*)(2 * sizeof(vec3))
         );
 
-        glGenBuffers(1, &mesh.BUFFER);
-        glBindBuffer(GL_ARRAY_BUFFER, mesh.BUFFER);
-        glBufferData(GL_ARRAY_BUFFER, RenderSystem::AMOUNT * sizeof(mat4), RenderSystem::MODEL_MATRICES[0].valuePtr(), GL_STATIC_DRAW);
+        glGenBuffers(1, &mesh.INSTANCE_BUFFER);
+        glBindBuffer(GL_ARRAY_BUFFER, mesh.INSTANCE_BUFFER);
+        glBufferData(GL_ARRAY_BUFFER, RenderSystem::AMOUNT * sizeof(mat4), model_matrices[0].valuePtr(), GL_STATIC_DRAW);
 
         for (unsigned int i = 0; i < 4; i++) {
             glEnableVertexAttribArray(3 + i);
@@ -151,14 +149,5 @@ void RenderSystem::renderInstancedMesh(Mesh& mesh, unsigned int amount) {
 }
 
 void RenderSystem::createModelMatrices() {
-    for (int i = 0; i < AMOUNT; ++i) {
-        mat4 model {1.0f};
-        vec3 translate {static_cast<GLfloat>(i+ 1), 0, static_cast<GLfloat>(i + 1)};
-        model = Transformation::translate(model, translate);
-        MODEL_MATRICES[i] = model;
-    }
 
-    for (int i = 0; i < 16; ++i) {
-        std::cout << MODEL_MATRICES[1].valuePtr()[i] << std::endl;
-    }
 }

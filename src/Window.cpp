@@ -3,7 +3,8 @@
 #include "../include/Window.hpp"
 
 Window::Window(int width, int height, std::string programName)
-    : width {width}, height {height}, programName {std::move(programName)}, window {nullptr}, isRunning {true} {
+    : width {width}, height {height}, programName {std::move(programName)},
+        window {nullptr}, openglContext{nullptr}, scene {nullptr}, isRunning {true} {
 
     openglContext = new OpenGLContext {};
     scene = new Scene {};

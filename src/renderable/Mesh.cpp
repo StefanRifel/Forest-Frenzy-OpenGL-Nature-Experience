@@ -2,13 +2,26 @@
 #include "../../include/loader/OBJModelLoader.hpp"
 
 Mesh::Mesh(vector<Vertex>& vertices, vector<GLuint>& indices, vector<Texture>& textures, Material& material)
-        : textures(textures), material(material) {
-    this->vertices = vertices;
-    this->indices = indices;
+        : vertices {vertices}, indices {indices}, textures(textures), material(material) {
 }
 
 Mesh::Mesh(const std::string &objFile) {
     OBJModelLoader::loadSimpleVertexObj(objFile, vertices, indices);
+}
+
+Mesh::~Mesh() {
+    if (VAO != 0) {
+        glDeleteVertexArrays(1, &VAO);
+    }
+    if (VBO != 0) {
+        glDeleteBuffers(1, &VBO);
+    }
+    if (EBO != 0) {
+        glDeleteBuffers(1, &EBO);
+    }
+    if (INSTANCE_BUFFER != 0) {
+        glDeleteBuffers(1, &INSTANCE_BUFFER);
+    }
 }
 
 void Mesh::draw(Shader &shader, Camera &camera) const {

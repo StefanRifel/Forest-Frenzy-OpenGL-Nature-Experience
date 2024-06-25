@@ -22,7 +22,6 @@ class Scene {
 public:
     Window* window;
 
-    vector<Mesh*> renderable;
     vector<Model*> renderableModel;
     Skybox* skybox {nullptr};
     Terrain* terrain {nullptr};
@@ -32,11 +31,10 @@ public:
 
 public:
     Scene();
-    ~Scene();
+    ~Scene() = default;
 
     bool init(Window* pWindow);
 
-    void addRenderableObject(Mesh* object);
     void addRenderableModelObject(Model* object) {
         renderableModel.push_back(object);
     }

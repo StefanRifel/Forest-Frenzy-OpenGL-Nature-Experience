@@ -4,14 +4,14 @@
 #include "Shader.hpp"
 #include "renderable/Model.h"
 #include "../libs/SMath/include/vec4.hpp"
+#include <cassert>
 
 class RenderSystem {
 public:
     static unsigned int AMOUNT;
-    static mat4* MODEL_MATRICES;
     static void createModelMatrices();
     static void renderMesh(Mesh& mesh);
-    static void renderInstancedMesh(Mesh& mesh, unsigned int amount);
+    static void renderInstancedMesh(Mesh& mesh, mat4* model_matrices, unsigned int amount);
 };
 
 

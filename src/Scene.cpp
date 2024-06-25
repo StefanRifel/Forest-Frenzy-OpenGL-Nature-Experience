@@ -2,12 +2,6 @@
 
 Scene::Scene() : window {nullptr} {}
 
-Scene::~Scene() {
-    for (Mesh* obj : renderable) {
-        delete(obj);
-    }
-}
-
 bool Scene::init(Window* pWindow) {
     this->window = pWindow;
 
@@ -17,19 +11,39 @@ bool Scene::init(Window* pWindow) {
     moon = new Moon {"moon"};
     skybox = new Skybox {"skybox"};
 
+    // Car
     Model* car = new Model {"covered_car_1k", "model"};
+    mat4 carMat{1.0f};
+    vec3 carTranslate {-7.0, 0.2, 2.0};
+    carMat = Transformation::translate(carMat, carTranslate);
+    car->setModelTranslation(carMat);
     addRenderableModelObject(car);
 
-    Model* table = new Model {"wooden_picnic_table_1k", "model"};
-    addRenderableModelObject(table);
-
+    // Rat
     auto* rat = new Model {"street_rat_1k", "model"};
+    mat4 ratMat{1.0f};
+    vec3 ratTranslate {-7.0, 1.6, 2.0};
+    ratMat = Transformation::translate(ratMat, ratTranslate);
+    rat->setModelTranslation(ratMat);
     addRenderableModelObject(rat);
 
+    // Table
+    Model* table = new Model {"wooden_picnic_table_1k", "model"};
+    mat4 tableMat{1.0f};
+    vec3 tableTranslate {4.0, 0.3, 0.0};
+    tableMat = Transformation::translate(tableMat, tableTranslate);
+    table->setModelTranslation(tableMat);
+    addRenderableModelObject(table);
+
+    // Goblets
     auto* goblet = new Model {"brass_goblets_1k", "model"};
+    mat4 gobletsMat{1.0f};
+    vec3 gobletsTranslate {4.0, 1.04, 0.0};
+    gobletsMat = Transformation::translate(gobletsMat, gobletsTranslate);
+    goblet->setModelTranslation(gobletsMat);
     addRenderableModelObject(goblet);
 
-    auto* fern = new Model {"fern_02_1k", "instance_model", 5};
+    auto* fern = new Model {"fern_02_1k", "instance_model", 2000};
     addRenderableModelObject(fern);
 
     auto* boulder = new Model {"boulder_01_1k", "instance_model", 5};
@@ -42,10 +56,6 @@ bool Scene::init(Window* pWindow) {
     glEnable(GL_MULTISAMPLE);
 
     return true;
-}
-
-void Scene::addRenderableObject(Mesh* object) {
-    renderable.push_back(object);
 }
 
 void Scene::render() {
