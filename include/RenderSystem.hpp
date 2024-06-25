@@ -11,7 +11,7 @@ public:
     static mat4* MODEL_MATRICES;
     static void createModelMatrices();
     static void renderMesh(Mesh& mesh);
-    static void renderInstancedMesh(Mesh& mesh);
+    static void renderInstancedMesh(Mesh& mesh, unsigned int amount);
 };
 
 

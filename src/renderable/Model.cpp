@@ -12,10 +12,25 @@ Model::Model(const std::string& objFile, const std::string& shaderName) {
     loadModel(objFile);
 }
 
+Model::Model(const std::string &objFile, const std::string &shaderName, unsigned int amount) : amount {amount} {
+    if (!shader.createShader(
+            AssetLoader::getShaderPath(shaderName + "_vert.glsl"),
+            AssetLoader::getShaderPath(shaderName + "_frag.glsl")
+    )) {
+        std::cerr << "ERROR::MODEL::FAILED_TO_CREATE_SHADER" << std::endl;
+    }
+
+    loadModel(objFile);
+}
+
 void Model::draw(Camera& camera) {
     for (auto& mesh : meshes) {
         mesh.draw(shader, camera);
-        RenderSystem::renderInstancedMesh(mesh);
+        if(amount != 0) {
+            RenderSystem::renderInstancedMesh(mesh, amount);
+        } else {
+            RenderSystem::renderMesh(mesh);
+        }
     }
 }
 

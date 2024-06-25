@@ -1,6 +1,6 @@
 #include "../include/RenderSystem.hpp"
 
-unsigned int RenderSystem::AMOUNT = 4;
+unsigned int RenderSystem::AMOUNT = 0;
 mat4* RenderSystem::MODEL_MATRICES = new mat4[AMOUNT];
 
 void RenderSystem::renderMesh(Mesh& mesh) {
@@ -68,8 +68,8 @@ void RenderSystem::renderMesh(Mesh& mesh) {
     glActiveTexture(GL_TEXTURE0);
 }
 
-void RenderSystem::renderInstancedMesh(Mesh& mesh) {
-
+void RenderSystem::renderInstancedMesh(Mesh& mesh, unsigned int amount) {
+    RenderSystem::AMOUNT = amount;
     if(MODEL_MATRICES[0][0][0] == 0) {
         createModelMatrices();
     }
@@ -137,6 +137,7 @@ void RenderSystem::renderInstancedMesh(Mesh& mesh) {
 
         // Unbind VAO
         glBindVertexArray(0);
+        RenderSystem::AMOUNT = 0;
     }
 
     glBindVertexArray(mesh.VAO);

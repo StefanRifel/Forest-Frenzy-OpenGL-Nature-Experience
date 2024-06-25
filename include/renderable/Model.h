@@ -23,14 +23,15 @@ public:
     vector<Mesh> meshes;                 ///< List of meshes that make up the model
     vector<Material> materials;          ///< List of materials used in the model
     Shader shader;                       ///< Shader program used for rendering the model
+    unsigned int amount {0};
 
     /**
      * @brief Constructs a new Model object and loads the model from an OBJ file.
      *
      * @param objFile Name of the OBJ file to load.
      */
-    explicit Model(const std::string& objFile, const std::string& shaderName);
-
+    Model(const std::string& objFile, const std::string& shaderName);
+    Model(const std::string& objFile, const std::string& shaderName, unsigned int amount);
     /**
      * @brief Draws the model using the provided camera.
      *
