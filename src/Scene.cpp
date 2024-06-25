@@ -1,3 +1,4 @@
+#include <thread>
 #include "../include/Scene.hpp"
 
 Scene::Scene() : window {nullptr} {}
@@ -53,14 +54,14 @@ bool Scene::init(Window* pWindow) {
     addRenderableModelObject(deadTree);
 
     // Fern
-    auto* fern = new Model {"fern_02_1k", "instance_model", 350};
+    auto* fern = new Model {"fern_02_1k", "instance_model", 250};
     addRenderableModelObject(fern);
 
     // Nettle
-    auto* nettle = new Model {"nettle_plant_1k", "instance_model", 350};
+    auto* nettle = new Model {"nettle_plant_1k", "instance_model", 250};
     addRenderableModelObject(nettle);
 
-    auto* tree_stump = new Model {"tree_stump_01_1k", "instance_model", 45};
+    auto* tree_stump = new Model {"tree_stump_01_1k", "instance_model", 65};
     addRenderableModelObject(tree_stump);
 
     // scene settings
@@ -73,6 +74,21 @@ bool Scene::init(Window* pWindow) {
 }
 
 void Scene::render() {
+    auto currentFrameTime = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = currentFrameTime - lastFrameTime;
+
+    // Cap FPS to 144
+    if (elapsed.count() < frameDuration) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<int>(frameDuration - elapsed.count())));
+        currentFrameTime = std::chrono::high_resolution_clock::now();
+        elapsed = currentFrameTime - lastFrameTime;
+    }
+    lastFrameTime = currentFrameTime;
+
+    // Update FPS value
+    fps = 1000.0 / elapsed.count();
+    std::cout << "FPS: " << fps << std::endl;
+
     camera.look();
 
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer->fbo);

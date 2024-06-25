@@ -36,6 +36,10 @@ public:
 public:
     bool uKeyWasPressed = false;
 
+    std::chrono::high_resolution_clock::time_point lastFrameTime;
+    double frameDuration; // in milliseconds
+    double fps;
+
     Scene();
     ~Scene() = default;
 
