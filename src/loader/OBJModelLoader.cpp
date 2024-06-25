@@ -4,6 +4,10 @@ unsigned int OBJModelLoader::LAST_VERTX_INDEX = 0;
 unsigned int OBJModelLoader::LAST_NORMAL_INDEX = 0;
 unsigned int OBJModelLoader::LAST_TEXTURE_INDEX = 0;
 
+/**
+ * @brief Class facilitates loading OBJ models along with their associated MTL (material) files, extracting vertex, normal, and texture coordinate data for mesh creation
+ */
+
 void OBJModelLoader::loadMtl(const std::string& mtlFile, vector<Material>& outMaterials, vector<Texture>& outTextures) {
     std::ifstream file{AssetLoader::getAssetPath(mtlFile + ".mtl")};
 

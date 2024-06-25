@@ -18,6 +18,10 @@
 #include "renderable/Terrain.hpp"
 #include "renderable/Moon.hpp"
 
+/**
+ * @brief Class provides a structured approach to managing and rendering a scene in an OpenGL application. It encapsulates the rendering objects (Model, Skybox, Terrain, Moon), camera settings (Camera), input handling, and OpenGL state management
+ */
+
 class Scene {
 public:
     Window* window;

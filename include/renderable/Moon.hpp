@@ -15,6 +15,10 @@
 #include "../../include/loader/OBJModelLoader.hpp"
 #include "../../include/loader/TextureLoader.hpp"
 
+/**
+ * @brief Header defines a moon object. It manages the moon's mesh, shader, lighting, and rotation
+ *
+ */
 class Moon {
 private:
     Mesh mesh;

@@ -1,5 +1,10 @@
 #include "../include/RenderSystem.hpp"
 
+/**
+ * @brief Encapsulates efficient rendering methods for both regular and instanced meshes in OpenGL, ensuring proper setup of vertex attributes and buffer objects for rendering
+ */
+
+
 unsigned int RenderSystem::AMOUNT = 0;
 
 void RenderSystem::renderMesh(Mesh& mesh) {

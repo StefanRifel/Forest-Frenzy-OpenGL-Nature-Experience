@@ -3,6 +3,10 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../../libs/LoadImg/stb_image.h"
 
+/**
+ * @brief class provides functionality to load 2D textures and cube maps in OpenGL using the STB image library
+ */
+
 unsigned int TextureLoader::loadTextureFromFile(const std::string& textureFile) {
     unsigned int textureID;
     glGenTextures(1, &textureID);

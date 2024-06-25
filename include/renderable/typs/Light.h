@@ -3,6 +3,9 @@
 
 #include "../../../libs/SMath/include/vec3.hpp"
 
+/**
+ * @brief Struct describe the properties of a light source.
+ */
 typedef struct {
     vec3 color;
     vec3 position;

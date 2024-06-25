@@ -3,6 +3,10 @@
 const std::string AssetLoader::assetsBasePath = "../assets";
 const std::string AssetLoader::shaderBasePath = "../shaders";
 
+/**
+ * @brief Class provides utility functions to locate files within specified directories, particularly for assets and shaders
+ */
+
 std::string AssetLoader::getAssetPath(const std::string& filename) {
     assert(!filename.empty() && "Filename must not be empty.");
     return searchForFile(assetsBasePath, filename);

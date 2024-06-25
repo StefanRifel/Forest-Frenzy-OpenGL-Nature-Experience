@@ -1,5 +1,9 @@
 #include "../../include/renderable/Terrain.hpp"
 
+/**
+ * @brief initializes a terrain object by creating a shader program from vertex and fragment shader files, loading vertices and indices for a simple terrain model using an OBJ loader, and loading a texture from a file specified by textureFile
+ */
+
 Terrain::Terrain(const std::string& textureFile) {
     if (!shader.createShader(
             AssetLoader::getShaderPath("terrain_vert.glsl"),
@@ -15,6 +19,7 @@ Terrain::Terrain(const std::string& textureFile) {
     init();
 }
 
+//sets up the shader, binds necessary matrices and textures, and renders the terrain using OpenGL commands based on the provided camera's perspective and view
 void Terrain::draw(Camera& camera) {
     shader.use();
 

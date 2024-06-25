@@ -1,5 +1,9 @@
 #include "../../include/renderable/Skybox.hpp"
 
+/**
+ * @brief Encapsulates functionality to render a skybox in an OpenGL application, including loading geometry from an OBJ file, setting up vertex and index buffers, loading a cubemap texture, and rendering using appropriate shaders and matrices
+ */
+
 Skybox::Skybox(const std::string& objFile) {
     if (!shader.createShader(
             AssetLoader::getShaderPath("skybox_vert.glsl"),

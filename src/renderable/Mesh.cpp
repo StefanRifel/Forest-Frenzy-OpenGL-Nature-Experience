@@ -1,6 +1,10 @@
 #include "../../include/renderable/Mesh.h"
 #include "../../include/loader/OBJModelLoader.hpp"
 
+/**
+ * @brief Class encapsulates geometry and texture data for rendering in OpenGL. It loads vertex and index data from an OBJ file using OBJModelLoader::loadSimpleVertexObj, manages cleanup of OpenGL resources in its destructor, and provides a draw method that sets shader uniforms for lighting, material properties, and textures, then renders the mesh with the configured shader and camera matrices
+ */
+
 Mesh::Mesh(vector<Vertex>& vertices, vector<GLuint>& indices, vector<Texture>& textures, Material& material)
         : vertices {vertices}, indices {indices}, textures(textures), material(material) {
 }

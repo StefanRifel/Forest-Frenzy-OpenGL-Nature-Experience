@@ -12,6 +12,11 @@
 #include "../../include/loader/OBJModelLoader.hpp"
 #include "../../include/loader/TextureLoader.hpp"
 
+/**
+ * @brief Header defines a class which manages and renders a skybox in 3D graphics
+ *
+ */
+
 class Skybox {
 private:
     GLuint VAO {0};           ///< Vertex Array Object for the mesh

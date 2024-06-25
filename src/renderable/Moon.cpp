@@ -1,6 +1,10 @@
 #include "../../include/renderable/Moon.hpp"
 #include "../../include/RenderSystem.hpp"
 
+/**
+ * @brief Class encapsulates functionality for rendering a moon object in a 3D scene. It manages loading of mesh geometry, shader programs, textures, and handles rendering transformations and lighting parameters
+ */
+
 Moon::Moon(const std::string& objFile) : mesh {objFile} {
     if (!shader.createShader(
             AssetLoader::getShaderPath("moon_vert.glsl"),

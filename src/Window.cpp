@@ -2,6 +2,10 @@
 
 #include "../include/Window.hpp"
 
+/**
+ * @brief Encapsulates the setup and management of a graphical window in a 3D graphics application
+ */
+
 Window::Window(int width, int height, std::string programName)
     : width {width}, height {height}, programName {std::move(programName)},
         window {nullptr}, openglContext{nullptr}, scene {nullptr}, isRunning {true} {

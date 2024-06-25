@@ -1,6 +1,10 @@
 #include "../../include/renderable/Model.h"
 #include "../../include/RenderSystem.hpp"
 
+/**
+ * @brief class initializes and manages rendering of 3D models in an OpenGL application. It loads mesh data and associated materials/textures from an OBJ file, configures shader programs based on the provided shader name, and supports rendering instances of the model using instanced rendering when amount is specified, otherwise rendering individual meshes normally using RenderSystem
+ */
+
 Model::Model(const std::string& objFile, const std::string& shaderName) {
     if (!shader.createShader(
             AssetLoader::getShaderPath(shaderName + "_vert.glsl"),

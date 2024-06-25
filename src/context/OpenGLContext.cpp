@@ -1,5 +1,9 @@
 #include "../../include/context/OpenGLContext.hpp"
 
+/**
+ * @brief Class encapsulates the setup and management of an OpenGL rendering context using GLFW and GLEW. It initializes GLFW and GLEW, creates a window, sets up event callbacks, and manages basic OpenGL rendering operations such as clearing the screen and swapping buffers.
+ */
+
 // Callback functions
 static void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
     auto pWindow = static_cast<Window*>(glfwGetWindowUserPointer(window));

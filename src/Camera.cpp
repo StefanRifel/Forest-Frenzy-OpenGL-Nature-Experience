@@ -1,5 +1,10 @@
 #include "../include/Camera.hpp"
 
+/**
+ * @brief Manages a virtual camera in a 3D scene, providing methods to control its position, orientation, perspective, and zoom level
+ */
+
+
 Camera::Camera()
     : movementSpeed {DEFAULT_SPEED}, mouseSensitivity {DEFAULT_SENSITIVITY}, fieldOfView {FOV}, yaw {DEFAULT_YAW}, pitch {DEFAULT_PITCH} {
     this->position = {0.0f, 2.0f, 0.0f};
