@@ -95,7 +95,8 @@ public:
     mat4 &getView();
     const mat4& getPerspective() const;
 
-    const vec3 &getPosition() const;
+    const vec3& getPosition() const;
+    const vec3& getFront() const;
 
     void processKeyboard(Camera_Movement direction, float deltaTime);
     void processMouseMovement(float xPos, float yPos, GLboolean constrainPitch);

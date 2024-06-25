@@ -45,6 +45,23 @@ void Mesh::draw(Shader &shader, Camera &camera) const {
     vec3 lightPos {-4.0f, 14.0f, 12.0f};
     shader.setVec3("light.position", lightPos);
 
+    // Set Flashlight Properties
+    shader.setVec3("flashlight.position",  camera.getPosition());
+    shader.setVec3("flashlight.direction", camera.getFront());
+    shader.setFloat("flashlight.cutOff", std::cos(Transformation::radiant(12.5f)));
+    shader.setFloat("flashlight.outerCutOff", std::cos(Transformation::radiant(17.5f)));
+
+    vec3 fleshLightAmbient { 0.9f, 0.9f, 0.9f};
+    shader.setVec3("flashlight.ambient", fleshLightAmbient);
+    vec3 fleshLightDiffuse {0.8f, 0.8f, 0.8f};
+    shader.setVec3("flashlight.diffuse", fleshLightDiffuse);
+    vec3 fleshLightSpecular {1.0f, 1.0f, 1.0f};
+    shader.setVec3("flashlight.specular", fleshLightSpecular);
+
+    shader.setFloat("flashlight.constant", 1.0f);
+    shader.setFloat("flashlight.linear", 0.09f);
+    shader.setFloat("flashlight.quadratic", 0.032f);
+
     if(material.mtlName[0] != '\0') {
         // Set material properties
         shader.setVec3("material.emissive", material.emissive);

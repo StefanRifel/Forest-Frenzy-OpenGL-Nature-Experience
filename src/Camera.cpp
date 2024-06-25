@@ -83,3 +83,7 @@ const mat4& Camera::getPerspective() const {
 const vec3 &Camera::getPosition() const {
     return position;
 }
+
+const vec3 &Camera::getFront() const {
+    return front;
+}
