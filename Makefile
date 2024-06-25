@@ -6,9 +6,9 @@ PROGRAM_NAME_TEST = Forest_Frenzy_Test
 CC = g++ -std=c++17
 
 # Libraries
-GLEW_LIBS = -lGLEW -lEGL -lGL -lGLU -lOpenGL 
+GLEW_LIBS = -lGLEW -lEGL -lGL -lGLU -lOpenGL
 GLFW_LIBS = -lglfw
-# GTEST = $(shell pkg-config --libs gtest)
+GTEST = $(shell pkg-config --libs gtest)
 SMATH = -lsmath -L./libs/SMath/bin/
 
 # Directories
@@ -27,9 +27,14 @@ OBJS = $(patsubst $(SRC)/%.cpp, $(OBJ)/%.o, $(SRCS))
 
 all:$(TARGET)
 
+test:$(TARGET_TEST)
+
 # Link main program
 $(TARGET): $(OBJS)
 	$(CC) -o $@ $^ $(GLEW_LIBS) $(GLFW_LIBS) $(SMATH)
+
+$(TARGET_TEST):
+	g++ -o $@ test/main.cpp src/Transformation.cpp $(GLEW_LIBS) $(GLFW_LIBS) $(SMATH) $(GTEST)
 
 # comile main program src files
 $(OBJ)/%.o: $(SRC)/%.cpp
