@@ -53,14 +53,14 @@ bool Scene::init(Window* pWindow) {
     addRenderableModelObject(deadTree);
 
     // Fern
-    auto* fern = new Model {"fern_02_1k", "instance_model", 300};
+    auto* fern = new Model {"fern_02_1k", "instance_model", 350};
     addRenderableModelObject(fern);
 
     // Nettle
-    auto* nettle = new Model {"nettle_plant_1k", "instance_model", 300};
+    auto* nettle = new Model {"nettle_plant_1k", "instance_model", 350};
     addRenderableModelObject(nettle);
 
-    auto* tree_stump = new Model {"tree_stump_01_1k", "instance_model", 40};
+    auto* tree_stump = new Model {"tree_stump_01_1k", "instance_model", 45};
     addRenderableModelObject(tree_stump);
 
     // scene settings
@@ -136,29 +136,22 @@ void Scene::processKeyboardInput() {
         window->onClose();
     }
     if(glfwGetKey(window->window, GLFW_KEY_W)) {
-        std::cout << "Camera Movement: FORWARD" << std::endl;
         camera.processKeyboard(FORWARD, camera.deltaTime);
     }
     if(glfwGetKey(window->window, GLFW_KEY_A)) {
-        std::cout << "Camera Movement: LEFT" << std::endl;
         camera.processKeyboard(LEFT, camera.deltaTime);
     }
     if(glfwGetKey(window->window, GLFW_KEY_S)) {
-        std::cout << "Camera Movement: BACKWARD" << std::endl;
         camera.processKeyboard(BACKWARD, camera.deltaTime);
     }
     if(glfwGetKey(window->window, GLFW_KEY_D)) {
-        std::cout << "Camera Movement: RIGHT" << std::endl;
         camera.processKeyboard(RIGHT, camera.deltaTime);
     }
-    if(glfwGetKey(window->window, GLFW_KEY_UP)) {
-        std::cout << "Camera Movement: UP" << std::endl;
-        camera.processKeyboard(UP, camera.deltaTime);
+    bool uKeyIsPressed = (glfwGetKey(window->window, GLFW_KEY_U) == GLFW_PRESS);
+    if (uKeyIsPressed && !uKeyWasPressed) {
+        camera.setFlashlight(!camera.isFlashlight());
     }
-    if(glfwGetKey(window->window, GLFW_KEY_DOWN)) {
-        std::cout << "Camera Movement: DOWN" << std::endl;
-        camera.processKeyboard(DOWN, camera.deltaTime);
-    }
+    uKeyWasPressed = uKeyIsPressed;
 }
 
 void Scene::processMouseInput(double xPos, double yPos) {

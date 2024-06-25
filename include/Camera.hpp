@@ -20,7 +20,7 @@ enum Camera_Movement {
 const float FOV = 60.0f;
 const float ASPECT_RATIO = 1024.0f / 768.0f;
 const float NEAR_PLANE = 0.1f;
-const float FAR_PLANE = 1000.0f;
+const float FAR_PLANE = 750.0f;
 
 const float DEFAULT_YAW         = -90.0f;
 const float DEFAULT_PITCH       = 0.0f;
@@ -89,13 +89,20 @@ public:
     float deltaTime = 0.0f;	        ///< Time between current frame and last frame
     float lastFrame = 0.0f;         ///< Time of the last frame
 
+    bool flashlight;
+
     Camera();
     void look();
 
     mat4 &getView();
     const mat4& getPerspective() const;
 
-    const vec3 &getPosition() const;
+    const vec3& getPosition() const;
+    const vec3& getFront() const;
+
+    bool isFlashlight();
+
+    void setFlashlight(bool flashlight);
 
     void processKeyboard(Camera_Movement direction, float deltaTime);
     void processMouseMovement(float xPos, float yPos, GLboolean constrainPitch);
