@@ -13,24 +13,19 @@
 #include "../Camera.hpp"
 #include "Drawable.h"
 
-/**
- * @brief Class representing a mesh in 3D graphics.
- *
- * The Mesh class encapsulates the data and functionality needed to render a 3D mesh,
- * including vertices, indices, textures, materials, and OpenGL buffer objects.
- */
-class Mesh : public Drawable {
-private:
 
-    /**
-     * @brief Sets up the mesh for rendering by initializing the VAO, VBO, and EBO.
-     */
-    void setupMesh();
-
+class Mesh {
 public:
+    vector<Vertex> vertices;  ///< List of vertices in the mesh
+    vector<GLuint> indices;   ///< List of indices for indexed drawing
     vector<Texture> textures; ///< List of textures applied to the mesh
     Material material;        ///< Material properties of the mesh
     GLuint VAO {0};
+    GLuint VBO {0};         ///< Vertex Buffer Object for vertex data
+    GLuint BUFFER {0};
+    GLuint EBO {0};         ///< Element Buffer Object for index data
+
+    mat4 model{1.0f};
     /**
      * @brief Constructs a new Mesh object.
      *
@@ -41,10 +36,21 @@ public:
      */
     Mesh(vector<Vertex>& vertices, vector<GLuint>& indices, vector<Texture>& textures, Material& material);
 
+    explicit Mesh(const std::string& objFile);
     /**
      * @brief Default destructor.
      */
-    ~Mesh() override = default;
+     ~Mesh() {
+        if (VAO != 0) {
+            glDeleteVertexArrays(1, &VAO);
+        }
+        if (VBO != 0) {
+            glDeleteBuffers(1, &VBO);
+        }
+        if (EBO != 0) {
+            glDeleteBuffers(1, &EBO);
+        }
+    }
 
     /**
      * @brief Draws the mesh using the provided shader and camera.
@@ -54,7 +60,6 @@ public:
      */
     void draw(Shader &shader, Camera &camera) const;
 
-    void draw(Camera& camera) override;
 };
 
 #endif // MESH_HH

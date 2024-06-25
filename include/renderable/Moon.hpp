@@ -15,18 +15,20 @@
 #include "../../include/loader/OBJModelLoader.hpp"
 #include "../../include/loader/TextureLoader.hpp"
 
-class Moon : public Drawable {
+class Moon {
 private:
-    GLuint textureID {0};
+    Mesh mesh;
+    Shader shader;
 
     Light light;
-    float rotationAngle;
+    float rotationAngle {0};
 
+    void updateRotation(float deltaTime);
 public:
     explicit Moon(const std::string& objFile);
 
-    void updateRotation(float deltaTime);
-    void draw(Camera& camera) override;
+    void draw(Camera& camera);
+
     Light& getLight();
 };
 

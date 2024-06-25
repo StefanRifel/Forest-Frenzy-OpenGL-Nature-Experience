@@ -1,18 +1,21 @@
 #include "../../include/renderable/Model.h"
+#include "../../include/RenderSystem.hpp"
 
-Model::Model(const std::string& objFile) {
+Model::Model(const std::string& objFile, const std::string& shaderName) {
     if (!shader.createShader(
-            AssetLoader::getShaderPath("model_vert.glsl"),
-            AssetLoader::getShaderPath("model_frag.glsl")
+            AssetLoader::getShaderPath(shaderName + "_vert.glsl"),
+            AssetLoader::getShaderPath(shaderName + "_frag.glsl")
         )) {
         std::cerr << "ERROR::MODEL::FAILED_TO_CREATE_SHADER" << std::endl;
     }
+
     loadModel(objFile);
 }
 
 void Model::draw(Camera& camera) {
-    for (const auto &mesh : meshes) {
+    for (auto& mesh : meshes) {
         mesh.draw(shader, camera);
+        RenderSystem::renderInstancedMesh(mesh);
     }
 }
 

@@ -1,11 +1,14 @@
 #include "../../include/renderable/Mesh.h"
+#include "../../include/loader/OBJModelLoader.hpp"
 
 Mesh::Mesh(vector<Vertex>& vertices, vector<GLuint>& indices, vector<Texture>& textures, Material& material)
         : textures(textures), material(material) {
     this->vertices = vertices;
     this->indices = indices;
+}
 
-    setupMesh();
+Mesh::Mesh(const std::string &objFile) {
+    OBJModelLoader::loadSimpleVertexObj(objFile, vertices, indices);
 }
 
 void Mesh::draw(Shader &shader, Camera &camera) const {
@@ -29,12 +32,14 @@ void Mesh::draw(Shader &shader, Camera &camera) const {
     vec3 lightPos {-4.0f, 14.0f, 12.0f};
     shader.setVec3("light.position", lightPos);
 
-    // Set material properties
-    shader.setVec3("material.emissive", material.emissive);
-    shader.setVec3("material.ambient", material.ambient);
-    shader.setVec3("material.diffuse", material.diffuse);
-    shader.setVec3("material.specular", material.specular);
-    shader.setFloat("material.shininess", material.shininess);
+    if(material.mtlName[0] != '\0') {
+        // Set material properties
+        shader.setVec3("material.emissive", material.emissive);
+        shader.setVec3("material.ambient", material.ambient);
+        shader.setVec3("material.diffuse", material.diffuse);
+        shader.setVec3("material.specular", material.specular);
+        shader.setFloat("material.shininess", material.shininess);
+    }
 
     // Bind textures
     for (const auto& texture : textures) {
@@ -43,71 +48,4 @@ void Mesh::draw(Shader &shader, Camera &camera) const {
         glActiveTexture(GL_TEXTURE0 + texture.id - 1);
         glBindTexture(GL_TEXTURE_2D, texture.id);
     }
-
-    // Draw mesh
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertices.size()));
-
-    // Reset to default
-    glBindVertexArray(0);
-    glActiveTexture(GL_TEXTURE0);
-}
-
-void Mesh::setupMesh() {
-    // Generate and bind VAO
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
-
-    // Generate and bind VBO for vertex data
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, static_cast<GLsizeiptr>(vertices.size() * sizeof(Vertex)), &(vertices.at(0)), GL_STATIC_DRAW);
-
-    // Position
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(
-        0,                 ///< location attribute number in vertex shader
-        3,                  ///< size of the vertex attribute
-        GL_FLOAT,           ///< type of the data
-        GL_FALSE,      ///< if we want the data to be normalized
-        sizeof(Vertex),    ///< stride and tells us the space between consecutive vertex attributes
-        (void*)nullptr    ///< offset of where the position data begins in the buffer
-    );
-
-    // Normal
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(
-            1,
-            3,
-            GL_FLOAT,
-            GL_FALSE,
-            sizeof(Vertex),
-            (void*)(sizeof(vec3))
-    );
-
-    // Texture coordinates
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(
-            2,
-            2,
-            GL_FLOAT,
-            GL_FALSE,
-            sizeof(Vertex),
-            (void*)(2 * sizeof(vec3))
-    );
-
-    // Generate and bind EBO for index data, if indices are present
-    if(indices.size() != 0) {
-        //EBO
-        glGenBuffers(1, &EBO);
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &(indices.at(0)), GL_STATIC_DRAW);
-    }
-
-    // Unbind VAO
-    glBindVertexArray(0);
-}
-
-void Mesh::draw(Camera &camera) {
-
 }

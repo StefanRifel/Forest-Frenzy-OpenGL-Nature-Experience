@@ -29,7 +29,7 @@ public:
      *
      * @param objFile Name of the OBJ file to load.
      */
-    explicit Model(const std::string& objFile);
+    explicit Model(const std::string& objFile, const std::string& shaderName);
 
     /**
      * @brief Draws the model using the provided camera.
@@ -37,6 +37,8 @@ public:
      * @param camera Camera used for rendering the model.
      */
     void draw(Camera &camera);
+
+
 
 private:
     /**

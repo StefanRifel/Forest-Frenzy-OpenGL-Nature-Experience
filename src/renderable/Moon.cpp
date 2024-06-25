@@ -1,6 +1,7 @@
 #include "../../include/renderable/Moon.hpp"
+#include "../../include/RenderSystem.hpp"
 
-Moon::Moon(const std::string& objFile) {
+Moon::Moon(const std::string& objFile) : mesh {objFile} {
     if (!shader.createShader(
             AssetLoader::getShaderPath("moon_vert.glsl"),
             AssetLoader::getShaderPath("moon_frag.glsl")
@@ -14,36 +15,23 @@ Moon::Moon(const std::string& objFile) {
     light.diffuse = {0.8f, 0.6f, 0.5f};
     light.specular = {0.9f, 0.8f, 0.7f};
 
-    changePosition(light.position);
+    Texture moonTexture;
+    moonTexture.id = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath("brown_mud_diff_1k.jpg"));
+    moonTexture.type = "moon";
+    moonTexture.materialName = "brown_mud_diff_1k.jpg";
 
-    textureID = TextureLoader::loadTextureFromFile(AssetLoader::getAssetPath("brown_mud_diff_1k.jpg"));
-
-    OBJModelLoader::loadSimpleVertexObj(objFile, vertices, indices);
-
-    init();
+    mesh.textures.push_back(moonTexture);
 }
 
-
-
 void Moon::draw(Camera& camera) {
-    shader.use();
+    //Transformation::removeTranslation(camera.getView());
+    updateRotation(camera.deltaTime);
+    mesh.model = Transformation::rotateY(mesh.model, rotationAngle);
+    mesh.draw(shader, camera);
 
-    // Set matrices
-    shader.setProjection(camera.getPerspective());
-    Transformation::removeTranslation(camera.getView());
-    shader.setView(camera.getView());
-    model = Transformation::rotateY(this->model, rotationAngle);
-    shader.setModel(model);
+    shader.setVec3("light.color", light.color);
 
-    shader.setVec3("lightColor", light.color);
-
-    glBindTexture(GL_TEXTURE_2D, textureID);
-
-    glBindVertexArray(VAO);
-    glDrawArrays(GL_TRIANGLES, 0, static_cast<GLsizei>(vertices.size()));
-
-    glBindVertexArray(0);
-    glActiveTexture(GL_TEXTURE0);
+    RenderSystem::renderMesh(mesh);
 }
 
 Light& Moon::getLight() {
