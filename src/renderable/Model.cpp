@@ -63,7 +63,7 @@ void Model::setUpTranslations() {
     // Initialize random number generator
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> dis(-75.0f, 75.0f); // Distribution for range -512 to 512
+    std::uniform_real_distribution<float> dis(-60.0f, 60.0f); // Distribution for range -512 to 512
 
     for (int i = 0; i < amount; ++i) {
         mat4 model {1.0f}; // Identity matrix initially

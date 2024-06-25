@@ -27,8 +27,24 @@ bool Scene::init(Window* pWindow) {
     table->setModelTranslation(tableMat);
     addRenderableModelObject(table);
 
-    auto* fern = new Model {"fern_02_1k", "instance_model", 2000};
+    // Dead Tree
+    Model* deadTree = new Model {"dead_tree_trunk_02_1k", "model"};
+    mat4 deadTreeMat{1.0f};
+    vec3 deadTreeTranslate {4.0, 0.3, 10.0};
+    deadTreeMat = Transformation::translate(deadTreeMat, deadTreeTranslate);
+    deadTree->setModelTranslation(deadTreeMat);
+    addRenderableModelObject(deadTree);
+
+    // Fern
+    auto* fern = new Model {"fern_02_1k", "instance_model", 300};
     addRenderableModelObject(fern);
+
+    // Nettle
+    auto* nettle = new Model {"nettle_plant_1k", "instance_model", 300};
+    addRenderableModelObject(nettle);
+
+    auto* tree_stump = new Model {"tree_stump_01_1k", "instance_model", 40};
+    addRenderableModelObject(tree_stump);
 
     // scene settings
     cullFace(true);
